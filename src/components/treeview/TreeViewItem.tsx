@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { computed, makeObservable } from "mobx";
-import { colors } from "../../component/Palette";
+import { colors } from "../Palette";
 
 export abstract class TreeViewItem {
   abstract readonly key: string;

@@ -5,7 +5,8 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/__mocks__/**",
-    "**/stories/**"
+    "**/stories/**",
+    "**/*.stories.tsx"
   ],
   "compilerOptions": {
     "declaration": true,
