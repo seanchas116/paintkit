@@ -32,6 +32,10 @@ const ToolButtonIcon = styled(Icon).attrs({ width: 20, height: 20 })`
 `;
 
 const ToolButtonWrap = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+
   height: 24px;
   padding: 2px;
   border-radius: 4px;
@@ -47,6 +51,7 @@ const ToolButtonWrap = styled.button`
 
   &:disabled {
     color: ${colors.disabledText};
+    cursor: not-allowed;
     ${DownArrow} {
       pointer-events: none;
     }

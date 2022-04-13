@@ -28,6 +28,10 @@ export interface InputProps extends InputCommonProps {
 }
 
 export const InputInput = styled.input`
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
   color: inherit;
   font: inherit;
   min-width: 0;

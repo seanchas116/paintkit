@@ -25,6 +25,9 @@ const Select = styled.select`
   width: 100%;
   height: 100%;
   color: transparent;
+  background: none;
+  border: none;
+  padding: 0;
   font-size: 12px;
   cursor: pointer;
 `;
@@ -35,7 +38,11 @@ const Input = styled.input`
   top: 0;
   width: calc(100% - 24px);
   height: 100%;
+  background: none;
+  border: none;
+  padding: 0;
   padding-left: 6px;
+  outline: none;
   font-size: 12px;
   color: ${colors.text};
   line-height: 24px;

@@ -9,6 +9,11 @@ import { Icon } from "@iconify/react/dist/offline";
 import { colors } from "./Palette";
 
 const IconButtonWrap = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+
   width: 20px;
   height: 20px;
   color: ${colors.icon};
@@ -21,6 +26,7 @@ const IconButtonWrap = styled.button`
   }
   &:disabled {
     color: ${colors.disabledText};
+    cursor: not-allowed;
   }
 
   &:active {

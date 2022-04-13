@@ -14,6 +14,7 @@ export const CheckBoxLabel = styled(Label)`
 `;
 
 const CheckBoxWrap = styled.input.attrs({ type: "checkbox" })`
+  appearance: none;
   width: 12px;
   height: 12px;
   background: ${colors.uiBackground};

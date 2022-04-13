@@ -8,6 +8,9 @@ const checkIconURL = iconToDataURL(checkIcon);
 const keyboardArrowDownIconURL = iconToDataURL(keyboardArrowDownIcon);
 
 export const inputStyle = css`
+  border: none;
+  outline: none;
+
   height: 24px;
   border-radius: 4px;
   padding: 0 6px;
@@ -85,6 +88,8 @@ export const RadioItemBase = styled.button<{
   checked?: boolean;
   checkedAsPlaceholder?: boolean;
 }>`
+  border: none;
+  padding: 0;
   height: 20px;
   border-radius: 2px;
   font-size: 12px;
