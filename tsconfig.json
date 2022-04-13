@@ -2,6 +2,7 @@
   "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
     "jsx": "react",
-    "lib": ["ES2021", "DOM", "DOM.Iterable"]
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "experimentalDecorators": true
   }
 }
