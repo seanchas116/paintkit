@@ -4,6 +4,7 @@
     "target": "ES2021",
     "jsx": "react",
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true
   }
 }
