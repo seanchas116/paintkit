@@ -26,12 +26,12 @@
     "@storybook/addon-links": "^6.4.21",
     "@storybook/react": "^6.4.21",
     "@storybook/testing-library": "^0.0.9",
+    "@tsconfig/recommended": "^1.0.1",
     "@types/react": "^18.0.3",
     "@types/react-dom": "^18.0.0",
     "babel-loader": "^8.2.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "typescript": "^4.6.3"
-  },
-  "dependencies": {}
+  }
 }
