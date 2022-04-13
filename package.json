@@ -14,6 +14,7 @@
   "author": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "run-s build:*",
     "build-storybook": "build-storybook",

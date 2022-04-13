@@ -2,9 +2,13 @@
   "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
     "target": "ES2021",
+    "module": "esnext",
     "jsx": "react",
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "experimentalDecorators": true,
     "resolveJsonModule": true
+  },
+  "ts-node": {
+    "esm": true
   }
 }
