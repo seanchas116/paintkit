@@ -12,9 +12,9 @@
   },
   "license": "MIT",
   "author": "",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "scripts": {
     "build": "run-s build:*",
     "build-storybook": "build-storybook",
@@ -26,6 +26,12 @@
     "storybook": "start-storybook -p 7007",
     "test": "jest"
   },
+  "dependencies": {
+    "css-color-names": "^1.0.1",
+    "dedent": "^0.7.0",
+    "html-react-parser": "^1.4.10",
+    "svg-parser": "^2.0.4"
+  },
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@storybook/addon-actions": "^6.4.21",
@@ -35,20 +41,23 @@
     "@storybook/react": "^6.4.21",
     "@storybook/testing-library": "^0.0.9",
     "@tsconfig/recommended": "^1.0.1",
+    "@types/dedent": "^0.7.0",
+    "@types/jest": "^27.4.1",
     "@types/react": "^18.0.3",
     "@types/react-dom": "^18.0.0",
+    "@types/svg-parser": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "babel-loader": "^8.2.4",
     "eslint": "^8.13.0",
     "eslint-plugin-import": "^2.26.0",
+    "glob": "^8.0.1",
+    "jest": "^27.5.1",
+    "npm-run-all": "^4.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
-  },
-  "dependencies": {
-    "css-color-names": "^1.0.1",
-    "html-react-parser": "^1.4.10"
   }
 }
