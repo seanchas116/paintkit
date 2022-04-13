@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/__mocks__/**",
+    "**/stories/**"
+  ],
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist"
+  }
+}
