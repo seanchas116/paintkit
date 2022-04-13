@@ -37,6 +37,7 @@
     "jsondiffpatch": "^0.4.1",
     "lodash-es": "^4.17.21",
     "paintvec": "seanchas116/paintvec#74051cf",
+    "prettier": "^2.6.2",
     "short-uuid": "^4.2.0",
     "svg-parser": "^2.0.4",
     "tiny-typed-emitter": "^2.1.0",
