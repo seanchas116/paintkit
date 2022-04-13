@@ -12,7 +12,8 @@
   },
   "license": "MIT",
   "author": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-s build:*",
     "build-storybook": "build-storybook",
