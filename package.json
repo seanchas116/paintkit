@@ -23,7 +23,7 @@
     "dev:tsc": "tsc -p tsconfig.build.json -w",
     "lint": "eslint src",
     "storybook": "start-storybook -p 7007",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
