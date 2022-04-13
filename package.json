@@ -18,6 +18,8 @@
     "build-storybook": "build-storybook",
     "build:resources": "ts-node scripts/buildResources.ts",
     "build:tsc": "tsc -p tsconfig.build.json",
+    "dev": "run-p dev:* storybook",
+    "dev:tsc": "tsc -p tsconfig.build.json -w",
     "lint": "eslint src",
     "storybook": "start-storybook -p 7007",
     "test": "echo \"Error: no test specified\" && exit 1"
