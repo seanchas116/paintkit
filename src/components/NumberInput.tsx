@@ -1,6 +1,6 @@
 import React from "react";
-import { roundToFixed } from "@seanchas116/paintkit/src/util/Math";
-import { ValidationResult } from "@seanchas116/paintkit/src/util/ValidationResult";
+import { roundToFixed } from "../util/Math";
+import { ValidationResult } from "../util/ValidationResult";
 import { Input, InputCommonProps } from "./Input";
 
 export interface NumberInputProps extends InputCommonProps {

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import keyboardArrowDownIcon from "@iconify-icons/ic/outline-keyboard-arrow-down";
-import { iconToDataURL } from "@seanchas116/paintkit/src/util/Image";
+import { iconToDataURL } from "../util/Image";
 import { colors } from "./Palette";
 
 const keyboardArrowDownIconURL = iconToDataURL(keyboardArrowDownIcon);

@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyGesture } from "@seanchas116/paintkit/src/util/KeyGesture";
+import { KeyGesture } from "../../util/KeyGesture";
 import { MoreButton } from "../IconButton";
 import { MenuItem } from "./Menu";
 import { Dropdown } from "./Dropdown";

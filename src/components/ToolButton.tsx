@@ -6,7 +6,7 @@ import Tippy from "@tippyjs/react";
 import keyboardArrowDownIcon from "@iconify-icons/ic/outline-keyboard-arrow-down";
 import { IconifyIcon } from "@iconify/types";
 import { Icon } from "@iconify/react/dist/offline";
-import { iconToDataURL } from "@seanchas116/paintkit/src/util/Image";
+import { iconToDataURL } from "../util/Image";
 import { colors } from "./Palette";
 import { Command, Menu } from "./menu/Menu";
 import { Dropdown } from "./menu/Dropdown";

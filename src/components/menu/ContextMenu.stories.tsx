@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { KeyGesture } from "@seanchas116/paintkit/src/util/KeyGesture";
+import { KeyGesture } from "../../util/KeyGesture";
 import { MenuItem } from "./Menu";
 import { ContextMenu } from "./ContextMenu";
 

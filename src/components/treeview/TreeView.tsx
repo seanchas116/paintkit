@@ -5,10 +5,10 @@ import { observer } from "mobx-react";
 import SimpleBar from "simplebar-react";
 import { findIndex, findLastIndex, first } from "lodash-es";
 import keyboardArrowDownIcon from "@iconify-icons/ic/outline-keyboard-arrow-down";
-import { assertNonNull } from "@seanchas116/paintkit/src/util/Assert";
+import { assertNonNull } from "../../util/Assert";
+import { CurrentFocus } from "../../util/CurrentFocus";
+import { iconToDataURL } from "../../util/Image";
 import { colors } from "../Palette";
-import { CurrentFocus } from "@seanchas116/paintkit/src/util/CurrentFocus";
-import { iconToDataURL } from "@seanchas116/paintkit/src/util/Image";
 import { EmptyTreeViewItem, TreeViewItem } from "./TreeViewItem";
 
 const keyboardArrowDownIconURL = iconToDataURL(keyboardArrowDownIcon);

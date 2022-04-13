@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyGesture } from "@seanchas116/paintkit/src/util/KeyGesture";
+import { KeyGesture } from "../../util/KeyGesture";
 import { Menu } from "./Menu";
 import { MenuBar } from "./MenuBar";
 

@@ -5,7 +5,7 @@ import checkIcon from "@iconify-icons/ic/outline-check";
 import { Icon } from "@iconify/react/dist/offline";
 import { colors } from "../Palette";
 import { popoverStyle, popoverZIndex } from "../Common";
-import { iconToDataURL } from "@seanchas116/paintkit/src/util/Image";
+import { iconToDataURL } from "../../util/Image";
 import { Command, Menu, MenuItem } from "./Menu";
 
 const keyboardArrowRightIconURL = iconToDataURL(keyboardArrowRightIcon);

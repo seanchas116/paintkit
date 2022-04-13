@@ -1,5 +1,5 @@
 import { IconifyIcon } from "@iconify/types";
-import { KeyGesture } from "@seanchas116/paintkit/src/util/KeyGesture";
+import { KeyGesture } from "../../util/KeyGesture";
 
 export interface Separator {
   type: "separator";

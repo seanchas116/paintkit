@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { isNumeric } from "@seanchas116/paintkit/src/util/Math";
+import { isNumeric } from "../util/Math";
 import { useBufferedValue } from "./hooks/useBufferedValue";
 import { DropdownBody, DropdownItem, DropdownWrap, inputStyle } from "./Common";
 import { InputProps } from "./Input";

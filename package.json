@@ -28,6 +28,8 @@
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
+    "@iconify-icons/ic": "^1.2.3",
+    "@iconify/react": "^3.2.1",
     "@iconify/types": "^1.1.0",
     "@iconify/utils": "^1.0.32",
     "@tippyjs/react": "^4.2.6",
@@ -36,14 +38,20 @@
     "dedent": "^0.7.0",
     "hex-rgb": "^5.0.0",
     "html-react-parser": "^1.4.10",
+    "html-tags": "^3.2.0",
     "jsondiffpatch": "^0.4.1",
     "lodash-es": "^4.17.21",
+    "modern-normalize": "^1.1.0",
     "paintvec": "seanchas116/paintvec#74051cf",
     "prettier": "^2.6.2",
+    "scroll-into-view-if-needed": "^2.2.29",
     "short-uuid": "^4.2.0",
+    "simplebar": "^5.3.6",
     "simplebar-react": "^2.3.6",
+    "styled-components": "^5.3.5",
     "svg-parser": "^2.0.4",
     "tiny-typed-emitter": "^2.1.0",
+    "tippy.js": "^6.3.7",
     "ua-parser-js": "^1.0.2"
   },
   "devDependencies": {
@@ -61,6 +69,7 @@
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^18.0.3",
     "@types/react-dom": "^18.0.0",
+    "@types/styled-components": "^5.1.25",
     "@types/svg-parser": "^2.0.3",
     "@types/ua-parser-js": "^0.7.36",
     "@typescript-eslint/eslint-plugin": "^5.19.0",

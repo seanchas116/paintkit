@@ -1,7 +1,7 @@
 import styled, { css, FlattenSimpleInterpolation } from "styled-components";
 import checkIcon from "@iconify-icons/ic/outline-check";
 import keyboardArrowDownIcon from "@iconify-icons/ic/outline-keyboard-arrow-down";
-import { iconToDataURL } from "@seanchas116/paintkit/src/util/Image";
+import { iconToDataURL } from "../util/Image";
 import { colors } from "./Palette";
 
 const checkIconURL = iconToDataURL(checkIcon);

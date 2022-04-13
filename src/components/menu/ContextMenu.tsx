@@ -1,7 +1,7 @@
 import { clamp } from "lodash-es";
 import React, { createRef, useEffect } from "react";
 import styled from "styled-components";
-import { assertNonNull } from "@seanchas116/paintkit/src/util/Assert";
+import { assertNonNull } from "../../util/Assert";
 import { popoverZIndex } from "../Common";
 import { RootPortal } from "../RootPortal";
 import { MenuItem } from "./Menu";

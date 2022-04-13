@@ -2,7 +2,7 @@ import { loremIpsum } from "lorem-ipsum";
 import { computed, observable, makeObservable } from "mobx";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { TreeNode } from "@seanchas116/paintkit/src/util/TreeNode";
+import { TreeNode } from "../../util/TreeNode";
 import { TreeRow, TreeRowLabel } from "./TreeRow";
 import { TreeView } from "./TreeView";
 import { TreeViewItem } from "./TreeViewItem";

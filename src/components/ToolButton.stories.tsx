@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import paragraphIcon from "@seanchas116/paintkit/src/icon/Paragraph";
-import frameIcon from "@seanchas116/paintkit/src/icon/Frame";
+import paragraphIcon from "../icon/Paragraph";
+import frameIcon from "../icon/Frame";
 import { ToolButton, ToolButtonArray } from "./ToolButton";
 
 export default {

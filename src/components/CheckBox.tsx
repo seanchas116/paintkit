@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import checkIcon from "@iconify-icons/ic/outline-check";
-import { iconToDataURL } from "@seanchas116/paintkit/src/util/Image";
+import { iconToDataURL } from "../util/Image";
 import { colors } from "./Palette";
 import { Label } from "./Label";
 
