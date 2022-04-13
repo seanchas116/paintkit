@@ -27,11 +27,14 @@
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
+    "@iconify/types": "^1.1.0",
+    "@iconify/utils": "^1.0.32",
     "color-namer": "^1.4.0",
     "css-color-names": "^1.0.1",
     "dedent": "^0.7.0",
     "hex-rgb": "^5.0.0",
     "html-react-parser": "^1.4.10",
+    "jsondiffpatch": "^0.4.1",
     "lodash-es": "^4.17.21",
     "paintvec": "seanchas116/paintvec#74051cf",
     "short-uuid": "^4.2.0",
