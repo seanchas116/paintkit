@@ -24,7 +24,7 @@
     "dev:tsc": "tsc -p tsconfig.build.json -w",
     "lint": "eslint src",
     "storybook": "start-storybook -p 7007",
-    "test": "jest"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
     "css-color-names": "^1.0.1",
