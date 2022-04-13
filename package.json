@@ -22,6 +22,7 @@
     "build:tsc": "tsc -p tsconfig.build.json",
     "dev": "run-p dev:* storybook",
     "dev:tsc": "tsc -p tsconfig.build.json -w",
+    "format": "prettier --write src",
     "lint": "eslint src",
     "storybook": "start-storybook -p 7007",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
