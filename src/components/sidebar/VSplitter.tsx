@@ -1,8 +1,8 @@
 import { clamp } from "lodash-es";
 import React from "react";
 import styled from "styled-components";
-import { usePointerStroke } from "./hooks/usePointerStroke";
-import { colors } from "./Palette";
+import { usePointerStroke } from "../hooks/usePointerStroke";
+import { colors } from "../Palette";
 
 const VSplitterWrap = styled.div`
   display: flex;
