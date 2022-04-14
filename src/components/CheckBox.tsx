@@ -57,7 +57,7 @@ const CheckBoxWrap = styled.input.attrs({ type: "checkbox" })`
   }
 
   :focus {
-    border: 1px solid ${colors.active};
+    box-shadow: 0 0 0 1px ${colors.active};
   }
 
   :not(:disabled) {
