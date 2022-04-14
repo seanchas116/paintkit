@@ -1,14 +1,14 @@
 import { createGlobalStyle } from "styled-components";
 import React from "react";
-import { minireset, simpleBar, tippy } from "./LibraryCSS";
+import { miniresetCSS, simpleBarCSS, tippyCSS } from "./LibraryCSS";
 
 export const GlobalStyle = createGlobalStyle`
   // styles for libraries
-  ${simpleBar}
-  ${tippy}
+  ${simpleBarCSS}
+  ${tippyCSS}
 
   :where(.paintkit-root) {
-    ${minireset}
+    ${miniresetCSS}
 
     * {
       user-select: none;

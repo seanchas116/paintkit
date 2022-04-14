@@ -62,7 +62,7 @@ async function generateCSSStrings(cwd: string): Promise<void> {
         const content = fs.readFileSync(filePath, { encoding: "utf-8" });
         return dedent`
           // ${importPath}
-          export const ${name} = ${JSON.stringify(content.trim())};
+          export const ${name}CSS = ${JSON.stringify(content.trim())};
         `;
       })
       .join("\n")
