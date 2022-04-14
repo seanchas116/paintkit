@@ -33,6 +33,7 @@ export const Basic: React.FC = () => {
         <div>{value0}</div>
         <Input
           icon={layersIcon}
+          title="Z Index"
           value={value0}
           onChange={(value) => {
             setValue0(value);
@@ -42,6 +43,7 @@ export const Basic: React.FC = () => {
         <div>{value0}</div>
         <Input
           label="W"
+          title="Width"
           value={value0}
           onChange={(value) => {
             setValue0(value);
