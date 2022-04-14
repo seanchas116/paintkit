@@ -17,7 +17,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-s build:*",
-    "build-storybook": "build-storybook",
+    "build-storybook": "cross-env NODE_OPTIONS=--openssl-legacy-provider build-storybook",
     "build:resources": "ts-node scripts/buildResources.ts",
     "build:tsc": "tsc -p tsconfig.build.json",
     "dev": "run-p dev:* storybook",
