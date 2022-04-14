@@ -1,8 +1,8 @@
 import React from "react";
 import { addDecorator } from "@storybook/react";
 import { createGlobalStyle } from "styled-components";
-import { PaintkitProvider } from "./GlobalStyle";
-import { colors, ColorsGlobalStyle } from "./Palette";
+import { ColorSchemeProvider, PaintkitProvider } from "./GlobalStyle";
+import { colors } from "./Palette";
 
 const GrayBackground = createGlobalStyle`
   body {
@@ -13,9 +13,10 @@ const GrayBackground = createGlobalStyle`
 `;
 
 addDecorator((s) => (
-  <>
-    <ColorsGlobalStyle scheme="auto" />
-    <GrayBackground />
-    <PaintkitProvider>{s()}</PaintkitProvider>
-  </>
+  <PaintkitProvider>
+    <ColorSchemeProvider colorScheme="auto">
+      <GrayBackground />
+      {s()}
+    </ColorSchemeProvider>
+  </PaintkitProvider>
 ));

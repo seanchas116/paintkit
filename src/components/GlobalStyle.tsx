@@ -1,6 +1,7 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle, css } from "styled-components";
 import React from "react";
 import { miniresetCSS, simpleBarCSS, tippyCSS } from "./LibraryCSS";
+import { darkColorCSSVariables, lightColorCSSVariables } from "./Palette";
 
 export const GlobalStyle = createGlobalStyle`
   // styles for libraries
@@ -42,6 +43,24 @@ export const GlobalStyle = createGlobalStyle`
       cursor: not-allowed;
     }
   }
+`;
+
+export type ColorScheme = "auto" | "light" | "dark";
+
+export const ColorSchemeProvider = styled.div<{
+  colorScheme: ColorScheme;
+}>`
+  ${(p) =>
+    p.colorScheme === "auto"
+      ? css`
+          ${lightColorCSSVariables};
+          @media (prefers-color-scheme: dark) {
+            ${darkColorCSSVariables}
+          }
+        `
+      : p.colorScheme === "light"
+      ? lightColorCSSVariables
+      : darkColorCSSVariables}
 `;
 
 export const PaintkitProvider: React.FC<{

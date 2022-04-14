@@ -1,5 +1,3 @@
-import { createGlobalStyle, css } from "styled-components";
-
 export const opacities = {
   text: 1,
   icon: 0.9,
@@ -75,21 +73,3 @@ function colorCSSVariablesString(colorValues: Readonly<Palette>): string {
 
 export const lightColorCSSVariables = colorCSSVariablesString(lightPalette);
 export const darkColorCSSVariables = colorCSSVariablesString(darkPalette);
-
-export const ColorsGlobalStyle = createGlobalStyle<{
-  scheme: "auto" | "light" | "dark";
-}>`
-  body {
-    ${({ scheme }) =>
-      scheme === "auto"
-        ? css`
-            ${lightColorCSSVariables};
-            @media (prefers-color-scheme: dark) {
-              ${darkColorCSSVariables}
-            }
-          `
-        : scheme === "light"
-        ? lightColorCSSVariables
-        : darkColorCSSVariables}
-  }
-`;
