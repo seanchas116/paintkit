@@ -54,21 +54,17 @@ async function generateCSSStrings(cwd: string): Promise<void> {
     minireset: "minireset.css/minireset.min.css",
   };
 
-  const contents: Record<string, string> = {};
-
-  for (const [name, importPath] of Object.entries(files)) {
-    const filePath = require.resolve(importPath);
-    const content = fs.readFileSync(filePath, { encoding: "utf-8" });
-    contents[name] = content;
-  }
-
   fs.writeFileSync(
     `${path.resolve(cwd, "src/components/LibraryCSS")}.ts`,
-    Object.entries(contents)
-      .map(
-        ([name, content]) =>
-          `export const ${name} = ${JSON.stringify(content)};`
-      )
+    Object.entries(files)
+      .map(([name, importPath]) => {
+        const filePath = require.resolve(importPath);
+        const content = fs.readFileSync(filePath, { encoding: "utf-8" });
+        return dedent`
+          // ${importPath}
+          export const ${name} = ${JSON.stringify(content.trim())};
+        `;
+      })
       .join("\n")
   );
 }
