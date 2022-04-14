@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
   ${simpleBar}
   ${tippy}
 
-  :where(.paintkit-provider) {
+  :where(.paintkit-root) {
     ${minireset}
 
     * {
@@ -47,7 +47,7 @@ export const PaintkitProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   return (
-    <div className="paintkit-provider">
+    <div className="paintkit-root">
       <GlobalStyle />
       {children}
     </div>
