@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { assertNonNull } from "../util/Assert";
 
 interface RootPortalProps {
   children: React.ReactNode;
@@ -10,15 +11,15 @@ export class RootPortal extends React.Component<RootPortalProps> {
 
   constructor(props: RootPortalProps) {
     super(props);
-    this.el.className = "paintkit-root";
   }
 
   componentDidMount(): void {
-    document.body.appendChild(this.el);
+    const root = assertNonNull(document.querySelector(".paintkit-root"));
+    root.appendChild(this.el);
   }
 
   componentWillUnmount(): void {
-    document.body.removeChild(this.el);
+    this.el.remove();
   }
 
   render(): JSX.Element {

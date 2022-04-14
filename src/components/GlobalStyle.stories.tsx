@@ -13,10 +13,10 @@ const GrayBackground = createGlobalStyle`
 `;
 
 addDecorator((s) => (
-  <PaintkitProvider>
-    <ColorSchemeProvider colorScheme="auto">
+  <ColorSchemeProvider colorScheme="auto">
+    <PaintkitProvider>
       <GrayBackground />
       {s()}
-    </ColorSchemeProvider>
-  </PaintkitProvider>
+    </PaintkitProvider>
+  </ColorSchemeProvider>
 ));
