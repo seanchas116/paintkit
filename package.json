@@ -17,11 +17,12 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-s build:*",
-    "build-storybook": "cross-env NODE_OPTIONS=--openssl-legacy-provider build-storybook",
+    "build-storybook": "cross-env NODE_OPTIONS=--openssl-legacy-provider build-storybook -o docs/storybook",
     "build:resources": "ts-node scripts/buildResources.ts",
     "build:tsc": "tsc -p tsconfig.build.json",
     "dev": "run-p dev:* storybook",
     "dev:tsc": "tsc -p tsconfig.build.json -w",
+    "docs": "docsify serve docs",
     "format": "prettier --write src",
     "lint": "eslint src",
     "storybook": "cross-env NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 7007",
