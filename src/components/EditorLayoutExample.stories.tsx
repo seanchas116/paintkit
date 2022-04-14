@@ -12,6 +12,7 @@ import {
   InspectorTabBar,
   InspectorTabBarItem,
 } from "./sidebar/InspectorTabBar";
+import { WidthResizeHandle } from "./sidebar/WidthResizeHandle";
 
 const Columns = styled.div`
   position: fixed;
@@ -35,11 +36,13 @@ const Viewport = styled.div`
 `;
 
 const LeftSideBar = styled.div`
+  position: relative;
   width: 200px;
   border-right: 2px solid ${colors.separator};
 `;
 
 const RightSideBar = styled.div`
+  position: relative;
   width: 200px;
   border-left: 2px solid ${colors.separator};
   > * {
@@ -49,10 +52,22 @@ const RightSideBar = styled.div`
 
 const EditorLayoutExample: React.FC = () => {
   const [splitRatio, setSplitRatio] = React.useState(0.5);
+  const [leftWidth, setLeftWidth] = React.useState(200);
+  const [rightWidth, setRightWidth] = React.useState(200);
 
   return (
     <Columns>
-      <LeftSideBar />
+      <LeftSideBar
+        style={{
+          width: `${leftWidth}px`,
+        }}
+      >
+        <WidthResizeHandle
+          position="right"
+          width={leftWidth}
+          onChangeWidth={setLeftWidth}
+        />
+      </LeftSideBar>
       <Center>
         <ToolBar>
           <ToolButton label="Menu" icon={menuIcon} />
@@ -71,7 +86,11 @@ const EditorLayoutExample: React.FC = () => {
         </ToolBar>
         <Viewport />
       </Center>
-      <RightSideBar>
+      <RightSideBar
+        style={{
+          width: `${rightWidth}px`,
+        }}
+      >
         <VSplitter ratio={splitRatio} onChangeRatio={setSplitRatio}>
           <div>
             <InspectorTabBar>
@@ -86,6 +105,11 @@ const EditorLayoutExample: React.FC = () => {
             </InspectorTabBar>
           </div>
         </VSplitter>
+        <WidthResizeHandle
+          position="left"
+          width={rightWidth}
+          onChangeWidth={setRightWidth}
+        />
       </RightSideBar>
     </Columns>
   );
