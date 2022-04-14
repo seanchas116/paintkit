@@ -2,8 +2,6 @@ import { createGlobalStyle } from "styled-components";
 import React from "react";
 import { minireset, simpleBar, tippy } from "./LibraryCSS";
 
-// TODO: embed library CSS content automatically
-
 export const GlobalStyle = createGlobalStyle`
   // styles for libraries
   ${simpleBar}
