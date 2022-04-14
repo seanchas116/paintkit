@@ -2,6 +2,7 @@ import styled, { createGlobalStyle, css } from "styled-components";
 import React from "react";
 import { miniresetCSS, simpleBarCSS, tippyCSS } from "./LibraryCSS";
 import { darkColorCSSVariables, lightColorCSSVariables } from "./Palette";
+import { fontFamily } from "./Common";
 
 export const GlobalStyle = createGlobalStyle`
   // styles for libraries
@@ -20,7 +21,7 @@ export const GlobalStyle = createGlobalStyle`
       outline: none;
       appearance: none;
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      font-family: ${fontFamily};
     }
 
     .simplebar-content {
