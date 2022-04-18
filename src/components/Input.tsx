@@ -14,6 +14,7 @@ export interface InputCommonProps {
   title?: string;
   label?: string;
   icon?: IconifyIcon;
+  iconPosition?: "left" | "right";
   disabled?: boolean;
   placeholder?: string;
   spellCheck?: boolean;
@@ -95,7 +96,10 @@ const InputIconLetter = styled.div`
 /**
  * Same as <input>, but emits onChange only on blur or when enter is pressed
  */
-export const Input: React.FC<InputProps> = (props) => {
+export const Input: React.FC<InputProps> = ({
+  iconPosition = "right",
+  ...props
+}) => {
   const [currentValue, setCurrentValue, onEditingFinish] = useBufferedValue(
     props.value ?? "",
     props.onChange,
@@ -110,6 +114,11 @@ export const Input: React.FC<InputProps> = (props) => {
   ) : props.icon ? (
     <InputIcon icon={props.icon} />
   ) : undefined;
+  const iconWithTip = props.title ? (
+    <Tippy content={props.title}>{icon}</Tippy>
+  ) : (
+    icon
+  );
 
   return (
     <InputWrap
@@ -119,6 +128,7 @@ export const Input: React.FC<InputProps> = (props) => {
         inputRef.current?.focus();
       }}
     >
+      {iconPosition === "left" && iconWithTip}
       <InputInput
         ref={inputRef}
         value={currentValue}
@@ -165,7 +175,7 @@ export const Input: React.FC<InputProps> = (props) => {
           setCurrentValue(e.currentTarget.value);
         }}
       />
-      {props.title ? <Tippy content={props.title}>{icon}</Tippy> : icon}
+      {iconPosition === "right" && iconWithTip}
       {!validateResult.value && (
         <InputErrorPopup>{validateResult.error}</InputErrorPopup>
       )}

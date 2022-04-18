@@ -10,7 +10,7 @@ export default {
 
 const Wrap = styled.div`
   display: grid;
-  grid-template-columns: 100px 100px;
+  grid-template-columns: 72px 100px;
   align-items: center;
   gap: 8px;
 `;
@@ -43,6 +43,28 @@ export const Basic: React.FC = () => {
         <div>{value0}</div>
         <Input
           label="W"
+          title="Width"
+          value={value0}
+          onChange={(value) => {
+            setValue0(value);
+            return true;
+          }}
+        />
+        <div>{value0}</div>
+        <Input
+          icon={layersIcon}
+          iconPosition="left"
+          title="Z Index"
+          value={value0}
+          onChange={(value) => {
+            setValue0(value);
+            return true;
+          }}
+        />
+        <div>{value0}</div>
+        <Input
+          label="W"
+          iconPosition="left"
           title="Width"
           value={value0}
           onChange={(value) => {
