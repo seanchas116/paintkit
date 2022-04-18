@@ -1,15 +1,9 @@
 import path from "path";
 import fs from "fs";
 import util from "util";
-import url from "url";
-import { createRequire } from "module";
 import _glob from "glob";
 import dedent from "dedent";
 import { ElementNode, parse } from "svg-parser";
-
-const require = createRequire(import.meta.url);
-
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const glob = util.promisify(_glob);
 
