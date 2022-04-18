@@ -2,7 +2,7 @@ import { Vec2 } from "paintvec";
 import parse from "html-react-parser";
 import React from "react";
 import { IconifyIcon } from "@iconify/types";
-import { iconToSVG } from "@iconify/utils";
+import { iconToSVG } from "@iconify/utils/lib/svg/build";
 
 // 1x1 PNG filled with rgba(255, 0, 0, 0.5)
 export const emptyPNGDataURL =
