@@ -26,6 +26,7 @@ export const Basic: React.FC = () => {
         <DimensionInput
           value={value0}
           label="W"
+          title="Width"
           units={["px", "em", "rem", "vw", "vh"]}
           keywords={["auto", "inherit"]}
           onChange={(value) => {
