@@ -13,7 +13,7 @@ export const inputStyle = css`
 
   height: 24px;
   border-radius: 4px;
-  padding: 0 6px;
+  padding: 0 4px;
 
   color: ${colors.text};
   font-size: 12px;

@@ -62,7 +62,7 @@ export const InputWrap = styled.div<{ invalid?: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 
   ${inputStyle}
   --border-color: ${(p) => (p.invalid ? colors.red : colors.active)};
@@ -90,6 +90,7 @@ const InputIcon = styled(Icon).attrs({ width: 12, height: 12 })`
 const InputIconLetter = styled.div`
   font-weight: 700;
   font-size: 10px;
+  min-width: 12px;
   color: ${colors.disabledText};
 `;
 
