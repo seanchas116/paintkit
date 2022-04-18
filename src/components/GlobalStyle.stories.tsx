@@ -3,11 +3,16 @@ import { addDecorator } from "@storybook/react";
 import styled, { createGlobalStyle } from "styled-components";
 import { ColorSchemeProvider, PaintkitProvider } from "./GlobalStyle";
 import { colors } from "./Palette";
+import { fontFamily } from "./Common";
 
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0 !important;
     padding: 0 !important;
+  }
+  .tippy-content {
+    font-family: ${fontFamily};
+    font-size: 12px;
   }
 `;
 

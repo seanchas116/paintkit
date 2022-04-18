@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import marginLeftIcon from "../icon/MarginLeft";
 import { DimensionInput, DimensionInputValue } from "./DimensionInput";
 
 export default {
@@ -15,7 +16,11 @@ const Wrap = styled.div`
 `;
 
 export const Basic: React.FC = () => {
-  const [value0, setValue0] = useState<DimensionInputValue | undefined>({
+  const [width, setWidth] = useState<DimensionInputValue | undefined>({
+    value: 100,
+    unit: "px",
+  });
+  const [margin, setMargin] = useState<DimensionInputValue | undefined>({
     value: 100,
     unit: "px",
   });
@@ -24,17 +29,29 @@ export const Basic: React.FC = () => {
     <>
       <Wrap>
         <DimensionInput
-          value={value0}
+          value={width}
           label="W"
           title="Width"
           units={["px", "em", "rem", "vw", "vh"]}
           keywords={["auto", "inherit"]}
           onChange={(value) => {
-            setValue0(value);
+            setWidth(value);
             return true;
           }}
         />
-        <div>{JSON.stringify(value0)}</div>
+        <div>{JSON.stringify(width)}</div>
+        <DimensionInput
+          value={margin}
+          icon={marginLeftIcon}
+          title="Margin Left"
+          units={["px", "em", "rem", "vw", "vh"]}
+          keywords={["auto", "inherit"]}
+          onChange={(value) => {
+            setMargin(value);
+            return true;
+          }}
+        />
+        <div>{JSON.stringify(margin)}</div>
       </Wrap>
     </>
   );
