@@ -13,11 +13,12 @@ interface JSONUndoHistoryEvents<Snapshot> {
   change: (snapshot: Snapshot) => void;
 }
 
-export class JSONUndoHistory<Snapshot> extends TypedEmitter<
-  JSONUndoHistoryEvents<Snapshot>
-> {
+export class JSONUndoHistory<
+  Snapshot,
+  Target extends JSONUndoHistoryTarget<Snapshot> = JSONUndoHistoryTarget<Snapshot>
+> extends TypedEmitter<JSONUndoHistoryEvents<Snapshot>> {
   constructor(
-    target: JSONUndoHistoryTarget<Snapshot>,
+    target: Target,
     options: {
       objectHash?: (obj: object) => unknown;
     } = {}
@@ -32,7 +33,7 @@ export class JSONUndoHistory<Snapshot> extends TypedEmitter<
   }
 
   readonly diffPatch: jsondiffpatch.DiffPatcher;
-  readonly target: JSONUndoHistoryTarget<Snapshot>;
+  readonly target: Target;
   readonly undoStack = new UndoStack();
   private _snapshot: Snapshot;
   @observable private savePoint: UndoCommand | undefined = undefined;
