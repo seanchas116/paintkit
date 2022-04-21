@@ -3,13 +3,6 @@ import { compact } from "lodash-es";
 import { TypedEmitter } from "tiny-typed-emitter";
 import { UndoCommand, UndoStack } from "./UndoStack";
 
-const diffPatch = jsondiffpatch.create({
-  objectHash: (obj: any): any => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return obj.uid;
-  },
-});
-
 export interface JSONUndoHistoryTarget<Snapshot> {
   toJSON(): Snapshot;
   loadJSON(json: Snapshot): void;
@@ -22,13 +15,21 @@ interface JSONUndoHistoryEvents<Snapshot> {
 export class JSONUndoHistory<Snapshot> extends TypedEmitter<
   JSONUndoHistoryEvents<Snapshot>
 > {
-  constructor(target: JSONUndoHistoryTarget<Snapshot>, initSnapshot: Snapshot) {
+  constructor(
+    target: JSONUndoHistoryTarget<Snapshot>,
+    options: {
+      objectHash?: (obj: object) => unknown;
+    } = {}
+  ) {
     super();
+    this.diffPatch = jsondiffpatch.create({
+      objectHash: options.objectHash,
+    });
     this.target = target;
-    this._snapshot = initSnapshot;
-    target.loadJSON(initSnapshot);
+    this._snapshot = target.toJSON();
   }
 
+  readonly diffPatch: jsondiffpatch.DiffPatcher;
   readonly target: JSONUndoHistoryTarget<Snapshot>;
   readonly undoStack = new UndoStack();
   private _snapshot: Snapshot;
@@ -48,7 +49,7 @@ export class JSONUndoHistory<Snapshot> extends TypedEmitter<
    */
   commit(title: string, mergeInterval = 0): boolean {
     const snapshot = this.target.toJSON();
-    const redoDiff = diffPatch.diff(this._snapshot, snapshot);
+    const redoDiff = this.diffPatch.diff(this._snapshot, snapshot);
     if (!redoDiff) {
       return false;
     }
@@ -61,7 +62,7 @@ export class JSONUndoHistory<Snapshot> extends TypedEmitter<
     return true;
   }
 
-  clear(snapshot: Snapshot): void {
+  revert(snapshot: Snapshot): void {
     this._snapshot = snapshot;
     this.emit("change", snapshot);
     this.target.loadJSON(snapshot);
@@ -78,7 +79,7 @@ export class JSONUndoHistory<Snapshot> extends TypedEmitter<
       this.history = history;
       this.redoDiffs = redoDiffs;
       this.undoDiffs = compact(
-        this.redoDiffs.map((diff) => diffPatch.reverse(diff))
+        this.redoDiffs.map((diff) => history.diffPatch.reverse(diff))
       ).reverse();
       this.title = title;
       this.mergeInterval = mergeInterval;
@@ -94,7 +95,7 @@ export class JSONUndoHistory<Snapshot> extends TypedEmitter<
     undo() {
       let snapshot = this.history._snapshot;
       for (const diff of this.undoDiffs) {
-        snapshot = diffPatch.patch(snapshot, diff) as Snapshot;
+        snapshot = this.history.diffPatch.patch(snapshot, diff) as Snapshot;
       }
       this.history.target.loadJSON(snapshot);
       this.history._snapshot = snapshot;
@@ -103,7 +104,7 @@ export class JSONUndoHistory<Snapshot> extends TypedEmitter<
     redo() {
       let snapshot = this.history._snapshot;
       for (const diff of this.redoDiffs) {
-        snapshot = diffPatch.patch(snapshot, diff) as Snapshot;
+        snapshot = this.history.diffPatch.patch(snapshot, diff) as Snapshot;
       }
       this.history.target.loadJSON(snapshot);
       this.history._snapshot = snapshot;
