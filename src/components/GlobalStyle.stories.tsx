@@ -26,10 +26,12 @@ const GrayBackground = styled.div`
 `;
 
 addDecorator((s) => (
-  <ColorSchemeProvider colorScheme="auto">
-    <GlobalStyle />
-    <PaintkitProvider>
-      <GrayBackground>{s()}</GrayBackground>
-    </PaintkitProvider>
-  </ColorSchemeProvider>
+  <React.StrictMode>
+    <ColorSchemeProvider colorScheme="auto">
+      <GlobalStyle />
+      <PaintkitProvider>
+        <GrayBackground>{s()}</GrayBackground>
+      </PaintkitProvider>
+    </ColorSchemeProvider>
+  </React.StrictMode>
 ));
