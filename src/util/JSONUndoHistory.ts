@@ -1,5 +1,6 @@
 import * as jsondiffpatch from "jsondiffpatch";
 import { compact } from "lodash-es";
+import { computed, makeObservable, observable } from "mobx";
 import { TypedEmitter } from "tiny-typed-emitter";
 import { UndoCommand, UndoStack } from "./UndoStack";
 
@@ -27,15 +28,21 @@ export class JSONUndoHistory<Snapshot> extends TypedEmitter<
     });
     this.target = target;
     this._snapshot = target.toJSON();
+    makeObservable(this);
   }
 
   readonly diffPatch: jsondiffpatch.DiffPatcher;
   readonly target: JSONUndoHistoryTarget<Snapshot>;
   readonly undoStack = new UndoStack();
   private _snapshot: Snapshot;
+  @observable private savePoint: UndoCommand | undefined = undefined;
 
   get snapshot(): Snapshot {
     return this._snapshot;
+  }
+
+  @computed get isModified(): boolean {
+    return this.savePoint !== this.undoStack.commandToUndo;
   }
 
   /**
@@ -62,11 +69,16 @@ export class JSONUndoHistory<Snapshot> extends TypedEmitter<
     return true;
   }
 
+  updateSavePoint(): void {
+    this.savePoint = this.undoStack.commandToUndo;
+  }
+
   revert(snapshot: Snapshot): void {
     this._snapshot = snapshot;
     this.emit("change", snapshot);
     this.target.loadJSON(snapshot);
     this.undoStack.clear();
+    this.savePoint = undefined;
   }
 
   private static Command = class<Snapshot> implements UndoCommand {
