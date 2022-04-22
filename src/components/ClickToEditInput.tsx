@@ -43,6 +43,7 @@ const Input = styled.input<{ isValid: boolean }>`
   outline: none;
   background: none;
 
+  font: inherit;
   text-align: inherit;
   color: inherit;
 
