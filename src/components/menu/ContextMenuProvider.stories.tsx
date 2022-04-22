@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { KeyGesture } from "../../util/KeyGesture";
 import { MenuItem } from "./Menu";
-import { ContextMenu } from "./ContextMenu";
+import { ContextMenuProvider, useContextMenu } from "./ContextMenuProvider";
 
 export default {
-  title: "ContextMenu",
-  component: ContextMenu,
+  title: "ContextMenuProvider",
+  component: ContextMenuProvider,
 };
 
 const options: MenuItem[] = [
@@ -56,30 +56,25 @@ const Area = styled.div`
   justify-content: center;
 `;
 
-export const Basic: React.FC = () => {
-  const [indexPath, setIndexPath] = useState<number[] | undefined>(undefined);
-  const [left, setLeft] = useState(0);
-  const [top, setTop] = useState(0);
+const Content: React.FC = () => {
+  const contextMenu = useContextMenu();
 
   const onContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIndexPath([]);
-    setLeft(e.nativeEvent.clientX);
-    setTop(e.nativeEvent.clientY);
+    contextMenu.show(e.clientX, e.clientY, options);
   };
 
   return (
-    <>
-      <Area onContextMenu={onContextMenu}>
-        <p>Right-click to show context menu</p>
-      </Area>
-      <ContextMenu
-        options={options}
-        indexPath={indexPath}
-        x={left}
-        y={top}
-        onChangeIndexPath={setIndexPath}
-      />
-    </>
+    <Area onContextMenu={onContextMenu}>
+      <p>Right-click to show context menu</p>
+    </Area>
+  );
+};
+
+export const Basic: React.FC = () => {
+  return (
+    <ContextMenuProvider>
+      <Content />
+    </ContextMenuProvider>
   );
 };
