@@ -663,7 +663,7 @@ const TreeViewBody = styled.div<{ invertedSelectionColor: boolean }>`
 `;
 
 const TreeViewSimpleBar = styled(SimpleBar)`
-  position: absolute;
+  position: absolute !important;
   width: 100%;
   height: 100%;
 
