@@ -223,6 +223,12 @@ export abstract class TreeNode<
     }
   }
 
+  clear(): void {
+    while (this.firstChild) {
+      this.firstChild.remove();
+    }
+  }
+
   // Utility
 
   includes(other: TreeNode<any, any, any>): boolean {
