@@ -4,7 +4,7 @@ import { assertNonNull } from "../../util/Assert";
 import { ContextMenu } from "./ContextMenu";
 import { MenuItem } from "./Menu";
 
-class ContextMenuController extends TypedEmitter<{
+export class ContextMenuController extends TypedEmitter<{
   change(): void;
 }> {
   options: readonly MenuItem[] = [];
@@ -19,7 +19,7 @@ class ContextMenuController extends TypedEmitter<{
     this.onChangeIndexPath([]);
   }
 
-  onChangeIndexPath(path: number[] | undefined) {
+  onChangeIndexPath(path: number[] | undefined): void {
     this.indexPath = path;
     this.emit("change");
   }
