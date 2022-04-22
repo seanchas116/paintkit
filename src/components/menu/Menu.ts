@@ -56,7 +56,7 @@ export interface ElectronCommand {
 }
 
 export interface Command {
-  title: string;
+  text: string;
   icon?: IconifyIcon;
   disabled?: boolean;
   selected?: boolean;
@@ -65,7 +65,7 @@ export interface Command {
 }
 
 export interface Menu {
-  title: string;
+  text: string;
   icon?: IconifyIcon;
   disabled?: boolean;
   children: readonly MenuItem[];

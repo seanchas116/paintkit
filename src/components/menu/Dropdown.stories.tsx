@@ -11,35 +11,35 @@ export default {
 
 const options: MenuItem[] = [
   {
-    title: "Cut",
+    text: "Cut",
     shortcut: [new KeyGesture(["Command"], "KeyX")],
   },
   {
-    title: "Copy",
+    text: "Copy",
     shortcut: [new KeyGesture(["Command"], "KeyC")],
   },
   {
-    title: "Paste",
+    text: "Paste",
     shortcut: [new KeyGesture(["Command"], "KeyV")],
   },
   {
-    title: "Delete",
+    text: "Delete",
   },
   {
     type: "separator",
   },
   {
-    title: "Submenu",
+    text: "Submenu",
     children: [
       {
-        title: "Item 1",
+        text: "Item 1",
         selected: true,
       },
       {
-        title: "Item 2",
+        text: "Item 2",
       },
       {
-        title: "Item 3",
+        text: "Item 3",
       },
     ],
   },

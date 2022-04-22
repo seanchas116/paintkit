@@ -10,68 +10,68 @@ export default {
 
 const menus: Menu[] = [
   {
-    title: "File",
+    text: "File",
     children: [
       {
-        title: "New",
+        text: "New",
         shortcut: [new KeyGesture(["Command"], "KeyN")],
       },
       { type: "separator" },
       {
-        title: "Open...",
+        text: "Open...",
         shortcut: [new KeyGesture(["Command"], "KeyO")],
       },
       {
-        title: "Open Recent",
+        text: "Open Recent",
         children: [
           {
-            title: "Document 1",
+            text: "Document 1",
           },
           {
-            title: "Document 2",
+            text: "Document 2",
           },
           {
-            title: "Document 3",
+            text: "Document 3",
           },
         ],
       },
       { type: "separator" },
       {
-        title: "Save",
+        text: "Save",
         shortcut: [new KeyGesture(["Command"], "KeyS")],
       },
       {
-        title: "Save As...",
+        text: "Save As...",
         shortcut: [new KeyGesture(["Shift", "Command"], "KeyS")],
       },
     ],
   },
   {
-    title: "Edit",
+    text: "Edit",
     children: [
       {
-        title: "Undo",
+        text: "Undo",
         shortcut: [new KeyGesture(["Command"], "KeyZ")],
       },
       {
-        title: "Redo",
+        text: "Redo",
         shortcut: [new KeyGesture(["Shift", "Command"], "KeyZ")],
       },
       { type: "separator" },
       {
-        title: "Cut",
+        text: "Cut",
         shortcut: [new KeyGesture(["Command"], "KeyX")],
       },
       {
-        title: "Copy",
+        text: "Copy",
         shortcut: [new KeyGesture(["Command"], "KeyC")],
       },
       {
-        title: "Paste",
+        text: "Paste",
         shortcut: [new KeyGesture(["Command"], "KeyV")],
       },
       {
-        title: "Delete",
+        text: "Delete",
       },
     ],
   },

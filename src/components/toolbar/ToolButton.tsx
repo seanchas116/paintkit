@@ -147,8 +147,8 @@ export const CommandToolButton: React.FC<{
 }> = observer(({ command, icon }) => {
   const shortcut = command.shortcut?.[0];
   const label = shortcut
-    ? `${command.title} (${shortcut.toText()})`
-    : command.title;
+    ? `${command.text} (${shortcut.toText()})`
+    : command.text;
 
   return (
     <ToolButton
@@ -187,7 +187,7 @@ export class DropdownCommands {
   @computed get commands(): Command[] {
     return this.originalCommands.map((c) => {
       return {
-        title: c.title,
+        text: c.text,
         icon: c.icon,
         disabled: c.disabled,
         selected: c.selected,
@@ -219,7 +219,7 @@ export const DropdownCommandToolButton: React.FC<{
       options={commands.commands}
       button={(open, onClick) => (
         <ToolButton
-          label={inputInsertToolCurrent?.title ?? ""}
+          label={inputInsertToolCurrent?.text ?? ""}
           icon={inputInsertToolCurrent?.icon}
           downArrow
           selected={open || inputInsertModeSelected}
@@ -237,7 +237,7 @@ export const MeuToolButton: React.FC<{
   menu: Menu;
   icon?: IconifyIcon;
 }> = observer(({ menu, icon }) => {
-  const { disabled, title } = menu;
+  const { disabled, text } = menu;
 
   return (
     <Dropdown
@@ -247,7 +247,7 @@ export const MeuToolButton: React.FC<{
           downArrow
           disabled={disabled}
           icon={icon ?? menu.icon}
-          label={title}
+          label={text}
           selected={open}
           onDownArrowClick={(_, elem) => onClick(elem)}
           onClick={(_, elem) => onClick(elem)}

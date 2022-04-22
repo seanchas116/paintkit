@@ -65,7 +65,7 @@ export const ContextMenu: React.FC<{
         <ContextMenuPositioner ref={positionerRef}>
           <MenuList
             menu={{
-              title: "",
+              text: "",
               children: options,
             }}
             indexPath={indexPath}

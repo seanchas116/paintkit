@@ -68,7 +68,7 @@ export const MenuBar: React.FC<{
                 }
               }}
             >
-              {menu.title}
+              {menu.text}
             </MenuBarLabel>
             {currentIndex(indexPath, 0) === i ? (
               <MenuList
@@ -155,7 +155,7 @@ const MenuRow: React.FC<{
           disabled={item.disabled}
         >
           {item.icon && <MenuRowIcon icon={item.icon} />}
-          <MenuRowLabel>{item.title}</MenuRowLabel>
+          <MenuRowLabel>{item.text}</MenuRowLabel>
           <MenuRowArrow />
         </MenuRowContent>
         {isCurrent && (
@@ -193,7 +193,7 @@ const MenuRow: React.FC<{
           {item.selected !== undefined &&
             (item.selected ? <MenuRowCheck /> : <MenuRowNoCheck />)}
           {item.icon && <MenuRowIcon icon={item.icon} />}
-          <MenuRowLabel>{item.title}</MenuRowLabel>
+          <MenuRowLabel>{item.text}</MenuRowLabel>
           {accelerator && <MenuRowShortcut>{accelerator}</MenuRowShortcut>}
         </MenuRowContent>
       </MenuRowWrap>
