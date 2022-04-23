@@ -41,6 +41,10 @@ export abstract class TreeNode<
     private readonly layers = observable.map<string, TreeNode<any, any, any>>();
 
     add(value: TreeNode<any, any, any>): void {
+      if (value.currentNameScope !== this) {
+        return;
+      }
+
       this.addSelf(value);
       for (const child of value.children) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -69,6 +73,10 @@ export abstract class TreeNode<
     }
 
     delete(value: TreeNode<any, any, any>): void {
+      if (value.currentNameScope !== this) {
+        return;
+      }
+
       this.deleteSelf(value);
       for (const child of value.children) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -122,13 +130,13 @@ export abstract class TreeNode<
       return;
     }
 
-    let node: TreeNode<any, any, any> | undefined = this;
-    while (node) {
-      if (node.isUniqueNameRoot) {
-        return node.nameScope;
+    let ancestor: TreeNode<any, any, any> | undefined = this.parent;
+    while (ancestor) {
+      if (ancestor.isUniqueNameRoot) {
+        return ancestor.nameScope;
       }
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      node = node.parent;
+      ancestor = ancestor.parent;
     }
   }
 
