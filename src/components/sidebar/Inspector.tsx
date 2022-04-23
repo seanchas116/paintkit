@@ -95,3 +95,9 @@ export const RowGroup = styled.div`
   flex-direction: column;
   gap: 8px;
 `;
+
+export const TopLabelArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
