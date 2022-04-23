@@ -3,6 +3,7 @@ import { observable, computed, makeObservable } from "mobx";
 import shortUUID from "short-uuid";
 import { TypedEmitter } from "tiny-typed-emitter";
 import { listDiff } from "./ListDiff";
+import { getIncrementalUniqueName } from "./Name";
 import { ValidationResult } from "./ValidationResult";
 
 export interface TreeNodeInsertRemoveOptions {
@@ -27,9 +28,93 @@ export abstract class TreeNode<
     super();
     makeObservable(this);
     this.key = options.key ?? shortUUID.generate();
+    if (this.isUniqueNameRoot) {
+      this.uniqueNameScope = new TreeNode.UniqueNameScope();
+    }
   }
 
   readonly key: string;
+
+  /// Unique name
+
+  private static UniqueNameScope = class {
+    private readonly layers = observable.map<string, TreeNode<any, any, any>>();
+
+    add(value: TreeNode<any, any, any>): void {
+      this.addSelf(value);
+      for (const child of value.children) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        this.add(child);
+      }
+    }
+
+    private addSelf(value: TreeNode<any, any, any>): void {
+      const oldName = value._uniqueName;
+      const name = getIncrementalUniqueName(
+        new Set(this.layers.keys()),
+        oldName
+      );
+      value._uniqueName = name;
+      this.layers.set(name, value);
+    }
+
+    get(name: string): TreeNode<any, any, any> | undefined {
+      return this.layers.get(name);
+    }
+
+    rename(value: TreeNode<any, any, any>, newName: string): void {
+      this.deleteSelf(value);
+      value._uniqueName = newName;
+      this.addSelf(value);
+    }
+
+    delete(value: TreeNode<any, any, any>): void {
+      this.deleteSelf(value);
+      for (const child of value.children) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        this.delete(child);
+      }
+    }
+
+    private deleteSelf(value: TreeNode<any, any, any>): void {
+      this.layers.delete(value._uniqueName);
+    }
+  };
+
+  @observable private _uniqueName = "";
+
+  get uniqueName(): string {
+    return this._uniqueName;
+  }
+
+  setUniqueName(uniqueName: string): void {
+    const { currentUniqueNameScope } = this;
+    if (currentUniqueNameScope) {
+      currentUniqueNameScope.rename(this, uniqueName);
+    } else {
+      this._uniqueName = uniqueName;
+    }
+  }
+
+  private readonly uniqueNameScope:
+    | InstanceType<typeof TreeNode.UniqueNameScope>
+    | undefined;
+
+  get currentUniqueNameScope():
+    | InstanceType<typeof TreeNode.UniqueNameScope>
+    | undefined {
+    return this.uniqueNameScope || this.parent?.currentUniqueNameScope;
+  }
+
+  // overridable
+  get isUniqueNameRoot(): boolean {
+    return false;
+  }
+
+  // overridable
+  get hasUniqueName(): boolean {
+    return false;
+  }
 
   //// Parent and children
 
@@ -100,6 +185,8 @@ export abstract class TreeNode<
         throw new Error(`Cannot remove: ${canRemove.error}`);
       }
     }
+
+    this.currentUniqueNameScope?.delete(this);
 
     //console.log("remove", this);
     const previous = this._previousSibling;
@@ -179,6 +266,8 @@ export abstract class TreeNode<
       }
     }
     child._parent = this;
+
+    this.currentUniqueNameScope?.add(child);
 
     this.emit("didInsertBefore", child, next);
   }
