@@ -83,10 +83,25 @@ export abstract class TreeNode<
 
   @observable private _uniqueName = "";
 
+  /**
+   * The unique name of this node.
+   *
+   * If `hasUniqueName` is true and there is an ancestor with `isUniqueNameRoot === true`,
+   * this value will be unique in the scope of the ancestor.
+   *
+   * To ensure uniqueness, the unique name of this node and its descendants may be
+   * automatically renamed when the node is added to a new parent.
+   */
   get uniqueName(): string {
     return this._uniqueName;
   }
 
+  /**
+   * Changes the unique name of this node.
+   *
+   * If the new name is already used by another node,
+   * the name will automatically be changed to a unique name by appending or incrementing a suffix number.
+   */
   setUniqueName(uniqueName: string): void {
     const { currentUniqueNameScope } = this;
     if (currentUniqueNameScope) {
@@ -117,12 +132,22 @@ export abstract class TreeNode<
     }
   }
 
-  // overridable
+  /**
+   * If `isUniqueNameRoot` is true, the unique names of the descendants with `hasUniqueName === true` will be unique.
+   * The root element (this) is excluded from the unique name scope.
+   *
+   * This property is overridable.
+   */
   get isUniqueNameRoot(): boolean {
     return false;
   }
 
-  // overridable
+  /**
+   * Whether the unique name of this node is added to the unique name scope.
+   * If false, the uniqueness of the unique name is not guaranteed.
+   *
+   * This property is overridable.
+   */
   get hasUniqueName(): boolean {
     return false;
   }
