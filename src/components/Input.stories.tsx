@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import layersIcon from "@iconify-icons/ic/outline-layers";
+import { MIXED } from "../util/Collection";
 import { Input } from "./Input";
 
 export default {
@@ -19,6 +20,7 @@ export const Basic: React.FC = () => {
   const [value0, setValue0] = useState("Text");
   const [value1, setValue1] = useState("");
   const [value2, setValue2] = useState("");
+  const [mixedValue, setMixedValue] = useState<string | typeof MIXED>(MIXED);
 
   return (
     <>
@@ -98,6 +100,14 @@ export const Basic: React.FC = () => {
           }}
         />
         <div>{value2}</div>
+        <Input
+          value={mixedValue}
+          onChange={(value) => {
+            setMixedValue(value);
+            return true;
+          }}
+        />
+        <div>{mixedValue.toString()}</div>
       </Wrap>
     </>
   );

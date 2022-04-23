@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react/dist/offline";
 import { IconifyIcon } from "@iconify/types";
 import { isNumeric } from "../util/Math";
 import { ValidationResult } from "../util/ValidationResult";
+import { MIXED, sameOrMixed } from "../util/Collection";
 import { useBufferedValue } from "./hooks/useBufferedValue";
 import { inputStyle, popoverZIndex } from "./Common";
 import { colors } from "./Palette";
@@ -23,7 +24,7 @@ export interface InputCommonProps {
 }
 
 export interface InputProps extends InputCommonProps {
-  value?: string;
+  value?: string | typeof MIXED;
   onChange?: (value: string) => boolean;
   validate?: (text: string) => ValidationResult;
 }
@@ -102,7 +103,7 @@ export const Input: React.FC<InputProps> = ({
   ...props
 }) => {
   const [currentValue, setCurrentValue, onEditingFinish] = useBufferedValue(
-    props.value ?? "",
+    typeof props.value === "string" ? props.value : "",
     props.onChange,
     (x) => props.validate?.(x).value ?? true
   );
@@ -134,7 +135,7 @@ export const Input: React.FC<InputProps> = ({
         ref={inputRef}
         value={currentValue}
         disabled={props.disabled}
-        placeholder={props.placeholder}
+        placeholder={props.value === MIXED ? "Mixed" : props.placeholder}
         spellCheck={props.spellCheck}
         onKeyDown={(e) => {
           switch (e.key) {
@@ -191,17 +192,5 @@ export interface MultipleInputProps extends InputCommonProps {
 }
 
 export const MultipleInput: React.FC<MultipleInputProps> = (props) => {
-  const isValueDifferent =
-    props.values.length && props.values.some((v) => v !== props.values[0]);
-  const value =
-    props.values.length && !isValueDifferent ? props.values[0] : undefined;
-
-  return (
-    <Input
-      {...props}
-      placeholder={isValueDifferent ? "Multiple" : props.placeholder}
-      value={value}
-      onChange={props.onChange}
-    />
-  );
+  return <Input {...props} value={sameOrMixed(props.values)} />;
 };

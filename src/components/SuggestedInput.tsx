@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { isNumeric } from "../util/Math";
+import { MIXED } from "../util/Collection";
 import { useBufferedValue } from "./hooks/useBufferedValue";
 import { DropdownBody, DropdownItem, DropdownWrap, inputStyle } from "./Common";
 import { InputProps } from "./Input";
@@ -17,7 +18,7 @@ const InputWrap = styled.input`
 
 export const SuggestedInput: React.FC<SuggestedInputProps> = (props) => {
   const [currentValue, setCurrentValue, onEditingFinish] = useBufferedValue(
-    props.value ?? "",
+    typeof props.value === "string" ? props.value : "",
     props.onChange
   );
 
@@ -42,7 +43,7 @@ export const SuggestedInput: React.FC<SuggestedInputProps> = (props) => {
         className={props.className}
         value={currentValue}
         disabled={props.disabled}
-        placeholder={props.placeholder}
+        placeholder={props.value === MIXED ? "Mixed" : props.placeholder}
         spellCheck={props.spellCheck}
         onKeyDown={(e) => {
           switch (e.key) {

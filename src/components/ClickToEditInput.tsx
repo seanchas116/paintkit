@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
+import { MIXED } from "../util/Collection";
 import { InputProps } from "./Input";
 import { colors } from "./Palette";
 import { popoverZIndex, textTruncate } from "./Common";
@@ -71,9 +72,9 @@ export interface ClickToEditInputProps extends InputProps {
 
 export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
   className,
-  value = "",
+  value: originalValue = "",
   disabled = false,
-  placeholder,
+  placeholder: origialPlaceholder,
   trigger = "click",
   ignoreDoubleClick,
   onChange,
@@ -82,6 +83,9 @@ export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
   editing: editingExternal,
   onEditingChange: onEditingChangeExternal,
 }) => {
+  const value = typeof originalValue === "string" ? originalValue : "";
+  const placeholder = originalValue === MIXED ? "Mixed" : origialPlaceholder;
+
   const [editingInternal, setEditingInternal] = useState(false);
   const [currentValue, setCurrentValue] = useState(value);
 
