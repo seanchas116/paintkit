@@ -12,15 +12,13 @@ const DRAG_MIME = "application/x.macaron-tree-drag";
 class ExampleNode extends TreeNode<ExampleNode, ExampleNode, ExampleNode> {
   constructor(name: string, children: ExampleNode[], canHaveChildren: boolean) {
     super();
-    this.name = name;
+    this.rename(name);
     this.canHaveChildren = canHaveChildren;
     makeObservable(this);
     this.append(...children);
   }
 
   readonly canHaveChildren: boolean;
-
-  @observable name: string;
 
   @observable collapsed = false;
 

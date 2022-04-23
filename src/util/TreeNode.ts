@@ -29,15 +29,15 @@ export abstract class TreeNode<
     makeObservable(this);
     this.key = options.key ?? shortUUID.generate();
     if (this.isUniqueNameRoot) {
-      this.uniqueNameScope = new TreeNode.UniqueNameScope();
+      this.nameScope = new TreeNode.NameScope();
     }
   }
 
   readonly key: string;
 
-  /// Unique name
+  /// Name
 
-  private static UniqueNameScope = class {
+  private static NameScope = class {
     private readonly layers = observable.map<string, TreeNode<any, any, any>>();
 
     add(value: TreeNode<any, any, any>): void {
@@ -49,12 +49,12 @@ export abstract class TreeNode<
     }
 
     private addSelf(value: TreeNode<any, any, any>): void {
-      const oldName = value._uniqueName;
+      const oldName = value._name;
       const name = getIncrementalUniqueName(
         new Set(this.layers.keys()),
         oldName
       );
-      value._uniqueName = name;
+      value._name = name;
       this.layers.set(name, value);
     }
 
@@ -64,7 +64,7 @@ export abstract class TreeNode<
 
     rename(value: TreeNode<any, any, any>, newName: string): void {
       this.deleteSelf(value);
-      value._uniqueName = newName;
+      value._name = newName;
       this.addSelf(value);
     }
 
@@ -77,46 +77,46 @@ export abstract class TreeNode<
     }
 
     private deleteSelf(value: TreeNode<any, any, any>): void {
-      this.layers.delete(value._uniqueName);
+      this.layers.delete(value._name);
     }
   };
 
-  @observable private _uniqueName = "";
+  @observable private _name = "";
 
   /**
-   * The unique name of this node.
+   * The name of this node.
    *
    * If `hasUniqueName` is true and there is an ancestor with `isUniqueNameRoot === true`,
    * this value will be unique in the scope of the ancestor.
    *
-   * To ensure uniqueness, the unique name of this node and its descendants may be
+   * To ensure uniqueness, the name of this node and its descendants may be
    * automatically renamed when the node is added to a new parent.
    */
-  get uniqueName(): string {
-    return this._uniqueName;
+  get name(): string {
+    return this._name;
   }
 
   /**
-   * Changes the unique name of this node.
+   * Changes the name of this node.
    *
-   * If the new name is already used by another node,
+   * If the name must be unique and the new name is already used by another node,
    * the name will automatically be changed to a unique name by appending or incrementing a suffix number.
    */
-  setUniqueName(uniqueName: string): void {
-    const { currentUniqueNameScope } = this;
-    if (currentUniqueNameScope) {
-      currentUniqueNameScope.rename(this, uniqueName);
+  rename(name: string): void {
+    const { currentNameScope } = this;
+    if (currentNameScope) {
+      currentNameScope.rename(this, name);
     } else {
-      this._uniqueName = uniqueName;
+      this._name = name;
     }
   }
 
-  private readonly uniqueNameScope:
-    | InstanceType<typeof TreeNode.UniqueNameScope>
+  private readonly nameScope:
+    | InstanceType<typeof TreeNode.NameScope>
     | undefined;
 
-  get currentUniqueNameScope():
-    | InstanceType<typeof TreeNode.UniqueNameScope>
+  private get currentNameScope():
+    | InstanceType<typeof TreeNode.NameScope>
     | undefined {
     if (!this.hasUniqueName) {
       return;
@@ -125,7 +125,7 @@ export abstract class TreeNode<
     let node: TreeNode<any, any, any> | undefined = this;
     while (node) {
       if (node.isUniqueNameRoot) {
-        return node.uniqueNameScope;
+        return node.nameScope;
       }
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       node = node.parent;
@@ -133,7 +133,7 @@ export abstract class TreeNode<
   }
 
   /**
-   * If `isUniqueNameRoot` is true, the unique names of the descendants with `hasUniqueName === true` will be unique.
+   * If `isUniqueNameRoot` is true, the names of the descendants with `hasUniqueName === true` will be unique.
    * The root element (this) is excluded from the unique name scope.
    *
    * This property is overridable.
@@ -143,7 +143,7 @@ export abstract class TreeNode<
   }
 
   /**
-   * Whether the unique name of this node is added to the unique name scope.
+   * Whether the name of this node is added to the unique name scope.
    * If false, the uniqueness of the unique name is not guaranteed.
    *
    * This property is overridable.
@@ -222,7 +222,7 @@ export abstract class TreeNode<
       }
     }
 
-    this.currentUniqueNameScope?.delete(this);
+    this.currentNameScope?.delete(this);
 
     //console.log("remove", this);
     const previous = this._previousSibling;
@@ -303,7 +303,7 @@ export abstract class TreeNode<
     }
     child._parent = this;
 
-    child.currentUniqueNameScope?.add(child);
+    child.currentNameScope?.add(child);
 
     this.emit("didInsertBefore", child, next);
   }

@@ -126,40 +126,40 @@ describe(TreeNode, () => {
       component.append(child0);
       component.append(child1);
 
-      expect(component.children.map((c) => c.uniqueName)).toEqual([
+      expect(component.children.map((c) => c.name)).toEqual([
         "layer",
         "layer1",
       ]);
 
       component.append(child0);
 
-      expect(component.children.map((c) => c.uniqueName)).toEqual([
+      expect(component.children.map((c) => c.name)).toEqual([
         "layer1",
         "layer",
       ]);
 
-      child1.setUniqueName("child");
+      child1.rename("child");
 
       const child2 = new UniqueNameNode("child");
 
       component.append(child2);
 
-      expect(component.children.map((c) => c.uniqueName)).toEqual([
+      expect(component.children.map((c) => c.name)).toEqual([
         "child",
         "layer",
         "child1",
       ]);
 
-      component.children[1].setUniqueName("child");
+      component.children[1].rename("child");
 
-      expect(component.children.map((c) => c.uniqueName)).toEqual([
+      expect(component.children.map((c) => c.name)).toEqual([
         "child",
         "child2",
         "child1",
       ]);
 
       component.append(new NonUniqueNameNode("child"));
-      expect(component.children.map((c) => c.uniqueName)).toEqual([
+      expect(component.children.map((c) => c.name)).toEqual([
         "child",
         "child2",
         "child1",
@@ -186,7 +186,7 @@ class UniqueNameNode extends TreeNode<
 > {
   constructor(name: string) {
     super();
-    this.setUniqueName(name);
+    this.rename(name);
   }
 
   get hasUniqueName(): boolean {
@@ -201,6 +201,6 @@ class NonUniqueNameNode extends TreeNode<
 > {
   constructor(name: string) {
     super();
-    this.setUniqueName(name);
+    this.rename(name);
   }
 }
