@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { isNumeric } from "../util/Math";
-import { MIXED } from "../util/Collection";
+import { MIXED } from "../util/Mixed";
 import { useBufferedValue } from "./hooks/useBufferedValue";
 import { DropdownBody, DropdownItem, DropdownWrap, inputStyle } from "./Common";
 import { InputProps } from "./Input";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import layersIcon from "@iconify-icons/ic/outline-layers";
-import { MIXED } from "../util/Collection";
+import { MIXED } from "../util/Mixed";
 import { Input } from "./Input";
 
 export default {

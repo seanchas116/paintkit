@@ -1,19 +1,5 @@
 import { isEqual, isEmpty, omitBy } from "lodash-es";
 
-export const MIXED = Symbol("mixed");
-
-export function sameOrMixed<T>(
-  values: readonly T[]
-): undefined | T | typeof MIXED {
-  if (!values.length) {
-    return undefined;
-  }
-  if (values.some((v) => !isEqual(v, values[0]))) {
-    return MIXED;
-  }
-  return values[0];
-}
-
 export function sameOrNone<T>(values: readonly T[]): T | undefined {
   if (!values.length) {
     return undefined;

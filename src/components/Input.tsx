@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react/dist/offline";
 import { IconifyIcon } from "@iconify/types";
 import { isNumeric } from "../util/Math";
 import { ValidationResult } from "../util/ValidationResult";
-import { MIXED, sameOrMixed } from "../util/Collection";
+import { MIXED, sameOrMixed } from "../util/Mixed";
 import { useBufferedValue } from "./hooks/useBufferedValue";
 import { inputStyle, popoverZIndex } from "./Common";
 import { colors } from "./Palette";

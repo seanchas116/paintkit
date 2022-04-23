@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import { MIXED } from "../util/Collection";
+import { MIXED } from "../util/Mixed";
 import { InputProps } from "./Input";
 import { colors } from "./Palette";
 import { popoverZIndex, textTruncate } from "./Common";
