@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { MIXED } from "../util/Mixed";
 import { downIconStyle } from "./Common";
 import { Select, SelectOption, SelectItem } from "./Select";
 import { SuggestedInput } from "./SuggestedInput";
@@ -8,7 +9,7 @@ interface ComboBoxProps {
   className?: string;
   truncatesOptions?: boolean;
   options?: readonly SelectItem[];
-  value?: string;
+  value?: string | typeof MIXED;
   placeholder?: string;
   onChange?: (value: string) => boolean;
 }

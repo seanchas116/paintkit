@@ -1,6 +1,7 @@
 import React, { createRef, ReactNode, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import scrollIntoView from "scroll-into-view-if-needed";
+import { MIXED } from "../util/Mixed";
 import { colors } from "./Palette";
 import {
   popoverZIndex,
@@ -158,7 +159,7 @@ export interface SelectProps<T extends string> {
   disabled?: boolean;
 
   options?: readonly SelectItem<T>[];
-  value?: T;
+  value?: T | typeof MIXED;
   placeholder?: T;
   onChange?: (value: T, option: SelectOption<T>) => void;
 
@@ -208,7 +209,10 @@ export function Select<T extends string>({
   const currentOption = options.find((o) => o.value === value);
   const valueText = textOrValue(currentOption);
   const placeholderText =
-    textOrValue(options.find((o) => o.value === placeholder)) ?? placeholder;
+    value === MIXED
+      ? "Mixed"
+      : textOrValue(options.find((o) => o.value === placeholder)) ??
+        placeholder;
 
   const [isOpen, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
