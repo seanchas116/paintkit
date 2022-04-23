@@ -115,4 +115,25 @@ export const MenuItem = {
       })
     );
   },
+
+  handleShortcut(items: readonly MenuItem[], e: KeyboardEvent): boolean {
+    for (const item of items) {
+      if ("run" in item) {
+        if (
+          !item.disabled &&
+          (item.shortcut ?? []).some((shortcut) => shortcut.matches(e))
+        ) {
+          if (item.run?.()) {
+            return true;
+          }
+        }
+      }
+      if ("children" in item && item.children) {
+        if (this.handleShortcut(item.children, e)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  },
 };
