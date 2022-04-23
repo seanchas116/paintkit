@@ -116,4 +116,91 @@ describe(TreeNode, () => {
       expect(d.comparePosition(d)).toEqual(0);
     });
   });
+
+  describe("uniqueName", () => {
+    it("auto-renames to avoid duplication", () => {
+      const component = new UniqueNameRoot();
+      const child0 = new UniqueNameNode("layer");
+      const child1 = new UniqueNameNode("layer");
+
+      component.append(child0);
+      component.append(child1);
+
+      expect(component.children.map((c) => c.uniqueName)).toEqual([
+        "layer",
+        "layer1",
+      ]);
+
+      component.append(child0);
+
+      expect(component.children.map((c) => c.uniqueName)).toEqual([
+        "layer1",
+        "layer",
+      ]);
+
+      child1.setUniqueName("child");
+
+      const child2 = new UniqueNameNode("child");
+
+      component.append(child2);
+
+      expect(component.children.map((c) => c.uniqueName)).toEqual([
+        "child",
+        "layer",
+        "child1",
+      ]);
+
+      component.children[1].setUniqueName("child");
+
+      expect(component.children.map((c) => c.uniqueName)).toEqual([
+        "child",
+        "child2",
+        "child1",
+      ]);
+
+      component.append(new NonUniqueNameNode("child"));
+      expect(component.children.map((c) => c.uniqueName)).toEqual([
+        "child",
+        "child2",
+        "child1",
+        "child",
+      ]);
+    });
+  });
 });
+
+class UniqueNameRoot extends TreeNode<
+  never,
+  UniqueNameRoot,
+  UniqueNameNode | NonUniqueNameNode
+> {
+  get isUniqueNameRoot(): boolean {
+    return true;
+  }
+}
+
+class UniqueNameNode extends TreeNode<
+  UniqueNameNode | UniqueNameRoot,
+  UniqueNameNode,
+  UniqueNameNode | NonUniqueNameNode
+> {
+  constructor(name: string) {
+    super();
+    this.setUniqueName(name);
+  }
+
+  get hasUniqueName(): boolean {
+    return true;
+  }
+}
+
+class NonUniqueNameNode extends TreeNode<
+  UniqueNameNode | UniqueNameRoot,
+  UniqueNameNode,
+  UniqueNameNode | NonUniqueNameNode
+> {
+  constructor(name: string) {
+    super();
+    this.setUniqueName(name);
+  }
+}

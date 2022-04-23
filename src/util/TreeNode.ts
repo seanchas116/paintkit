@@ -103,7 +103,18 @@ export abstract class TreeNode<
   get currentUniqueNameScope():
     | InstanceType<typeof TreeNode.UniqueNameScope>
     | undefined {
-    return this.uniqueNameScope || this.parent?.currentUniqueNameScope;
+    if (!this.hasUniqueName) {
+      return;
+    }
+
+    let node: TreeNode<any, any, any> | undefined = this;
+    while (node) {
+      if (node.isUniqueNameRoot) {
+        return node.uniqueNameScope;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      node = node.parent;
+    }
   }
 
   // overridable
@@ -267,7 +278,7 @@ export abstract class TreeNode<
     }
     child._parent = this;
 
-    this.currentUniqueNameScope?.add(child);
+    child.currentUniqueNameScope?.add(child);
 
     this.emit("didInsertBefore", child, next);
   }
