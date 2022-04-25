@@ -39,7 +39,16 @@ class KeyValueItem extends LeafTreeViewItem {
           trigger="click"
           value={this.key}
           onChange={(newKey) => {
-            return this.parent.onChangeKey?.(this.key, newKey) ?? false;
+            const oldKey = this.key;
+            const changed =
+              this.parent.onChangeKey?.(this.key, newKey) ?? false;
+            if (changed) {
+              const newSelection = new Set(this.parent.selection);
+              newSelection.delete(oldKey);
+              newSelection.add(newKey);
+              this.parent.updateSelection(newSelection);
+            }
+            return changed;
           }}
           disabled={!this.selected}
         />
@@ -58,14 +67,12 @@ class KeyValueItem extends LeafTreeViewItem {
   deselect(): void {
     const newSelection = new Set(this.parent.selection);
     newSelection.delete(this.key);
-    this.parent.selection = newSelection;
-    this.parent.onChangeSelection?.(new Set(newSelection));
+    this.parent.updateSelection(newSelection);
   }
   select(): void {
     const newSelection = new Set(this.parent.selection);
     newSelection.add(this.key);
-    this.parent.selection = newSelection;
-    this.parent.onChangeSelection?.(new Set(newSelection));
+    this.parent.updateSelection(newSelection);
   }
 
   handleDragStart(e: React.DragEvent) {
@@ -83,6 +90,11 @@ class KeyValueListItem extends RootTreeViewItem {
   @observable.ref map: ReadonlyMap<string, string | typeof MIXED> = new Map();
   @observable.ref selection: ReadonlySet<string> = new Set();
 
+  updateSelection(selection: ReadonlySet<string>): void {
+    this.selection = selection;
+    this.onChangeSelection?.(new Set(selection));
+  }
+
   onChangeSelection?: (selection: Set<string>) => void;
   onReorder?: (newKeys: Set<string>) => void;
   onChangeKey?: (key: string, newKey: string) => boolean;
@@ -99,8 +111,7 @@ class KeyValueListItem extends RootTreeViewItem {
   }
 
   deselect() {
-    this.selection = new Set();
-    this.onChangeSelection?.(new Set());
+    this.updateSelection(new Set());
   }
 
   canDropData(dataTransfer: DataTransfer) {
