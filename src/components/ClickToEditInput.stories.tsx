@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { MIXED } from "../util/Mixed";
 import { ClickToEditInput } from "./ClickToEditInput";
 
 export default {
@@ -65,6 +66,24 @@ const Placeholder: React.FC = () => {
       placeholder="Placeholder"
       onChange={(value) => {
         setValue(value);
+        return true;
+      }}
+      editing={editing}
+      onEditingChange={setEditing}
+    />
+  );
+};
+
+const Mixed: React.FC = () => {
+  const [value, setValue] = useState<string | typeof MIXED>(MIXED);
+  const [editing, setEditing] = useState(false);
+
+  return (
+    <StyledClickToEditInput
+      value={value}
+      placeholder="Placeholder"
+      onChange={(value) => {
+        setValue(value || MIXED);
         return true;
       }}
       editing={editing}
@@ -153,6 +172,7 @@ export const Basic: React.FC = () => {
       <Simple />
       <DoubleClick />
       <Placeholder />
+      <Mixed />
       <LongText />
       <Validated />
       <Disabled />
