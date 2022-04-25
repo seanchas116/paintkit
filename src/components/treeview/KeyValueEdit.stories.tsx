@@ -27,9 +27,7 @@ export const Basic: React.VFC = () => {
         selection={selection}
         onChangeSelection={setSelection}
         onReorder={(newKeys) => {
-          setMap(
-            new Map(Array.from(newKeys).map((key) => [key, map.get(key) || ""]))
-          );
+          setMap(new Map(newKeys.map((key) => [key, map.get(key) || ""])));
         }}
         onChangeKey={(key, newKey) => {
           if (key === newKey) {

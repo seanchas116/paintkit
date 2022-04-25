@@ -96,7 +96,7 @@ class KeyValueListItem extends RootTreeViewItem {
   }
 
   onChangeSelection?: (selection: Set<string>) => void;
-  onReorder?: (newKeys: Set<string>) => void;
+  onReorder?: (newKeys: string[]) => void;
   onChangeKey?: (key: string, newKey: string) => boolean;
   onChangeValue?: (key: string, value: string) => boolean;
 
@@ -140,7 +140,7 @@ class KeyValueListItem extends RootTreeViewItem {
       keys.splice(index++, 0, key);
     }
 
-    this.onReorder?.(new Set(keys));
+    this.onReorder?.(keys);
   }
 }
 
@@ -151,7 +151,7 @@ export const KeyValueEdit: React.FC<{
   map: ReadonlyMap<string, string | typeof MIXED>;
   selection: ReadonlySet<string>;
   onChangeSelection: (selection: Set<string>) => void;
-  onReorder: (newKeys: Set<string>) => void;
+  onReorder: (newKeys: string[]) => void;
   onChangeKey?: (key: string, newKey: string) => boolean;
   onChangeValue: (key: string, value: string) => boolean;
 }> = observer(function KeyValueEdit({
