@@ -1,10 +1,11 @@
 import React from "react";
 import { roundToFixed } from "../util/Math";
+import { MIXED } from "../util/Mixed";
 import { ValidationResult } from "../util/ValidationResult";
 import { Input, InputCommonProps } from "./Input";
 
 export interface NumberInputProps extends InputCommonProps {
-  value?: number;
+  value?: number | typeof MIXED;
   digits?: number;
   onChange?: (value?: number) => boolean;
   validate?: (value?: number) => ValidationResult;
@@ -13,9 +14,9 @@ export interface NumberInputProps extends InputCommonProps {
 export const NumberInput: React.VFC<NumberInputProps> = (props) => {
   const digits = props.digits || 2;
   const value =
-    props.value !== undefined
+    typeof props.value === "number"
       ? String(roundToFixed(props.value, digits))
-      : undefined;
+      : props.value;
 
   return (
     <Input
