@@ -33,6 +33,7 @@
     "@iconify/types": "^1.1.0",
     "@iconify/utils": "^1.0.32",
     "@tippyjs/react": "^4.2.6",
+    "@types/react-color": "^3.0.6",
     "color-namer": "^1.4.0",
     "css-color-names": "^1.0.1",
     "dedent": "^0.7.0",
