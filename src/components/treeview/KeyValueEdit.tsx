@@ -54,7 +54,7 @@ class KeyValueItem extends LeafTreeViewItem {
         />
         <RowClickToEdit
           trigger="click"
-          value={value?.toString() ?? ""}
+          value={value}
           placeholder={value == null ? "Multiple" : undefined}
           onChange={(value) => {
             return this.parent.onChangeValue?.(this.key, value) ?? false;
