@@ -58,12 +58,14 @@ class KeyValueItem extends LeafTreeViewItem {
   deselect(): void {
     const newSelection = new Set(this.parent.selection);
     newSelection.delete(this.key);
-    this.parent.onChangeSelection?.(newSelection);
+    this.parent.selection = newSelection;
+    this.parent.onChangeSelection?.(new Set(newSelection));
   }
   select(): void {
     const newSelection = new Set(this.parent.selection);
     newSelection.add(this.key);
-    this.parent.onChangeSelection?.(newSelection);
+    this.parent.selection = newSelection;
+    this.parent.onChangeSelection?.(new Set(newSelection));
   }
 
   handleDragStart(e: React.DragEvent) {
@@ -97,6 +99,7 @@ class KeyValueListItem extends RootTreeViewItem {
   }
 
   deselect() {
+    this.selection = new Set();
     this.onChangeSelection?.(new Set());
   }
 
