@@ -3,7 +3,6 @@ import { InspectorTabBar, InspectorTabBarItem } from "./InspectorTabBar";
 
 export default {
   component: InspectorTabBar,
-  title: "InspectorTabBar",
 };
 
 const tabs = ["Tab 1", "Tab 2", "Tab 3"];

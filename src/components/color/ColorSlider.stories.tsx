@@ -4,7 +4,6 @@ import { Color } from "../../util/Color";
 import { ColorSlider } from "./ColorSlider";
 
 export default {
-  title: "ColorSlider",
   component: ColorSlider,
 };
 

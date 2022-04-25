@@ -163,7 +163,6 @@ class ExampleTreeViewItem extends TreeViewItem {
 }
 
 export default {
-  title: "TreeView",
   component: TreeView,
 };
 

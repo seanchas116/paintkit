@@ -5,7 +5,6 @@ import { Color } from "../../util/Color";
 import { ColorPicker } from "./ColorPicker";
 
 export default {
-  title: "ColorPicker",
   component: ColorPicker,
 };
 

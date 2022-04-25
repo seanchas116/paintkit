@@ -5,7 +5,6 @@ import { ToolButton, ToolButtonArray } from "./ToolButton";
 
 export default {
   component: ToolButton,
-  title: "ToolButton",
 };
 
 export const Basic: React.VFC = () => {

@@ -117,7 +117,6 @@ const EditorLayoutExample: React.FC = () => {
 
 export default {
   component: EditorLayoutExample,
-  title: "EditorLayoutExample",
 };
 
 export const Basic: React.VFC = () => {

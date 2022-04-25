@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { CheckBox, CheckBoxLabel, MultipleCheckBox } from "./CheckBox";
 
 export default {
-  title: "CheckBox",
   component: CheckBox,
 };
 

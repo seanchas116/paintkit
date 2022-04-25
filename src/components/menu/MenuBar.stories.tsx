@@ -4,7 +4,6 @@ import { Menu } from "./Menu";
 import { MenuBar } from "./MenuBar";
 
 export default {
-  title: "MenuBar",
   component: MenuBar,
 };
 

@@ -8,7 +8,6 @@ import { ZoomControl } from "./ZoomControl";
 
 export default {
   component: ToolBar,
-  title: "ToolBar",
 };
 
 export const Basic: React.VFC = () => {

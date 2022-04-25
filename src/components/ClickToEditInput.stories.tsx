@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { ClickToEditInput } from "./ClickToEditInput";
 
 export default {
-  title: "ClickToEditInput",
   component: ClickToEditInput,
 };
 

@@ -8,7 +8,6 @@ import { Icon } from "@iconify/react/dist/offline";
 import { Select, SelectItem } from "./Select";
 
 export default {
-  title: "Select",
   component: Select,
 };
 

@@ -5,7 +5,6 @@ import { MenuItem } from "./Menu";
 import { Dropdown } from "./Dropdown";
 
 export default {
-  title: "Dropdown",
   component: Dropdown,
 };
 

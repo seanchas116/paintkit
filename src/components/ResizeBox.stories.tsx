@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { ResizeBox } from "./ResizeBox";
 
 export default {
-  title: "ResizeBox",
   component: ResizeBox,
 };
 

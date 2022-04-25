@@ -5,7 +5,6 @@ import { MIXED } from "../util/Mixed";
 import { Input } from "./Input";
 
 export default {
-  title: "Input",
   component: Input,
 };
 

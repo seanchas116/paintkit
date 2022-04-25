@@ -5,7 +5,6 @@ import formatAlignRightIcon from "@iconify-icons/ic/outline-format-align-right";
 import { IconRadio } from "./IconRadio";
 
 export default {
-  title: "IconRadio",
   component: IconRadio,
 };
 

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { NativeComboBox } from "./NativeComboBox";
 
 export default {
-  title: "NativeComboBox",
   component: NativeComboBox,
 };
 

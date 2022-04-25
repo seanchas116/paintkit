@@ -4,7 +4,6 @@ import htmlTags from "html-tags";
 import { SuggestedInput } from "./SuggestedInput";
 
 export default {
-  title: "SuggestedInput",
   component: SuggestedInput,
 };
 

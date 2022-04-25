@@ -4,7 +4,6 @@ import marginLeftIcon from "../icon/MarginLeft";
 import { DimensionInput, DimensionInputValue } from "./DimensionInput";
 
 export default {
-  title: "DimensionInput",
   component: DimensionInput,
 };
 

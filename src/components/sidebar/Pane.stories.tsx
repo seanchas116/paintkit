@@ -17,7 +17,6 @@ import {
 
 export default {
   component: Pane,
-  title: "Pane",
 };
 
 const CheckableIcons = styled.div`

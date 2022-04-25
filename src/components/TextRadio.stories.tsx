@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { TextRadio } from "./TextRadio";
 
 export default {
-  title: "TextRadio",
   component: TextRadio,
 };
 

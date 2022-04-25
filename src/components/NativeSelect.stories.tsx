@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { NativeSelect } from "./NativeSelect";
 
 export default {
-  title: "NativeSelect",
   component: NativeSelect,
 };
 

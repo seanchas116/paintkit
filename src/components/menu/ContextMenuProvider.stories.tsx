@@ -5,7 +5,6 @@ import { MenuItem } from "./Menu";
 import { ContextMenuProvider, useContextMenu } from "./ContextMenuProvider";
 
 export default {
-  title: "ContextMenuProvider",
   component: ContextMenuProvider,
 };
 
