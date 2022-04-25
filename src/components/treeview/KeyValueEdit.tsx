@@ -119,31 +119,28 @@ class KeyValueListItem extends RootTreeViewItem {
   }
 
   handleDrop(event: React.DragEvent, before: KeyValueItem | undefined): void {
-    const attributeKeys = this.getAttributeKeys();
+    const keySet = this.getAttributeKeys();
+    const movedKeys: string[] = [];
 
     for (const selected of this.selection) {
-      attributeKeys.delete(selected);
-    }
-
-    const newAttributeKeys = new Set<string>();
-    for (const attr of attributeKeys) {
-      if (before?.key === attr) {
-        // insert
-        for (const selected of this.selection) {
-          newAttributeKeys.add(selected);
-        }
-      }
-      if (!this.selection.has(attr)) {
-        newAttributeKeys.add(attr);
-      }
-    }
-    if (!before) {
-      for (const selected of this.selection) {
-        newAttributeKeys.add(selected);
+      if (keySet.delete(selected)) {
+        movedKeys.push(selected);
       }
     }
 
-    this.onReorder?.(newAttributeKeys);
+    const keys = [...keySet];
+
+    const beforeKey = before?.key;
+    let index = beforeKey ? keys.indexOf(beforeKey) : keys.length;
+    if (index < 0) {
+      index = 0;
+    }
+
+    for (const key of movedKeys) {
+      keys.splice(index++, 0, key);
+    }
+
+    this.onReorder?.(new Set(keys));
   }
 }
 
