@@ -119,6 +119,8 @@ class KeyValueListItem extends RootTreeViewItem {
   }
 
   handleDrop(event: React.DragEvent, before: KeyValueItem | undefined): void {
+    // FIXME: insertion index is wrong when `before` is selected
+
     const keySet = this.getAttributeKeys();
     const movedKeys: string[] = [];
 
