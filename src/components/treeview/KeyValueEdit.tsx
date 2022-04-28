@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from "react";
 import { observer } from "mobx-react";
-import { computed, observable, makeObservable } from "mobx";
+import { computed, observable, makeObservable, action } from "mobx";
 import styled from "styled-components";
 import { MIXED } from "../../util/Mixed";
 import { colors } from "../Palette";
@@ -90,7 +90,7 @@ class KeyValueListItem extends RootTreeViewItem {
   @observable.ref map: ReadonlyMap<string, string | typeof MIXED> = new Map();
   @observable.ref selection: ReadonlySet<string> = new Set();
 
-  updateSelection(selection: ReadonlySet<string>): void {
+  @action updateSelection(selection: ReadonlySet<string>): void {
     this.selection = selection;
     this.onChangeSelection?.(new Set(selection));
   }
@@ -169,21 +169,17 @@ export const KeyValueEdit: React.FC<{
 }) {
   const rootItem = useMemo(() => new KeyValueListItem(), []);
 
-  useEffect(() => {
-    rootItem.map = map;
-    rootItem.selection = selection;
-    rootItem.onChangeSelection = onChangeSelection;
-    rootItem.onReorder = onReorder;
-    rootItem.onChangeKey = onChangeKey;
-    rootItem.onChangeValue = onChangeValue;
-  }, [
-    map,
-    selection,
-    onChangeSelection,
-    onReorder,
-    onChangeKey,
-    onChangeValue,
-  ]);
+  useEffect(
+    action(() => {
+      rootItem.map = map;
+      rootItem.selection = selection;
+      rootItem.onChangeSelection = onChangeSelection;
+      rootItem.onReorder = onReorder;
+      rootItem.onChangeKey = onChangeKey;
+      rootItem.onChangeValue = onChangeValue;
+    }),
+    [map, selection, onChangeSelection, onReorder, onChangeKey, onChangeValue]
+  );
 
   return (
     <TreeView
