@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Color } from "../../util/Color";
 import { popoverStyle } from "../Common";
 import { Input } from "../Input";
+import { colors } from "../Palette";
 import { PopoverCaster } from "../PopoverCaster";
 import { ColorPicker } from "./ColorPicker";
 
@@ -39,6 +40,7 @@ const ColorButtonColor = styled.div`
   height: 16px;
   background: currentColor;
   border-radius: 2px;
+  border: 1px solid ${colors.popoverBorder};
 `;
 
 const ColorPickerWrap = styled.div`
@@ -64,7 +66,7 @@ export const ColorInput: React.FC<{
           >
             <ColorButtonColor
               style={{
-                color: "red",
+                color: color.toHex(),
               }}
             />
           </ColorButton>
