@@ -56,7 +56,20 @@ export const ColorInput: React.FC<{
 }> = ({ color, onChange, onChangeEnd, className }) => {
   return (
     <ColorInputWrap className={className}>
-      <ColorInputInput />
+      <ColorInputInput
+        value={color.toString()}
+        onChange={(value) => {
+          try {
+            const newColor = Color.from(value);
+            onChange(newColor);
+            onChangeEnd(newColor);
+            return true;
+          } catch (e) {
+            console.log(e);
+            return false;
+          }
+        }}
+      />
       <PopoverCaster
         anchor={(open) => (
           <ColorButton
