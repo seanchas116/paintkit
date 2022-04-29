@@ -1,8 +1,10 @@
 import * as jsondiffpatch from "jsondiffpatch";
-import { compact } from "lodash-es";
+import { compact, debounce } from "lodash-es";
 import { computed, makeObservable, observable } from "mobx";
 import { TypedEmitter } from "tiny-typed-emitter";
 import { UndoCommand, UndoStack } from "./UndoStack";
+
+const commitDebounceInterval = 200;
 
 export interface JSONUndoHistoryTarget<Snapshot> {
   toJSON(): Snapshot;
@@ -69,6 +71,11 @@ export class JSONUndoHistory<
     );
     return true;
   }
+
+  readonly commitDebounced = debounce(
+    (title: string) => this.commit(title),
+    commitDebounceInterval
+  );
 
   updateSavePoint(): void {
     this.savePoint = this.undoStack.commandToUndo;
