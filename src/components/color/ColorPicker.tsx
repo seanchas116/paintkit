@@ -47,8 +47,8 @@ const InputsRow = ({
   onChangeEnd,
 }: {
   color: Color;
-  onChange: (color: Color) => void;
-  onChangeEnd: (color: Color) => void;
+  onChange?: (color: Color) => void;
+  onChangeEnd?: (color: Color) => void;
 }) => {
   const [mode, setMode] = useState<SliderMode>("hsv");
 
@@ -66,8 +66,8 @@ const InputsRow = ({
             if (!newColor) {
               return false;
             }
-            onChange(newColor);
-            onChangeEnd(newColor);
+            onChange?.(newColor);
+            onChangeEnd?.(newColor);
             return true;
           }}
         />
@@ -81,8 +81,8 @@ const InputsRow = ({
               onChange={(hString) => {
                 const h = mod(Number.parseInt(hString) / 360, 1);
                 const newColor = new Color({ ...color, h });
-                onChange(newColor);
-                onChangeEnd(newColor);
+                onChange?.(newColor);
+                onChangeEnd?.(newColor);
                 return true;
               }}
             />
@@ -96,8 +96,8 @@ const InputsRow = ({
                   onChange={(valueString) => {
                     const value = mod(Number.parseInt(valueString) / 100, 1);
                     const newColor = new Color({ ...color, [key]: value });
-                    onChange(newColor);
-                    onChangeEnd(newColor);
+                    onChange?.(newColor);
+                    onChangeEnd?.(newColor);
                     return true;
                   }}
                 />
@@ -121,8 +121,8 @@ const InputsRow = ({
                       ...rgbColor,
                       [key]: value,
                     });
-                    onChange(newColor);
-                    onChangeEnd(newColor);
+                    onChange?.(newColor);
+                    onChangeEnd?.(newColor);
                     return true;
                   }}
                 />
@@ -141,8 +141,8 @@ const InputsRow = ({
           onChange={(aString) => {
             const a = mod(Number.parseInt(aString) / 100, 1);
             const newColor = new Color({ ...color, a });
-            onChange(newColor);
-            onChangeEnd(newColor);
+            onChange?.(newColor);
+            onChangeEnd?.(newColor);
             return true;
           }}
         />
@@ -196,8 +196,8 @@ const Sliders = styled.div`
 
 export const ColorPicker: React.FC<{
   color: Color;
-  onChange: (color: Color) => void;
-  onChangeEnd: (color: Color) => void;
+  onChange?: (color: Color) => void;
+  onChangeEnd?: (color: Color) => void;
   className?: string;
 }> = ({ color, onChange, onChangeEnd, className }) => {
   const opaqueColor = new Color({ ...color, a: 1 });
@@ -210,10 +210,10 @@ export const ColorPicker: React.FC<{
         handleSize={12}
         color={opaqueColor}
         onChange={(opaqueColor) => {
-          onChange(new Color({ ...opaqueColor, a: color.a }));
+          onChange?.(new Color({ ...opaqueColor, a: color.a }));
         }}
         onChangeEnd={(opaqueColor) => {
-          onChangeEnd(new Color({ ...opaqueColor, a: color.a }));
+          onChangeEnd?.(new Color({ ...opaqueColor, a: color.a }));
         }}
       />
       <SliderRow>
@@ -235,10 +235,10 @@ export const ColorPicker: React.FC<{
             ]}
             value={color.h}
             onChange={(h) => {
-              onChange(new Color({ ...color, h }));
+              onChange?.(new Color({ ...color, h }));
             }}
             onChangeEnd={(h) => {
-              onChangeEnd(new Color({ ...color, h }));
+              onChangeEnd?.(new Color({ ...color, h }));
             }}
           />
           <ColorSlider
@@ -253,10 +253,10 @@ export const ColorPicker: React.FC<{
             ]}
             value={color.a}
             onChange={(a) => {
-              onChange(new Color({ ...color, a }));
+              onChange?.(new Color({ ...color, a }));
             }}
             onChangeEnd={(a) => {
-              onChangeEnd(new Color({ ...color, a }));
+              onChangeEnd?.(new Color({ ...color, a }));
             }}
           />
         </Sliders>

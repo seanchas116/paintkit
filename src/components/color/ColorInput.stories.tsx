@@ -14,7 +14,9 @@ const Wrap = styled.div`
 `;
 
 export const Basic: React.FC = () => {
-  const [color, setColor] = useState(() => Color.fromName("purple"));
+  const [color, setColor] = useState<Color | undefined>(() =>
+    Color.fromName("purple")
+  );
   return (
     <Wrap>
       <ColorInput

@@ -49,20 +49,22 @@ const ColorPickerWrap = styled.div`
 `;
 
 export const ColorInput: React.FC<{
-  color: Color;
-  onChange: (color: Color) => void;
-  onChangeEnd: (color: Color) => void;
+  color?: Color;
+  placeholder?: Color;
+  onChange?: (color?: Color) => void;
+  onChangeEnd?: (color?: Color) => void;
   className?: string;
-}> = ({ color, onChange, onChangeEnd, className }) => {
+}> = ({ color, placeholder, onChange, onChangeEnd, className }) => {
   return (
     <ColorInputWrap className={className}>
       <ColorInputInput
-        value={color.toString()}
+        value={color?.toString()}
+        placeholder={placeholder?.toString()}
         onChange={(value) => {
           try {
-            const newColor = Color.from(value);
-            onChange(newColor);
-            onChangeEnd(newColor);
+            const newColor = value ? Color.from(value) : undefined;
+            onChange?.(newColor);
+            onChangeEnd?.(newColor);
             return true;
           } catch (e) {
             console.log(e);
@@ -79,7 +81,7 @@ export const ColorInput: React.FC<{
           >
             <ColorButtonColor
               style={{
-                color: color.toHex(),
+                color: color?.toHex() ?? placeholder?.toHex() ?? "transparent",
               }}
             />
           </ColorButton>
@@ -88,7 +90,7 @@ export const ColorInput: React.FC<{
           return (
             <ColorPickerWrap>
               <ColorPicker
-                color={color}
+                color={color ?? placeholder ?? Color.fromName("white")}
                 onChange={onChange}
                 onChangeEnd={onChangeEnd}
               />
