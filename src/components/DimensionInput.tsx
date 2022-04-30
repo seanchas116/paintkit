@@ -6,7 +6,7 @@ import { Input, InputCommonProps } from "./Input";
 import { Select } from "./Select";
 import { colors } from "./Palette";
 
-export type DimensionInputValue =
+type Dimension =
   | {
       keyword: string;
     }
@@ -15,11 +15,32 @@ export type DimensionInputValue =
       unit: string;
     };
 
+const Dimension = {
+  parse: (value: string): Dimension => {
+    const match = value.match(/^([0-9.]+)([A-Za-z]+|%)$/);
+    if (match) {
+      return {
+        value: parseFloat(match[1]),
+        unit: match[2],
+      };
+    }
+    return {
+      keyword: value,
+    };
+  },
+  stringify: (value: Dimension): string => {
+    if ("keyword" in value) {
+      return value.keyword;
+    }
+    return `${value.value}${value.unit}`;
+  },
+};
+
 export interface DimensionInputProps extends InputCommonProps {
-  value?: DimensionInputValue;
+  value?: string;
   units?: string[];
   keywords?: string[];
-  onChange?: (value?: DimensionInputValue) => boolean;
+  onChange?: (value?: string) => boolean;
 }
 
 const DimensionInputWrap = styled.div`
@@ -61,7 +82,7 @@ const DimensionInputSelectButton = styled.div`
 
 export const DimensionInput: React.FC<DimensionInputProps> = ({
   className,
-  value,
+  value: valueString,
   units = ["px"],
   keywords = [],
   onChange,
@@ -70,6 +91,8 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
   if (units.length === 0) {
     throw new Error("units must not be empty");
   }
+
+  const value = valueString ? Dimension.parse(valueString) : undefined;
 
   const inputValue = value
     ? "keyword" in value
@@ -106,13 +129,18 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
             return onChange?.(undefined) ?? false;
           }
           if (keywords.includes(newInputValue)) {
-            return onChange?.({ keyword: newInputValue }) ?? false;
+            return (
+              onChange?.(Dimension.stringify({ keyword: newInputValue })) ??
+              false
+            );
           }
           return (
-            onChange?.({
-              value: Number.parseFloat(newInputValue),
-              unit: unit ?? units[0],
-            }) ?? false
+            onChange?.(
+              Dimension.stringify({
+                value: Number.parseFloat(newInputValue),
+                unit: unit ?? units[0],
+              })
+            ) ?? false
           );
         }}
       />
@@ -137,14 +165,18 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
         )}
         onChange={(newUnit) => {
           if (keywords.includes(newUnit)) {
-            return onChange?.({ keyword: newUnit }) ?? false;
+            return (
+              onChange?.(Dimension.stringify({ keyword: newUnit })) ?? false
+            );
           }
           const newValue = value && "value" in value ? value.value : 0;
           return (
-            onChange?.({
-              value: newValue,
-              unit: newUnit,
-            }) ?? false
+            onChange?.(
+              Dimension.stringify({
+                value: newValue,
+                unit: newUnit,
+              })
+            ) ?? false
           );
         }}
       />
