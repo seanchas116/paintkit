@@ -83,6 +83,7 @@ const DimensionInputSelectButton = styled.div`
 export const DimensionInput: React.FC<DimensionInputProps> = ({
   className,
   value: valueString,
+  placeholder: placeholderString,
   units = ["px"],
   keywords = [],
   onChange,
@@ -95,13 +96,24 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
   const value =
     typeof valueString === "string" ? Dimension.parse(valueString) : undefined;
 
+  const placeholder = placeholderString
+    ? Dimension.parse(placeholderString)
+    : undefined;
+
   const inputValue = value
     ? "keyword" in value
       ? value.keyword
       : String(value.value)
     : undefined;
+  const inputPlaceholder = placeholder
+    ? "keyword" in placeholder
+      ? placeholder.keyword
+      : String(placeholder.value)
+    : undefined;
 
   const unit = value && "unit" in value ? value.unit : undefined;
+  const placeholderUnit =
+    placeholder && "unit" in placeholder ? placeholder.unit : undefined;
 
   return (
     <DimensionInputWrap className={className}>
@@ -109,6 +121,7 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
         {...commonProps}
         iconPosition="left"
         value={valueString === MIXED ? MIXED : inputValue}
+        placeholder={inputPlaceholder}
         validate={(text) => {
           if (!text) {
             return { value: true };
@@ -153,6 +166,11 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
       />
       <DimensionInputSelect
         value={value && "keyword" in value ? value.keyword : value?.unit}
+        placeholder={
+          placeholder && "keyword" in placeholder
+            ? placeholder.keyword
+            : placeholder?.unit
+        }
         options={[
           ...units.map((unit) => ({
             label: unit,
@@ -168,7 +186,7 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
         ]}
         renderButton={(open) => (
           <DimensionInputSelectButton onClick={open}>
-            {unit ?? <Icon icon={keyboardArrowDown} />}
+            {unit ?? placeholderUnit ?? <Icon icon={keyboardArrowDown} />}
           </DimensionInputSelectButton>
         )}
         onChange={(newUnit) => {
