@@ -50,27 +50,27 @@ const ColorPickerWrap = styled.div`
 
 export const ColorInput: React.FC<{
   color?: Color;
-  placeholder?: Color;
-  onChange?: (color?: Color) => void;
-  onChangeEnd?: (color?: Color) => void;
+  text?: string;
+  placeholder?: string;
+  onChangeColor?: (color?: Color) => void;
+  onChangeEndColor?: (color?: Color) => void;
+  onChangeText?: (text: string) => boolean;
   className?: string;
-}> = ({ color, placeholder, onChange, onChangeEnd, className }) => {
+}> = ({
+  color,
+  text,
+  placeholder,
+  onChangeColor,
+  onChangeEndColor,
+  onChangeText,
+  className,
+}) => {
   return (
     <ColorInputWrap className={className}>
       <ColorInputInput
-        value={color?.toString()}
-        placeholder={placeholder?.toString()}
-        onChange={(value) => {
-          try {
-            const newColor = value ? Color.from(value) : undefined;
-            onChange?.(newColor);
-            onChangeEnd?.(newColor);
-            return true;
-          } catch (e) {
-            console.log(e);
-            return false;
-          }
-        }}
+        value={text}
+        placeholder={placeholder}
+        onChange={onChangeText}
       />
       <PopoverCaster
         anchor={(open) => (
@@ -81,7 +81,7 @@ export const ColorInput: React.FC<{
           >
             <ColorButtonColor
               style={{
-                color: color?.toHex() ?? placeholder?.toHex() ?? "transparent",
+                color: color?.toHex() ?? "transparent",
               }}
             />
           </ColorButton>
@@ -90,9 +90,9 @@ export const ColorInput: React.FC<{
           return (
             <ColorPickerWrap>
               <ColorPicker
-                color={color ?? placeholder ?? Color.fromName("white")}
-                onChange={onChange}
-                onChangeEnd={onChangeEnd}
+                color={color ?? Color.fromName("white")}
+                onChange={onChangeColor}
+                onChangeEnd={onChangeEndColor}
               />
             </ColorPickerWrap>
           );

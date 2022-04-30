@@ -21,10 +21,20 @@ export const Basic: React.FC = () => {
     <Wrap>
       <ColorInput
         color={color}
-        onChange={setColor}
-        onChangeEnd={(color) => {
+        text={color?.toString()}
+        onChangeColor={setColor}
+        onChangeEndColor={(color) => {
           console.log("change end", color);
           setColor(color);
+        }}
+        onChangeText={(text) => {
+          try {
+            setColor(Color.from(text));
+            return true;
+          } catch (e) {
+            console.error(e);
+            return false;
+          }
         }}
       />
     </Wrap>
