@@ -1,10 +1,9 @@
-import hexRGB from "hex-rgb";
-import csscolors from "css-color-names";
+import cssColorNames from "css-color-names";
 import colorNamer from "color-namer";
-import { assertNonNull } from "./Assert";
+import parseCSSColor from "parse-css-color";
 import { isNearEqual } from "./Math";
 
-export function formatHexString(hex: string): string {
+export function normalizeHexString(hex: string): string {
   if (/^#?[0-9a-fA-F]{1,2}$/.exec(hex)) {
     const s = hex.replace("#", "");
     return "#" + s + s + s;
@@ -37,37 +36,40 @@ export class Color {
     return new Color({ ...hsl2hsv(hsl), a: hsl.a });
   }
 
-  static fromName(name: keyof typeof csscolors): Color {
-    return assertNonNull(this.fromHex(csscolors[name]));
+  static fromName(name: keyof typeof cssColorNames): Color {
+    return this.fromCSS(name)!;
   }
 
-  static fromHex(hexString: string): Color {
-    const rgba = hexRGB(formatHexString(hexString));
-    return new Color({
-      ...rgb2hsv({
-        r: rgba.red / 255,
-        g: rgba.green / 255,
-        b: rgba.blue / 255,
-      }),
-      a: rgba.alpha,
-    });
-  }
-
-  static from(str: string, alternative?: Color): Color {
-    if (str === "transparent") {
-      return new Color({ h: 0, s: 0, v: 0, a: 0 });
-    }
-    if (str in csscolors) {
-      return this.fromName(str as keyof typeof csscolors);
-    }
-    try {
-      return this.fromHex(str);
-    } catch (e) {
-      if (alternative) {
-        return alternative;
+  /**
+   * Creates a Color from a CSS color string.
+   */
+  static fromCSS(str: string): Color | undefined {
+    const color = parseCSSColor(str);
+    if (color) {
+      if (color.type === "rgb") {
+        return Color.rgb({
+          r: color.values[0] / 255,
+          g: color.values[1] / 255,
+          b: color.values[2] / 255,
+          a: color.alpha,
+        });
+      } else if (color.type === "hsl") {
+        return Color.hsl({
+          h: color.values[0] / 360,
+          s: color.values[1] / 100,
+          l: color.values[2] / 100,
+          a: color.alpha,
+        });
       }
-      throw new Error("failed to parse color string");
     }
+  }
+
+  /**
+   * Creates a Color from a color string.
+   * Unlike `fromCSS`, this function also accepts hex-like strings that is invalid in CSS (f00, a, etc.).
+   */
+  static from(str: string): Color | undefined {
+    return this.fromCSS(normalizeHexString(str));
   }
 
   static mix(color0: Color, color1: Color, ratio: number): Color {

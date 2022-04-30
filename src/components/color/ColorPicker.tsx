@@ -60,7 +60,7 @@ const InputsRow = ({
         <PickerInput
           value={color.toHex6()}
           onChange={(hexString) => {
-            const newColor = Color.fromHex(
+            const newColor = Color.from(
               hexString[0] === "#" ? hexString : "#" + hexString
             );
             if (!newColor) {

@@ -45,6 +45,7 @@
     "minireset.css": "^0.0.7",
     "modern-normalize": "^1.1.0",
     "paintvec": "seanchas116/paintvec#74051cf",
+    "parse-css-color": "^0.2.1",
     "prettier": "^2.6.2",
     "scroll-into-view-if-needed": "^2.2.29",
     "short-uuid": "^4.2.0",
