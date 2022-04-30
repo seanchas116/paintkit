@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Color } from "../../util/Color";
+import { MIXED } from "../../util/Mixed";
 import { popoverStyle } from "../Common";
 import { Input } from "../Input";
 import { colors } from "../Palette";
@@ -49,8 +50,8 @@ const ColorPickerWrap = styled.div`
 `;
 
 export const ColorInput: React.FC<{
-  color?: Color;
-  text?: string;
+  color?: Color | typeof MIXED;
+  text?: string | typeof MIXED;
   placeholder?: string;
   onChangeColor?: (color?: Color) => void;
   onChangeEndColor?: (color?: Color) => void;
@@ -81,7 +82,8 @@ export const ColorInput: React.FC<{
           >
             <ColorButtonColor
               style={{
-                color: color?.toHex() ?? "transparent",
+                color:
+                  typeof color === "object" ? color.toHex() : "transparent",
               }}
             />
           </ColorButton>
@@ -90,7 +92,9 @@ export const ColorInput: React.FC<{
           return (
             <ColorPickerWrap>
               <ColorPicker
-                color={color ?? Color.fromName("white")}
+                color={
+                  typeof color === "object" ? color : Color.fromName("white")
+                }
                 onChange={onChangeColor}
                 onChangeEnd={onChangeEndColor}
               />
