@@ -18,7 +18,7 @@ type Dimension =
 
 const Dimension = {
   parse: (value: string): Dimension => {
-    const match = value.match(/^([0-9.]+)([A-Za-z%]*)$/);
+    const match = value.match(/^(-?[0-9.]+)([A-Za-z%]*)$/);
     if (match) {
       return {
         value: parseFloat(match[1]),
