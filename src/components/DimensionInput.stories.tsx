@@ -25,7 +25,7 @@ export const Basic: React.FC = () => {
           value={width}
           label="W"
           title="Width"
-          units={["px", "em", "rem", "vw", "vh"]}
+          units={["", "%", "px", "em", "rem", "vw", "vh"]}
           keywords={["auto", "inherit"]}
           onChange={(value) => {
             setWidth(value);
@@ -37,7 +37,7 @@ export const Basic: React.FC = () => {
           value={margin}
           icon={marginLeftIcon}
           title="Margin Left"
-          units={["px", "em", "rem", "vw", "vh"]}
+          units={["", "%", "px", "em", "rem", "vw", "vh"]}
           keywords={["auto", "inherit"]}
           onChange={(value) => {
             setMargin(value);

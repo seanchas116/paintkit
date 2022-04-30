@@ -17,7 +17,7 @@ type Dimension =
 
 const Dimension = {
   parse: (value: string): Dimension => {
-    const match = value.match(/^([0-9.]+)([A-Za-z]+|%)$/);
+    const match = value.match(/^([0-9.]+)([A-Za-z%]*)$/);
     if (match) {
       return {
         value: parseFloat(match[1]),
@@ -112,13 +112,12 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
           if (!text) {
             return { value: true };
           }
-          if (keywords.includes(text)) {
+
+          const dimension = Dimension.parse(text);
+          if (dimension) {
             return { value: true };
           }
 
-          if (!Number.isNaN(Number.parseFloat(text))) {
-            return { value: true };
-          }
           return {
             value: false,
             error: "Input text must be a valid number or keyword.",
@@ -128,23 +127,31 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
           if (!newInputValue) {
             return onChange?.(undefined) ?? false;
           }
-          if (keywords.includes(newInputValue)) {
+
+          const dimension = Dimension.parse(newInputValue);
+          if (!dimension) {
+            return false;
+          }
+
+          if ("keyword" in dimension) {
             return (
               onChange?.(Dimension.stringify({ keyword: newInputValue })) ??
               false
             );
           }
+
           return (
             onChange?.(
               Dimension.stringify({
-                value: Number.parseFloat(newInputValue),
-                unit: unit ?? units[0],
+                value: dimension.value,
+                unit: unit && !dimension.unit ? unit : dimension.unit,
               })
             ) ?? false
           );
         }}
       />
       <DimensionInputSelect
+        value={value && "keyword" in value ? value.keyword : value?.unit}
         options={[
           ...units.map((unit) => ({
             label: unit,
