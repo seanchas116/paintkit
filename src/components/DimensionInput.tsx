@@ -45,7 +45,6 @@ export interface DimensionInputProps extends InputCommonProps {
 }
 
 const DimensionInputWrap = styled.div`
-  width: 72px;
   height: 24px;
   position: relative;
 `;
