@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import marginLeftIcon from "../icon/MarginLeft";
+import { MIXED } from "../util/Mixed";
 import { DimensionInput } from "./DimensionInput";
 
 export default {
@@ -16,7 +17,9 @@ const Wrap = styled.div`
 
 export const Basic: React.FC = () => {
   const [width, setWidth] = useState<string | undefined>("100px");
-  const [margin, setMargin] = useState<string | undefined>("100px");
+  const [margin, setMargin] = useState<string | typeof MIXED | undefined>(
+    MIXED
+  );
 
   return (
     <>
@@ -44,7 +47,7 @@ export const Basic: React.FC = () => {
             return true;
           }}
         />
-        <div>{margin}</div>
+        <div>{String(margin)}</div>
       </Wrap>
     </>
   );

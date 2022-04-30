@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react/dist/offline";
 import keyboardArrowDown from "@iconify-icons/ic/outline-keyboard-arrow-down";
 import React from "react";
 import styled from "styled-components";
+import { MIXED } from "../util/Mixed";
 import { Input, InputCommonProps } from "./Input";
 import { Select } from "./Select";
 import { colors } from "./Palette";
@@ -37,7 +38,7 @@ const Dimension = {
 };
 
 export interface DimensionInputProps extends InputCommonProps {
-  value?: string;
+  value?: string | typeof MIXED;
   units?: string[];
   keywords?: string[];
   onChange?: (value?: string) => boolean;
@@ -92,7 +93,8 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
     throw new Error("units must not be empty");
   }
 
-  const value = valueString ? Dimension.parse(valueString) : undefined;
+  const value =
+    typeof valueString === "string" ? Dimension.parse(valueString) : undefined;
 
   const inputValue = value
     ? "keyword" in value
@@ -107,7 +109,7 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
       <DimensionInputInput
         {...commonProps}
         iconPosition="left"
-        value={inputValue}
+        value={valueString === MIXED ? MIXED : inputValue}
         validate={(text) => {
           if (!text) {
             return { value: true };
