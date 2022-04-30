@@ -3,6 +3,7 @@ import { IconifyIcon } from "@iconify/types";
 import Tippy from "@tippyjs/react";
 import React from "react";
 import styled from "styled-components";
+import { MIXED } from "../util/Mixed";
 import { RadioItemBase, RadioWrapBase } from "./Common";
 import { colors } from "./Palette";
 
@@ -30,7 +31,8 @@ const IconRadioItem = styled(RadioItemBase)`
 `;
 
 const IconRadioWrap = styled(RadioWrapBase)`
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
 `;
 
 interface IconRadioOption<T extends string> {
@@ -50,7 +52,7 @@ export function IconRadio<T extends string>({
 }: {
   className?: string;
   options: IconRadioOption<T>[];
-  value?: T;
+  value?: T | typeof MIXED;
   placeholder?: T;
   unsettable?: boolean;
   onChange?: (value: T | undefined) => void;
