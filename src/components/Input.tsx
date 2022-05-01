@@ -37,7 +37,7 @@ export interface InputProps extends InputCommonProps {
   validate?: (text: string) => ValidationResult;
 }
 
-export const InputInput = styled.input`
+const InputInput = styled.input`
   background: none;
   border: none;
   outline: none;
@@ -55,7 +55,7 @@ export const InputInput = styled.input`
   }
 `;
 
-export const InputErrorPopup = styled.div`
+const InputErrorPopup = styled.div`
   color: ${colors.activeText};
   background: ${colors.red};
   border-radius: 4px;
@@ -65,7 +65,7 @@ export const InputErrorPopup = styled.div`
   white-space: normal;
 `;
 
-export const InputWrap = styled(DropdownWrap)<{ invalid?: boolean }>`
+const InputWrap = styled(DropdownWrap)<{ invalid?: boolean }>`
   min-width: 40px;
   height: 20px;
   position: relative;
