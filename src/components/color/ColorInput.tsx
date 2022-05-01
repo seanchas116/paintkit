@@ -19,10 +19,6 @@ const ColorInputInput = styled(Input)`
   left: 0;
   right: 0;
   bottom: 0;
-
-  input {
-    padding-left: 20px;
-  }
 `;
 
 const ColorButton = styled.button`
@@ -30,18 +26,18 @@ const ColorButton = styled.button`
   top: 0;
   left: 0;
   bottom: 0;
-  width: 24px;
+  width: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const ColorButtonColor = styled.div`
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   background: currentColor;
   border-radius: 2px;
-  border: 1px solid ${colors.popoverBorder};
+  box-shadow: 0 0 0 1px ${colors.popoverBorder};
 `;
 
 const ColorPickerWrap = styled.div`
@@ -70,6 +66,7 @@ export const ColorInput: React.FC<{
     <ColorInputWrap className={className}>
       <ColorInputInput
         value={text}
+        label=" "
         placeholder={placeholder}
         onChange={onChangeText}
       />
