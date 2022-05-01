@@ -101,3 +101,31 @@ export const TopLabelArea = styled.div`
   flex-direction: column;
   gap: 4px;
 `;
+
+export const FourEdgeGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 24px 24px;
+  gap: 8px;
+  align-items: center;
+
+  > :nth-child(1) {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  > :nth-child(2) {
+    grid-column: 3 / 4;
+    grid-row: 1 / 3;
+  }
+
+  > :nth-child(3) {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  > :nth-child(4) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+  }
+`;
