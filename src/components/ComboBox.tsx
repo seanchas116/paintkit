@@ -1,17 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { MIXED } from "../util/Mixed";
 import { downIconStyle } from "./Common";
 import { Select, SelectOption, SelectItem } from "./Select";
-import { Input } from "./Input";
+import { Input, InputProps } from "./Input";
 
-interface ComboBoxProps {
-  className?: string;
+interface ComboBoxProps extends Omit<InputProps, "suggestionOptions"> {
   truncatesOptions?: boolean;
   options?: readonly SelectItem[];
-  value?: string | typeof MIXED;
-  placeholder?: string;
-  onChange?: (value: string) => boolean;
 }
 
 const Title = styled.div`
@@ -38,23 +33,20 @@ export const ComboBox: React.FC<ComboBoxProps> = ({
   className,
   truncatesOptions,
   options = [],
-  value,
-  placeholder,
-  onChange,
+  ...inputProps
 }) => {
   return (
     <Select
       className={className}
       truncatesOptions={truncatesOptions}
       options={options}
-      value={value}
-      onChange={onChange}
+      value={inputProps.value}
+      onChange={inputProps.onChange}
       renderButton={(open) => {
         return (
           <Title>
             <TitleInput
-              value={value}
-              placeholder={placeholder}
+              {...inputProps}
               suggestionOptions={options.filter(
                 (option): option is SelectOption => {
                   return !(
@@ -63,7 +55,6 @@ export const ComboBox: React.FC<ComboBoxProps> = ({
                   );
                 }
               )}
-              onChange={onChange}
             />
             <DownButton onClick={open} />
           </Title>
