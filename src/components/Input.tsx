@@ -97,6 +97,7 @@ const InputIcon = styled(Icon).attrs({ width: 12, height: 12 })`
 `;
 
 const InputIconLetter = styled.div`
+  text-align: center;
   font-weight: 700;
   font-size: 10px;
   min-width: 12px;
