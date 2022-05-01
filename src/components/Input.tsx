@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Tippy from "@tippyjs/react";
 import { Icon } from "@iconify/react/dist/offline";
@@ -7,8 +7,15 @@ import { isNumeric } from "../util/Math";
 import { ValidationResult } from "../util/ValidationResult";
 import { MIXED, sameOrMixed } from "../util/Mixed";
 import { useBufferedValue } from "./hooks/useBufferedValue";
-import { inputStyle, popoverZIndex } from "./Common";
+import {
+  DropdownBody,
+  DropdownItem,
+  DropdownWrap,
+  inputStyle,
+  popoverZIndex,
+} from "./Common";
 import { colors } from "./Palette";
+import { SelectOption } from "./Select";
 
 export interface InputCommonProps {
   className?: string;
@@ -19,6 +26,7 @@ export interface InputCommonProps {
   disabled?: boolean;
   placeholder?: string;
   spellCheck?: boolean;
+  suggestionOptions?: readonly SelectOption[];
   onFocus?: () => void;
   onBlur?: () => void;
 }
@@ -57,7 +65,7 @@ export const InputErrorPopup = styled.div`
   white-space: normal;
 `;
 
-export const InputWrap = styled.div<{ invalid?: boolean }>`
+export const InputWrap = styled(DropdownWrap)<{ invalid?: boolean }>`
   min-width: 40px;
   height: 20px;
   position: relative;
@@ -122,6 +130,21 @@ export const Input: React.FC<InputProps> = ({
     icon
   );
 
+  const [showsSuggestion, setShowsSuggestion] = useState(false);
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
+
+  useEffect(() => {
+    setSuggestionIndex(0);
+  }, [currentValue]);
+
+  const suggestions = currentValue
+    ? (props.suggestionOptions ?? []).filter((c) =>
+        c.value.toLowerCase().startsWith(currentValue.toLowerCase())
+      )
+    : [];
+
+  const suggestionVisible = showsSuggestion && suggestions.length > 0;
+
   return (
     <InputWrap
       className={props.className}
@@ -140,27 +163,61 @@ export const Input: React.FC<InputProps> = ({
         onKeyDown={(e) => {
           switch (e.key) {
             case "Enter": {
+              if (suggestionVisible) {
+                const current: string | undefined =
+                  suggestions[suggestionIndex]?.value;
+                if (current) {
+                  setShowsSuggestion(false);
+                  onEditingFinish(current);
+                  break;
+                }
+              }
               onEditingFinish(currentValue);
               break;
             }
+            case "Escape": {
+              setShowsSuggestion(false);
+              break;
+            }
             case "ArrowUp": {
+              if (suggestionVisible) {
+                setSuggestionIndex(Math.max(0, suggestionIndex - 1));
+                e.preventDefault();
+                break;
+              }
               if (currentValue && isNumeric(currentValue)) {
                 onEditingFinish((parseFloat(currentValue) + 1).toString());
               }
               break;
             }
             case "ArrowDown": {
+              if (suggestionVisible) {
+                setSuggestionIndex(
+                  Math.min(suggestions.length - 1, suggestionIndex + 1)
+                );
+                e.preventDefault();
+                break;
+              }
+              if (!showsSuggestion && suggestions.length) {
+                setShowsSuggestion(true);
+                break;
+              }
+
               if (currentValue && isNumeric(currentValue)) {
                 onEditingFinish((parseFloat(currentValue) - 1).toString());
               }
               break;
             }
             case "Unidentified": {
-              // Possible input from autocomplete
+              // Possible input from native autocomplete
               const target = e.currentTarget;
               setTimeout(() => {
                 onEditingFinish(target.value);
               }, 0);
+              break;
+            }
+            default: {
+              setShowsSuggestion(true);
               break;
             }
           }
@@ -170,6 +227,7 @@ export const Input: React.FC<InputProps> = ({
           props.onFocus?.();
         }}
         onBlur={(e) => {
+          setShowsSuggestion(false);
           onEditingFinish(currentValue);
           props.onBlur?.();
         }}
@@ -180,6 +238,23 @@ export const Input: React.FC<InputProps> = ({
       {iconPosition === "right" && iconWithTip}
       {!validateResult.value && (
         <InputErrorPopup>{validateResult.error}</InputErrorPopup>
+      )}
+      {suggestionVisible && (
+        <DropdownBody>
+          {suggestions.map((s, i) => (
+            <DropdownItem
+              key={s.value}
+              selected={i === suggestionIndex}
+              onMouseDown={() => {
+                setShowsSuggestion(false);
+                onEditingFinish(s.value);
+              }}
+            >
+              {s.icon}
+              {s.value}
+            </DropdownItem>
+          ))}
+        </DropdownBody>
       )}
     </InputWrap>
   );

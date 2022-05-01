@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import layersIcon from "@iconify-icons/ic/outline-layers";
+import htmlTags from "html-tags";
 import { MIXED } from "../util/Mixed";
 import { Input } from "./Input";
 
@@ -107,6 +108,27 @@ export const Basic: React.FC = () => {
           }}
         />
         <div>{mixedValue.toString()}</div>
+      </Wrap>
+    </>
+  );
+};
+
+export const Suggested: React.FC = () => {
+  const [value, setValue] = useState("");
+
+  return (
+    <>
+      <Wrap>
+        <Input
+          placeholder="HTML Tag"
+          value={value}
+          onChange={(value) => {
+            setValue(value);
+            return true;
+          }}
+          suggestionOptions={htmlTags.map((t) => ({ value: t }))}
+        />
+        <div>{value}</div>
       </Wrap>
     </>
   );

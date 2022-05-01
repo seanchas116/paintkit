@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { MIXED } from "../util/Mixed";
 import { downIconStyle } from "./Common";
 import { Select, SelectOption, SelectItem } from "./Select";
-import { SuggestedInput } from "./SuggestedInput";
+import { Input } from "./Input";
 
 interface ComboBoxProps {
   className?: string;
@@ -30,7 +30,7 @@ const DownButton = styled.button`
   margin: auto;
 `;
 
-const TitleInput = styled(SuggestedInput)`
+const TitleInput = styled(Input)`
   width: 100%;
 `;
 
