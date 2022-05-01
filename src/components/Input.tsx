@@ -107,7 +107,7 @@ const InputIconLetter = styled.div`
  * Same as <input>, but emits onChange only on blur or when enter is pressed
  */
 export const Input: React.FC<InputProps> = ({
-  iconPosition = "right",
+  iconPosition = "left",
   ...props
 }) => {
   const [currentValue, setCurrentValue, onEditingFinish] = useBufferedValue(
