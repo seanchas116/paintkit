@@ -39,8 +39,8 @@ const Dimension = {
 
 export interface DimensionInputProps extends InputCommonProps {
   value?: string | typeof MIXED;
-  units?: string[];
-  keywords?: string[];
+  units?: readonly string[];
+  keywords?: readonly string[];
   onChange?: (value?: string) => boolean;
 }
 
