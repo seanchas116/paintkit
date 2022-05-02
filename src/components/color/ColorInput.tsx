@@ -1,3 +1,4 @@
+import Tippy from "@tippyjs/react";
 import React from "react";
 import styled from "styled-components";
 import { Color } from "../../util/Color";
@@ -48,6 +49,7 @@ const ColorPickerWrap = styled.div`
 export const ColorInput: React.FC<{
   color?: Color | typeof MIXED;
   text?: string | typeof MIXED;
+  title?: string;
   placeholder?: string;
   onChangeColor?: (color?: Color) => void;
   onChangeEndColor?: (color?: Color) => void;
@@ -56,6 +58,7 @@ export const ColorInput: React.FC<{
 }> = ({
   color,
   text,
+  title,
   placeholder,
   onChangeColor,
   onChangeEndColor,
@@ -71,20 +74,24 @@ export const ColorInput: React.FC<{
         onChange={onChangeText}
       />
       <PopoverCaster
-        anchor={(open) => (
-          <ColorButton
-            onClick={(e) => {
-              open(e.currentTarget.getBoundingClientRect());
-            }}
-          >
-            <ColorButtonColor
-              style={{
-                color:
-                  typeof color === "object" ? color.toHex() : "transparent",
+        anchor={(open) => {
+          const button = (
+            <ColorButton
+              onClick={(e) => {
+                open(e.currentTarget.getBoundingClientRect());
               }}
-            />
-          </ColorButton>
-        )}
+            >
+              <ColorButtonColor
+                style={{
+                  color:
+                    typeof color === "object" ? color.toHex() : "transparent",
+                }}
+              />
+            </ColorButton>
+          );
+
+          return title ? <Tippy content={title}>{button}</Tippy> : button;
+        }}
         popover={() => {
           return (
             <ColorPickerWrap>
