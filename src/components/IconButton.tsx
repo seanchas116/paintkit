@@ -13,6 +13,7 @@ const IconButtonWrap = styled.button`
   background: none;
   cursor: pointer;
   padding: 0;
+  border-radius: 4px;
 
   width: 20px;
   height: 20px;
@@ -33,11 +34,8 @@ const IconButtonWrap = styled.button`
     transform: scale(0.9);
   }
 
-  &[aria-pressed="false"] {
-    color: ${colors.disabledText};
-  }
   &[aria-pressed="true"] {
-    color: ${colors.active};
+    background-color: ${colors.active};
   }
 `;
 
