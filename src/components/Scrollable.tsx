@@ -12,12 +12,14 @@ const ScrollableWrap = styled(SimpleBar)`
   min-height: 0;
 `;
 
-export const Scrollable: React.FC<{
-  children: React.ReactNode;
-  className?: string;
-}> = ({ children, className }) => {
+export const Scrollable: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & {
+    children: React.ReactNode;
+    className?: string;
+  }
+> = ({ children, ...props }) => {
   return (
-    <ScrollableWrap className={className}>
+    <ScrollableWrap {...props}>
       <ScrollableContent>{children}</ScrollableContent>
     </ScrollableWrap>
   );
