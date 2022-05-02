@@ -35,7 +35,7 @@ const IconRadioWrap = styled(RadioWrapBase)`
   width: fit-content;
 `;
 
-interface IconRadioOption<T extends string> {
+export interface IconRadioOption<T extends string> {
   value: T;
   icon: IconifyIcon;
   text?: string;
