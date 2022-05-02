@@ -158,7 +158,7 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
             onChange?.(
               Dimension.stringify({
                 value: dimension.value,
-                unit: unit && !dimension.unit ? unit : dimension.unit,
+                unit: dimension.unit || unit || units[0],
               })
             ) ?? false
           );
