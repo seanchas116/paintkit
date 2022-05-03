@@ -151,9 +151,9 @@ export const LinearGradientPicker: React.FC<{
   value: LinearGradient;
   //colorVariables?: ColorPopoverVariables;
   index: number;
-  onChange: (value: LinearGradient) => void;
-  onChangeEnd: () => void;
-  onIndexChange: (index: number) => void;
+  onChange?: (value: LinearGradient) => void;
+  onChangeEnd?: () => void;
+  onIndexChange?: (index: number) => void;
 }> = ({
   className,
   value,
@@ -179,14 +179,14 @@ export const LinearGradientPicker: React.FC<{
             placeholder={"180deg"}
             keywords={CSSValue.linearGradientDirectionKeywords}
             onChange={(direction) => {
-              onChange(
+              onChange?.(
                 new LinearGradient({
                   ...value,
                   direction: (direction ||
                     undefined) as LinearGradient["direction"],
                 })
               );
-              onChangeEnd();
+              onChangeEnd?.();
               return true;
             }}
           />
@@ -222,14 +222,14 @@ export const LinearGradientPicker: React.FC<{
               const newStops = cloneDeep(stops);
               newStops.splice(newIndex, 0, [color, pos]);
 
-              onChange(
+              onChange?.(
                 new LinearGradient({
                   ...value,
                   stops: new ColorStops(newStops),
                 })
               );
-              onChangeEnd();
-              onIndexChange(newIndex);
+              onChangeEnd?.();
+              onIndexChange?.(newIndex);
             }}
             onContextMenu={(e) => {
               e.preventDefault();
@@ -246,20 +246,20 @@ export const LinearGradientPicker: React.FC<{
                 color={stop[0].toCSSValue().toString()}
                 position={stop[1]}
                 onMoveBegin={() => {
-                  onIndexChange(i);
+                  onIndexChange?.(i);
                 }}
                 onMove={(pos) => {
                   const newStops = cloneDeep(stops);
                   newStops[i][1] = clamp(pos, prevPos, nextPos);
 
-                  onChange(
+                  onChange?.(
                     new LinearGradient({
                       ...value,
                       stops: new ColorStops(newStops),
                     })
                   );
                 }}
-                onMoveEnd={onChangeEnd}
+                onMoveEnd={onChangeEnd || (() => {})}
                 onRemove={() => {
                   if (stops.length <= 2) {
                     return;
@@ -272,14 +272,14 @@ export const LinearGradientPicker: React.FC<{
                     currentIndex,
                     newStops.length - 1
                   );
-                  onChange(
+                  onChange?.(
                     new LinearGradient({
                       ...value,
                       stops: new ColorStops(newStops),
                     })
                   );
-                  onChangeEnd();
-                  onIndexChange(newCurrentIndex);
+                  onChangeEnd?.();
+                  onIndexChange?.(newCurrentIndex);
                 }}
               />
             );
@@ -292,7 +292,7 @@ export const LinearGradientPicker: React.FC<{
           const newStops = cloneDeep(stops);
           newStops[currentIndex][0] = color;
 
-          onChange(
+          onChange?.(
             new LinearGradient({
               ...value,
               stops: new ColorStops(newStops),
