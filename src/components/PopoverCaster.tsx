@@ -35,21 +35,28 @@ export const PopoverCaster: React.FC<{
     if (!wrapRef.current || !areaRef.current) {
       return;
     }
+    const wrap = wrapRef.current;
+    const area = areaRef.current;
 
-    areaRef.current.style.display = "block";
+    const setPosition = () => {
+      const width = wrap.clientWidth;
+      const height = wrap.clientHeight;
+      if (window.innerHeight - anchorRect.bottom < height) {
+        // show popover on top
+        wrap.style.bottom = `${window.innerHeight - anchorRect.top}px`;
+        wrap.style.removeProperty("top");
+      } else {
+        // show popover on bottom
+        wrap.style.top = `${anchorRect.bottom}px`;
+        wrap.style.removeProperty("bottom");
+      }
+      const xExcess = anchorRect.left + width - window.innerWidth;
+      wrap.style.left = `${anchorRect.left - Math.max(xExcess, 0)}px`;
+    };
 
-    const width = wrapRef.current.children[0].clientWidth;
-    const height = wrapRef.current.children[0].clientHeight;
-    if (window.innerHeight - anchorRect.bottom < height) {
-      // show popover on top
-      wrapRef.current.style.bottom = `${window.innerHeight - anchorRect.top}px`;
-    } else {
-      // show popover on bottom
-      wrapRef.current.style.top = `${anchorRect.bottom}px`;
-    }
-    const xExcess = anchorRect.left + width - window.innerWidth;
-    wrapRef.current.style.left = `${anchorRect.left - Math.max(xExcess, 0)}px`;
-    wrapRef.current.style.visibility = "visible";
+    area.style.display = "block";
+    setPosition();
+    wrap.style.visibility = "visible";
   };
 
   const onClose = () => {
