@@ -7,7 +7,7 @@ export default {
   component: LinearGradientPicker,
 };
 
-const StyledLinearGradientPicker = styled(LinearGradientPicker)`
+const StyledPicker = styled(LinearGradientPicker)`
   width: fit-content;
 `;
 
@@ -32,7 +32,7 @@ export const Basic: React.FC = () => {
     <Wrap>
       <p>{gradient.toString()}</p>
       <GradientPreview style={{ background: gradient.toString() }} />
-      <StyledLinearGradientPicker
+      <StyledPicker
         value={gradient}
         onChange={setGradient}
         onChangeEnd={() => {

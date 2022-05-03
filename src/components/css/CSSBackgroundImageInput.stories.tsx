@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { BackgroundImageInput } from "./BackgroundImageInput";
+import { CSSBackgroundImageInput } from "./CSSBackgroundImageInput";
 
 export default {
-  component: BackgroundImageInput,
+  component: CSSBackgroundImageInput,
 };
 
-const StyledBackgroundImageInput = styled(BackgroundImageInput)`
+const StyledBackgroundImageInput = styled(CSSBackgroundImageInput)`
   width: 224px;
 `;
 

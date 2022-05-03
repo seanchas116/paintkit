@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { assertNonNull } from "../../util/Assert";
 import { BackgroundLayer } from "../../util/BackgroundLayer";
-import { NormalBackgroundImagePicker } from "./NormalBackgroundImagePicker";
+import { BackgroundImagePicker } from "./BackgroundImagePicker";
 
 export default {
-  component: NormalBackgroundImagePicker,
+  component: BackgroundImagePicker,
 };
 
-const StyledPicker = styled(NormalBackgroundImagePicker)`
+const StyledPicker = styled(BackgroundImagePicker)`
   width: 224px;
 `;
 

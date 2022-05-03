@@ -13,7 +13,7 @@ const lengthPercentageAutoParser = CSSValue.cssParser.lengthPercentage.or(
 
 const lengthPercentageUnits = ["px", "%", "em", "rem", "vw", "vh"];
 
-const NormalBackgroundImagePickerWrap = styled.div`
+const BackgroundImagePickerWrap = styled.div`
   width: 224px;
 `;
 
@@ -74,7 +74,7 @@ const PositionRow = styled.div`
   }
 `;
 
-export const NormalBackgroundImagePicker: React.FC<{
+export const BackgroundImagePicker: React.FC<{
   className?: string;
   value: BackgroundLayer;
   renderImageInput?: (
@@ -93,7 +93,7 @@ export const NormalBackgroundImagePicker: React.FC<{
   };
 
   return (
-    <NormalBackgroundImagePickerWrap className={className}>
+    <BackgroundImagePickerWrap className={className}>
       <URLRow>
         {renderImageInput ? (
           renderImageInput(value.image.url, onURLChange)
@@ -273,6 +273,6 @@ export const NormalBackgroundImagePicker: React.FC<{
           }}
         />
       </PositionRow>
-    </NormalBackgroundImagePickerWrap>
+    </BackgroundImagePickerWrap>
   );
 };

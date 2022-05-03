@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { assertNonNull } from "../../util/Assert";
 import { BackgroundLayer } from "../../util/BackgroundLayer";
-import { BackgroundImagePicker } from "./BackgroundImagePicker";
+import { CSSBackgroundImagePicker } from "./CSSBackgroundImagePicker";
 
 export default {
-  component: BackgroundImagePicker,
+  component: CSSBackgroundImagePicker,
 };
 
-const StyledBackgroundImagePicker = styled(BackgroundImagePicker)`
+const StyledPicker = styled(CSSBackgroundImagePicker)`
   width: 224px;
 `;
 
@@ -30,7 +30,7 @@ export const Basic: React.FC = () => {
       <BackgroundPreview
         style={{ background: bgLayer?.toCSSValue().toString() }}
       />
-      <StyledBackgroundImagePicker value={bgLayer} onChange={setBgLayer} />
+      <StyledPicker value={bgLayer} onChange={setBgLayer} />
     </Wrap>
   );
 };

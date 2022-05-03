@@ -7,10 +7,10 @@ import angleIcon from "../../icon/Angle";
 import { colors } from "../Palette";
 import { DimensionInput } from "../DimensionInput";
 import { usePointerStroke } from "../hooks/usePointerStroke";
-import { ColorPicker } from "../color/ColorPicker";
-import { ColorHandle, createGradient } from "../color/ColorSlider";
 import { checkPattern } from "../Common";
 import { ColorStops, LinearGradient } from "../../util/Gradient";
+import { ColorPicker } from "./ColorPicker";
+import { ColorHandle, createGradient } from "./ColorSlider";
 
 const EditRow = styled.div`
   display: flex;

@@ -6,21 +6,21 @@ import imageFillIcon from "../../icon/Image";
 import { BackgroundLayer } from "../../util/BackgroundLayer";
 import { LinearGradient } from "../../util/Gradient";
 import { IconButton } from "../IconButton";
-import { LinearGradientPicker } from "./LinearGradientPicker";
-import { NormalBackgroundImagePicker } from "./NormalBackgroundImagePicker";
+import { LinearGradientPicker } from "../color/LinearGradientPicker";
+import { BackgroundImagePicker } from "../color/BackgroundImagePicker";
 
 const TabButtons = styled.div`
   display: flex;
   padding: 8px;
 `;
 
-const BackgroundImagePickerWrap = styled.div`
+const CSSBackgroundImagePickerWrap = styled.div`
   > :nth-child(2) {
     margin-top: -8px;
   }
 `;
 
-export const BackgroundImagePicker: React.FC<{
+export const CSSBackgroundImagePicker: React.FC<{
   className?: string;
   value?: BackgroundLayer;
   onChange?: (value?: BackgroundLayer) => void;
@@ -37,7 +37,7 @@ export const BackgroundImagePicker: React.FC<{
   }, [linearGradient, setIndex]);
 
   return (
-    <BackgroundImagePickerWrap className={className}>
+    <CSSBackgroundImagePickerWrap className={className}>
       <TabButtons>
         <IconButton
           icon={closeIcon}
@@ -80,7 +80,7 @@ export const BackgroundImagePicker: React.FC<{
         />
       )}
       {value && !linearGradient && (
-        <NormalBackgroundImagePicker
+        <BackgroundImagePicker
           value={value}
           onChange={(image) => {
             onChange?.(image);
@@ -88,6 +88,6 @@ export const BackgroundImagePicker: React.FC<{
           }}
         />
       )}
-    </BackgroundImagePickerWrap>
+    </CSSBackgroundImagePickerWrap>
   );
 };
