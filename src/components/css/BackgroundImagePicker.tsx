@@ -7,6 +7,10 @@ import { ImageInput } from "../ImageInput";
 import { ImageLayer, ImageURL } from "../../util/BackgroundLayer";
 import { DimensionInput } from "../DimensionInput";
 
+const lengthPercentageAutoParser = CSSValue.cssParser.lengthPercentage.or(
+  CSSValue.cssParser.keyword("auto")
+);
+
 const lengthPercentageUnits = ["px", "%", "em", "rem", "vw", "vh"];
 
 const BackgroundImagePickerWrap = styled.div`
@@ -127,10 +131,7 @@ export const BackgroundImagePicker: React.FC<{
               typeof value.size === "object" ? value.size[1] : "auto";
             const newValue = new ImageLayer({
               ...value,
-              size: [
-                CSSValue.cssParser.lengthPercentage.tryParse(sizeX),
-                sizeY,
-              ],
+              size: [lengthPercentageAutoParser.tryParse(sizeX), sizeY],
             });
             onChange(newValue);
             return true;
@@ -153,10 +154,7 @@ export const BackgroundImagePicker: React.FC<{
               typeof value.size === "object" ? value.size[0] : "auto";
             const newValue = new ImageLayer({
               ...value,
-              size: [
-                sizeX,
-                CSSValue.cssParser.lengthPercentage.tryParse(sizeY),
-              ],
+              size: [sizeX, lengthPercentageAutoParser.tryParse(sizeY)],
             });
             onChange(newValue);
             return true;
