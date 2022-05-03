@@ -1,12 +1,14 @@
 import Tippy from "@tippyjs/react";
 import React from "react";
 import styled from "styled-components";
+import { Icon } from "@iconify/react/dist/offline";
 import { BackgroundLayer } from "../../util/BackgroundLayer";
 import { MIXED } from "../../util/Mixed";
 import { popoverStyle } from "../Common";
 import { Input } from "../Input";
 import { colors } from "../Palette";
 import { PopoverCaster } from "../PopoverCaster";
+import imageFillIcon from "../../icon/Image";
 import { CSSBackgroundImagePicker } from "./CSSBackgroundImagePicker";
 
 const ColorInputWrap = styled.div`
@@ -83,11 +85,20 @@ export const CSSBackgroundImageInput: React.FC<{
                 open(e.currentTarget.getBoundingClientRect());
               }}
             >
-              <ColorButtonColor
-                style={{
-                  background: typeof value === "string" ? value : "none",
-                }}
-              />
+              {bgLayer ? (
+                <ColorButtonColor
+                  style={{
+                    background: typeof value === "string" ? value : "none",
+                  }}
+                />
+              ) : (
+                <Icon
+                  style={{
+                    color: colors.disabledText,
+                  }}
+                  icon={imageFillIcon}
+                />
+              )}
             </ColorButton>
           );
 
