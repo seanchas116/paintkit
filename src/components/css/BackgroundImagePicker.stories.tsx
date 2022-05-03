@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { assertNonNull } from "../../util/Assert";
-import { ImageLayer } from "../../util/BackgroundLayer";
+import { BackgroundLayer } from "../../util/BackgroundLayer";
 import { BackgroundImagePicker } from "./BackgroundImagePicker";
 
 export default {
@@ -21,7 +21,7 @@ const Wrap = styled.div``;
 
 export const Basic: React.FC = () => {
   const [bgLayer, setBgLayer] = useState(() =>
-    assertNonNull(ImageLayer.fromString("url(https://picsum.photos/100)"))
+    assertNonNull(BackgroundLayer.fromString("url(https://picsum.photos/100)"))
   );
 
   return (

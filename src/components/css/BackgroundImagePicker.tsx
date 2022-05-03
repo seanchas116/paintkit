@@ -4,7 +4,7 @@ import * as CSSValue from "@seanchas116/cssvalue";
 import { Label } from "../Label";
 import { Select } from "../Select";
 import { ImageInput } from "../ImageInput";
-import { ImageLayer, ImageURL } from "../../util/BackgroundLayer";
+import { BackgroundLayer, ImageURL } from "../../util/BackgroundLayer";
 import { DimensionInput } from "../DimensionInput";
 
 const lengthPercentageAutoParser = CSSValue.cssParser.lengthPercentage.or(
@@ -76,19 +76,19 @@ const PositionRow = styled.div`
 
 export const BackgroundImagePicker: React.FC<{
   className?: string;
-  value: ImageLayer;
+  value: BackgroundLayer;
   renderImageInput?: (
     value: string,
     onChange: (value: string) => void
   ) => ReactNode;
-  onChange: (value: ImageLayer) => void;
+  onChange: (value: BackgroundLayer) => void;
 }> = ({ className, value, renderImageInput, onChange }) => {
   if (!(value.image instanceof ImageURL)) {
     return null;
   }
 
   const onURLChange = (url: string) => {
-    onChange(new ImageLayer({ ...value, image: new ImageURL(url) }));
+    onChange(new BackgroundLayer({ ...value, image: new ImageURL(url) }));
     return true;
   };
 
@@ -107,7 +107,7 @@ export const BackgroundImagePicker: React.FC<{
           value={typeof value.size === "string" ? value.size : undefined}
           options={[{ value: "cover" }, { value: "contain" }] as const}
           onChange={(size) => {
-            const newValue = new ImageLayer({
+            const newValue = new BackgroundLayer({
               ...value,
               size,
             });
@@ -129,7 +129,7 @@ export const BackgroundImagePicker: React.FC<{
 
             const sizeY =
               typeof value.size === "object" ? value.size[1] : "auto";
-            const newValue = new ImageLayer({
+            const newValue = new BackgroundLayer({
               ...value,
               size: [lengthPercentageAutoParser.tryParse(sizeX), sizeY],
             });
@@ -152,7 +152,7 @@ export const BackgroundImagePicker: React.FC<{
 
             const sizeX =
               typeof value.size === "object" ? value.size[0] : "auto";
-            const newValue = new ImageLayer({
+            const newValue = new BackgroundLayer({
               ...value,
               size: [sizeX, lengthPercentageAutoParser.tryParse(sizeY)],
             });
@@ -181,7 +181,10 @@ export const BackgroundImagePicker: React.FC<{
                 : { from: fromX, offset: new CSSValue.Dimension(0, "") },
               value.position.y
             );
-            const newValue = new ImageLayer({ ...value, position: newPos });
+            const newValue = new BackgroundLayer({
+              ...value,
+              position: newPos,
+            });
             onChange(newValue);
           }}
         />
@@ -203,7 +206,10 @@ export const BackgroundImagePicker: React.FC<{
                 ? "center"
                 : { from: fromY, offset: new CSSValue.Dimension(0, "") }
             );
-            const newValue = new ImageLayer({ ...value, position: newPos });
+            const newValue = new BackgroundLayer({
+              ...value,
+              position: newPos,
+            });
             onChange(newValue);
           }}
         />
@@ -230,7 +236,10 @@ export const BackgroundImagePicker: React.FC<{
               },
               value.position.y
             );
-            const newValue = new ImageLayer({ ...value, position: newPos });
+            const newValue = new BackgroundLayer({
+              ...value,
+              position: newPos,
+            });
             onChange(newValue);
             return true;
           }}
@@ -255,7 +264,10 @@ export const BackgroundImagePicker: React.FC<{
               from: value.position.y.from,
               offset: CSSValue.cssParser.lengthPercentage.tryParse(offsetY),
             });
-            const newValue = new ImageLayer({ ...value, position: newPos });
+            const newValue = new BackgroundLayer({
+              ...value,
+              position: newPos,
+            });
             onChange(newValue);
             return true;
           }}

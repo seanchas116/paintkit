@@ -3,7 +3,7 @@ import styled from "styled-components";
 import closeIcon from "@iconify-icons/ic/outline-close";
 import linearGradientIcon from "../../icon/LinearGradientRect";
 import imageFillIcon from "../../icon/Image";
-import { ImageLayer } from "../../util/BackgroundLayer";
+import { BackgroundLayer } from "../../util/BackgroundLayer";
 import { LinearGradient } from "../../util/Gradient";
 import { IconButton } from "../IconButton";
 import { LinearGradientPicker } from "./LinearGradientPicker";
@@ -19,8 +19,8 @@ const BackgroundLayerPopoverWrap = styled.div``;
 
 export const BackgroundLayerPopover: React.FC<{
   className?: string;
-  value?: ImageLayer;
-  onChange?: (value?: ImageLayer) => void;
+  value?: BackgroundLayer;
+  onChange?: (value?: BackgroundLayer) => void;
   onChangeEnd?: () => void;
 }> = ({ className, value, onChange, onChangeEnd }) => {
   const linearGradient =
@@ -48,7 +48,9 @@ export const BackgroundLayerPopover: React.FC<{
           icon={linearGradientIcon}
           pressed={!!linearGradient}
           onClick={() => {
-            onChange?.(ImageLayer.fromString("linear-gradient(white, red)"));
+            onChange?.(
+              BackgroundLayer.fromString("linear-gradient(white, red)")
+            );
             onChangeEnd?.();
           }}
         />
@@ -56,7 +58,9 @@ export const BackgroundLayerPopover: React.FC<{
           pressed={!linearGradient && !!value}
           icon={imageFillIcon}
           onClick={() => {
-            onChange?.(ImageLayer.fromString("url(https://picsum.photos/100)"));
+            onChange?.(
+              BackgroundLayer.fromString("url(https://picsum.photos/100)")
+            );
             onChangeEnd?.();
           }}
         />
@@ -66,7 +70,7 @@ export const BackgroundLayerPopover: React.FC<{
           value={linearGradient}
           index={index}
           onChange={(gradient) => {
-            onChange?.(new ImageLayer({ image: gradient }));
+            onChange?.(new BackgroundLayer({ image: gradient }));
           }}
           onChangeEnd={onChangeEnd}
           onIndexChange={setIndex}

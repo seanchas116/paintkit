@@ -13,7 +13,7 @@ export class ImageURL {
   }
 }
 
-export class ImageLayer {
+export class BackgroundLayer {
   constructor(options: {
     image: ImageURL | LinearGradient;
     position?: CSSValue.Position;
@@ -30,13 +30,13 @@ export class ImageLayer {
 
   static fromCSSValue(
     cssValue: CSSValue.BackgroundLayer
-  ): ImageLayer | undefined {
+  ): BackgroundLayer | undefined {
     if (!cssValue.image || cssValue.image instanceof CSSValue.RadialGradient) {
       // TODO: Support RadialGradient
       return undefined;
     }
 
-    return new ImageLayer({
+    return new BackgroundLayer({
       ...cssValue,
       image:
         cssValue.image instanceof CSSValue.URL
@@ -45,7 +45,7 @@ export class ImageLayer {
     });
   }
 
-  static fromString(str: string): ImageLayer | undefined {
+  static fromString(str: string): BackgroundLayer | undefined {
     return this.fromCSSValue(CSSValue.cssParser.bgLayer.tryParse(str));
   }
 
