@@ -176,10 +176,11 @@ const ColorBox = styled.div`
 `;
 
 const ColorPickerWrap = styled.div`
-  width: 208px;
+  width: 224px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 8px;
 `;
 
 const SliderRow = styled.div`
