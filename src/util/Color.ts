@@ -1,7 +1,9 @@
+import * as CSSValue from "@seanchas116/cssvalue";
 import cssColorNames from "css-color-names";
 import colorNamer from "color-namer";
 import parseCSSColor from "parse-css-color";
 import { isNearEqual } from "./Math";
+import { assertNonNull } from "./Assert";
 
 export function normalizeHexString(hex: string): string {
   if (/^#?[0-9a-fA-F]{1,2}$/.exec(hex)) {
@@ -20,6 +22,23 @@ export class Color {
     this.s = opts.s;
     this.v = opts.v;
     this.a = opts.a ?? 1;
+  }
+
+  static fromCSSValue(color: CSSValue.Color): Color {
+    if (color instanceof CSSValue.HexColor) {
+      return assertNonNull(this.fromCSS(color.value));
+    }
+    if (color instanceof CSSValue.NamedColor) {
+      return assertNonNull(this.fromCSS(color.value));
+    }
+    if (color instanceof CSSValue.RGBColor) {
+      return new Color({ ...rgb2hsv(color), a: color.a });
+    }
+    if (color instanceof CSSValue.HSLColor) {
+      return new Color({ ...hsl2hsv(color), a: color.a });
+    }
+
+    throw new Error("invalid color");
   }
 
   static get white(): Color {
@@ -125,6 +144,10 @@ export class Color {
     } else {
       return this.toHex8();
     }
+  }
+
+  toCSSValue(): CSSValue.HexColor {
+    return new CSSValue.HexColor(this.toHex());
   }
 
   toString(): string {
