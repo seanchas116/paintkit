@@ -7,7 +7,7 @@ import { popoverStyle } from "../Common";
 import { Input } from "../Input";
 import { colors } from "../Palette";
 import { PopoverCaster } from "../PopoverCaster";
-import { BackgroundLayerPopover } from "./BackgroundLayerPicker";
+import { BackgroundImagePicker } from "./BackgroundImagePicker";
 
 const ColorInputWrap = styled.div`
   position: relative;
@@ -96,7 +96,7 @@ export const BackgroundImageInput: React.FC<{
         popover={() => {
           return (
             <ColorPickerWrap>
-              <BackgroundLayerPopover
+              <BackgroundImagePicker
                 value={bgLayer}
                 onChange={(value) => {
                   onChange?.(value?.toCSSValue().toString() ?? "none");

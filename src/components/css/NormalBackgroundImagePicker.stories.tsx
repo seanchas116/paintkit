@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { assertNonNull } from "../../util/Assert";
 import { BackgroundLayer } from "../../util/BackgroundLayer";
-import { BackgroundLayerPopover } from "./BackgroundLayerPicker";
+import { NormalBackgroundImagePicker } from "./NormalBackgroundImagePicker";
 
 export default {
-  component: BackgroundLayerPopover,
+  component: NormalBackgroundImagePicker,
 };
 
-const StyledBackgroundLayerPopover = styled(BackgroundLayerPopover)`
+const StyledPicker = styled(NormalBackgroundImagePicker)`
   width: 224px;
 `;
 
@@ -20,17 +20,17 @@ const BackgroundPreview = styled.div`
 const Wrap = styled.div``;
 
 export const Basic: React.FC = () => {
-  const [bgLayer, setBgLayer] = useState<BackgroundLayer | undefined>(() =>
+  const [bgLayer, setBgLayer] = useState(() =>
     assertNonNull(BackgroundLayer.fromString("url(https://picsum.photos/100)"))
   );
 
   return (
     <Wrap>
-      <p>{bgLayer?.toCSSValue().toString() ?? "none"}</p>
+      <p>{bgLayer?.toCSSValue().toString()}</p>
       <BackgroundPreview
         style={{ background: bgLayer?.toCSSValue().toString() }}
       />
-      <StyledBackgroundLayerPopover value={bgLayer} onChange={setBgLayer} />
+      <StyledPicker value={bgLayer} onChange={setBgLayer} />
     </Wrap>
   );
 };
