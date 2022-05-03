@@ -11,11 +11,14 @@ import { BackgroundImagePicker } from "./BackgroundImagePicker";
 
 const TabButtons = styled.div`
   display: flex;
-  margin: 8px 8px 0 8px;
-  gap: 4px;
+  padding: 8px;
 `;
 
-const BackgroundLayerPopoverWrap = styled.div``;
+const BackgroundLayerPopoverWrap = styled.div`
+  > :nth-child(2) {
+    margin-top: -8px;
+  }
+`;
 
 export const BackgroundLayerPopover: React.FC<{
   className?: string;
