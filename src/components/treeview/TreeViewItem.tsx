@@ -3,13 +3,13 @@ import { computed, makeObservable } from "mobx";
 import { colors } from "../Palette";
 
 export abstract class TreeViewItem {
-  abstract readonly key: string;
-  abstract readonly parent: TreeViewItem | undefined;
-  abstract readonly children: readonly TreeViewItem[];
-  abstract readonly selected: boolean;
-  abstract readonly hovered: boolean;
-  abstract readonly collapsed: boolean;
-  abstract readonly showsCollapseButton: boolean;
+  abstract get key(): string;
+  abstract get parent(): TreeViewItem | undefined;
+  abstract get children(): readonly TreeViewItem[];
+  abstract get selected(): boolean;
+  abstract get hovered(): boolean;
+  abstract get collapsed(): boolean;
+  abstract get showsCollapseButton(): boolean;
 
   get activeColor(): string {
     return colors.active;
