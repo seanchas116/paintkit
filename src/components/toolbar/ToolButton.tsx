@@ -156,7 +156,7 @@ export const CommandToolButton: React.FC<{
       selected={command.selected}
       disabled={command.disabled}
       label={label}
-      onClick={() => command.run?.()}
+      onClick={command.onClick}
     />
   );
 });
@@ -193,7 +193,7 @@ export class DropdownCommands {
         selected: c.selected,
         shortcut: c.shortcut,
         run: action(() => {
-          if (c.run?.()) {
+          if (c.onClick?.()) {
             this.current = c;
             return true;
           }
@@ -211,21 +211,19 @@ export class DropdownCommands {
 export const DropdownCommandToolButton: React.FC<{
   commands: DropdownCommands;
 }> = observer(({ commands }) => {
-  const inputInsertModeSelected = commands.someSelected;
-  const inputInsertToolCurrent = commands.current;
+  const selected = commands.someSelected;
+  const current = commands.current;
 
   return (
     <Dropdown
       options={commands.commands}
       button={(open, onClick) => (
         <ToolButton
-          label={inputInsertToolCurrent?.text ?? ""}
-          icon={inputInsertToolCurrent?.icon}
+          label={current?.text ?? ""}
+          icon={current?.icon}
           downArrow
-          selected={open || inputInsertModeSelected}
-          onClick={() => {
-            inputInsertToolCurrent.run?.();
-          }}
+          selected={open || selected}
+          onClick={current.onClick}
           onDownArrowClick={(_, elem) => onClick(elem)}
         />
       )}

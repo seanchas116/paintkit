@@ -181,7 +181,7 @@ const MenuRow: React.FC<{
               return;
             }
             onChangeIndexPath([]);
-            item.run?.();
+            item.onClick?.();
           }}
           onMouseEnter={() => {
             onChangeIndexPath(setCurrentIndex(indexPath, depth, index));

@@ -61,7 +61,7 @@ export interface Command {
   disabled?: boolean;
   selected?: boolean;
   shortcut?: readonly KeyGesture[];
-  run?(): boolean;
+  onClick?: () => boolean;
 }
 
 export interface Menu {
@@ -118,12 +118,12 @@ export const MenuItem = {
 
   handleShortcut(items: readonly MenuItem[], e: KeyboardEvent): boolean {
     for (const item of items) {
-      if ("run" in item) {
+      if ("onClick" in item) {
         if (
           !item.disabled &&
           (item.shortcut ?? []).some((shortcut) => shortcut.matches(e))
         ) {
-          if (item.run?.()) {
+          if (item.onClick?.()) {
             return true;
           }
         }
