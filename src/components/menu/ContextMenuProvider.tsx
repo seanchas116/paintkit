@@ -55,7 +55,7 @@ export const ContextMenuProvider: React.FC<{
     };
     controller.on("change", onChange);
     return () => {
-      controller.off("change", onChange);
+      controller.removeListener("change", onChange);
     };
   }, [controller]);
 
