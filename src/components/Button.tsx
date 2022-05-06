@@ -19,6 +19,10 @@ export const Button = styled.button.attrs({ type: "button" })<{
   align-items: center;
   gap: 4px;
 
+  :disabled {
+    color: ${colors.disabledText};
+  }
+
   :not(:disabled):hover {
     background: ${colors.popoverBorder};
   }
@@ -26,9 +30,10 @@ export const Button = styled.button.attrs({ type: "button" })<{
   ${({ primary }) =>
     primary &&
     css`
-      color: ${colors.activeText};
-
-      background-color: ${colors.active};
+      :not(:disabled) {
+        color: ${colors.activeText};
+        background-color: ${colors.active};
+      }
       :not(:disabled):hover {
         background: linear-gradient(
             rgba(0, 0, 0, 0.1) 0%,
