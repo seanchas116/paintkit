@@ -17,7 +17,7 @@ export function svgToDataURL(svgText: string): string {
   return `data:image/svg+xml;charset=utf-8,${encoded}`;
 }
 
-export function iconToDataURL(icon: IconifyIcon, defaultSize = 24): string {
+export function iconToSVGString(icon: IconifyIcon, defaultSize = 24): string {
   const { attributes, body } = iconToSVG(
     {
       body: icon.body,
@@ -42,8 +42,11 @@ export function iconToDataURL(icon: IconifyIcon, defaultSize = 24): string {
     }
   );
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${attributes.viewBox}">${body}</svg>`;
-  return svgToDataURL(svg);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${attributes.viewBox}">${body}</svg>`;
+}
+
+export function iconToDataURL(icon: IconifyIcon, defaultSize = 24): string {
+  return svgToDataURL(iconToSVGString(icon, defaultSize));
 }
 
 export function intrinsicSizeForSVG(svgText: string): Vec2 {
