@@ -122,11 +122,17 @@ describe(TreeNode, () => {
       const component = new UniqueNameRoot();
       const child0 = new UniqueNameNode("layer");
       const child1 = new UniqueNameNode("layer");
+      const noNameChild0 = new UniqueNameNode("");
+      const noNameChild1 = new UniqueNameNode("");
 
+      component.append(noNameChild0);
+      component.append(noNameChild1);
       component.append(child0);
       component.append(child1);
 
       expect(component.children.map((c) => c.name)).toEqual([
+        "",
+        "",
         "layer",
         "layer1",
       ]);
@@ -134,6 +140,8 @@ describe(TreeNode, () => {
       component.append(child0);
 
       expect(component.children.map((c) => c.name)).toEqual([
+        "",
+        "",
         "layer1",
         "layer",
       ]);
@@ -145,14 +153,18 @@ describe(TreeNode, () => {
       component.append(child2);
 
       expect(component.children.map((c) => c.name)).toEqual([
+        "",
+        "",
         "child",
         "layer",
         "child1",
       ]);
 
-      component.children[1].rename("child");
+      component.children[3].rename("child");
 
       expect(component.children.map((c) => c.name)).toEqual([
+        "",
+        "",
         "child",
         "child2",
         "child1",
@@ -160,6 +172,8 @@ describe(TreeNode, () => {
 
       component.append(new NonUniqueNameNode("child"));
       expect(component.children.map((c) => c.name)).toEqual([
+        "",
+        "",
         "child",
         "child2",
         "child1",

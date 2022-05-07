@@ -53,6 +53,10 @@ export abstract class TreeNode<
     }
 
     private addSelf(value: TreeNode<any, any, any>): void {
+      if (!value.name) {
+        return;
+      }
+
       const oldName = value._name;
       const name = getIncrementalUniqueName(
         new Set(this.layers.keys()),
@@ -74,6 +78,9 @@ export abstract class TreeNode<
 
     delete(value: TreeNode<any, any, any>): void {
       if (value.currentNameScope !== this) {
+        return;
+      }
+      if (!value.name) {
         return;
       }
 
