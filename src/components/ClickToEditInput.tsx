@@ -15,6 +15,7 @@ const ErrorPopup = styled.div`
 const Wrap = styled.div`
   height: 24px;
   line-height: 24px;
+  min-width: 0;
   position: relative;
 
   ${ErrorPopup} {
