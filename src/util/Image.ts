@@ -42,7 +42,11 @@ export function iconToSVGString(icon: IconifyIcon, defaultSize = 24): string {
     }
   );
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${attributes.viewBox}">${body}</svg>`;
+  const attributesString = Object.entries(attributes)
+    .map(([key, value]) => `${key}="${value}"`)
+    .join(" ");
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" ${attributesString}>${body}</svg>`;
 }
 
 export function iconToDataURL(icon: IconifyIcon, defaultSize = 24): string {
