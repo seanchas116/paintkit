@@ -39,19 +39,21 @@ const IconButtonWrap = styled.button`
   }
 `;
 
-export const IconButton: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    icon: IconifyIcon;
-    iconSize?: number;
-    pressed?: boolean;
-  }
-> = React.memo(({ icon, iconSize = 16, pressed, ...props }) => {
-  return (
-    <IconButtonWrap {...props} aria-pressed={pressed}>
-      <Icon icon={icon} width={iconSize} height={iconSize} />
-    </IconButtonWrap>
-  );
-});
+type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  icon: IconifyIcon;
+  iconSize?: number;
+  pressed?: boolean;
+};
+
+export const IconButton: React.FC<IconButtonProps> = React.memo(
+  React.forwardRef<HTMLButtonElement, IconButtonProps>(
+    ({ icon, iconSize = 16, pressed, ...props }, ref) => (
+      <IconButtonWrap ref={ref} {...props} aria-pressed={pressed}>
+        <Icon icon={icon} width={iconSize} height={iconSize} />
+      </IconButtonWrap>
+    )
+  )
+);
 
 export const MoreButton = styled(IconButton).attrs({ icon: moreHorizIcon })``;
 export const PlusButton = styled(IconButton).attrs({ icon: addIcon })``;
