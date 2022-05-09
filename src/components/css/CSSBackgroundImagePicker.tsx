@@ -9,6 +9,7 @@ import { IconButton } from "../IconButton";
 import { LinearGradientPicker } from "../color/LinearGradientPicker";
 import { BackgroundImagePicker } from "../color/BackgroundImagePicker";
 import { SelectItem } from "../Select";
+import Tippy from "@tippyjs/react";
 
 const TabButtons = styled.div`
   display: flex;
@@ -49,34 +50,40 @@ export const CSSBackgroundImagePicker: React.FC<{
   return (
     <CSSBackgroundImagePickerWrap className={className}>
       <TabButtons>
-        <IconButton
-          icon={closeIcon}
-          pressed={!value}
-          onClick={() => {
-            onChange?.(undefined);
-            onChangeEnd?.();
-          }}
-        />
-        <IconButton
-          icon={linearGradientIcon}
-          pressed={!!linearGradient}
-          onClick={() => {
-            onChange?.(
-              BackgroundLayer.fromString("linear-gradient(white, red)")
-            );
-            onChangeEnd?.();
-          }}
-        />
-        <IconButton
-          pressed={!linearGradient && !!value}
-          icon={imageFillIcon}
-          onClick={() => {
-            onChange?.(
-              BackgroundLayer.fromString("url(https://picsum.photos/100)")
-            );
-            onChangeEnd?.();
-          }}
-        />
+        <Tippy content="None">
+          <IconButton
+            icon={closeIcon}
+            pressed={!value}
+            onClick={() => {
+              onChange?.(undefined);
+              onChangeEnd?.();
+            }}
+          />
+        </Tippy>
+        <Tippy content="Linear Gradient">
+          <IconButton
+            icon={linearGradientIcon}
+            pressed={!!linearGradient}
+            onClick={() => {
+              onChange?.(
+                BackgroundLayer.fromString("linear-gradient(white, red)")
+              );
+              onChangeEnd?.();
+            }}
+          />
+        </Tippy>
+        <Tippy content="Image">
+          <IconButton
+            pressed={!linearGradient && !!value}
+            icon={imageFillIcon}
+            onClick={() => {
+              onChange?.(
+                BackgroundLayer.fromString("url(https://picsum.photos/100)")
+              );
+              onChangeEnd?.();
+            }}
+          />
+        </Tippy>
       </TabButtons>
       {linearGradient && (
         <LinearGradientPicker
