@@ -2,6 +2,9 @@ import Tippy from "@tippyjs/react";
 import React from "react";
 import styled from "styled-components";
 import { Icon } from "@iconify/react/dist/offline";
+// @ts-ignore
+// eslint-disable-next-line import/no-extraneous-dependencies
+import replaceCSSURL from "replace-css-url";
 import { BackgroundLayer } from "../../util/BackgroundLayer";
 import { MIXED } from "../../util/Mixed";
 import { popoverStyle } from "../Common";
@@ -103,7 +106,15 @@ export const CSSBackgroundImageInput: React.FC<{
               {bgLayer ? (
                 <ColorButtonColor
                   style={{
-                    background: typeof value === "string" ? value : "none",
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    background:
+                      typeof value === "string"
+                        ? // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+                          replaceCSSURL(
+                            value,
+                            resolveImageURL ?? ((url: string) => url)
+                          )
+                        : "none",
                   }}
                 />
               ) : (
