@@ -8,6 +8,7 @@ import { LinearGradient } from "../../util/Gradient";
 import { IconButton } from "../IconButton";
 import { LinearGradientPicker } from "../color/LinearGradientPicker";
 import { BackgroundImagePicker } from "../color/BackgroundImagePicker";
+import { SelectItem } from "../Select";
 
 const TabButtons = styled.div`
   display: flex;
@@ -23,9 +24,10 @@ const CSSBackgroundImagePickerWrap = styled.div`
 export const CSSBackgroundImagePicker: React.FC<{
   className?: string;
   value?: BackgroundLayer;
+  imageURLOptions?: SelectItem[];
   onChange?: (value?: BackgroundLayer) => void;
   onChangeEnd?: () => void;
-}> = ({ className, value, onChange, onChangeEnd }) => {
+}> = ({ className, value, imageURLOptions, onChange, onChangeEnd }) => {
   const linearGradient =
     value?.image instanceof LinearGradient ? value?.image : undefined;
 
@@ -82,6 +84,7 @@ export const CSSBackgroundImagePicker: React.FC<{
       {value && !linearGradient && (
         <BackgroundImagePicker
           value={value}
+          imageURLOptions={imageURLOptions}
           onChange={(image) => {
             onChange?.(image);
             onChangeEnd?.();

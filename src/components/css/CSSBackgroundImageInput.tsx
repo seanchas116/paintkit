@@ -9,6 +9,7 @@ import { Input } from "../Input";
 import { colors } from "../Palette";
 import { PopoverCaster } from "../PopoverCaster";
 import imageFillIcon from "../../icon/Image";
+import { SelectItem } from "../Select";
 import { CSSBackgroundImagePicker } from "./CSSBackgroundImagePicker";
 
 const ColorInputWrap = styled.div`
@@ -51,10 +52,19 @@ export const CSSBackgroundImageInput: React.FC<{
   className?: string;
   title?: string;
   placeholder?: string;
+  imageURLOptions?: SelectItem[];
   value?: string | typeof MIXED;
   onChange?: (value?: string) => void;
   onChangeEnd?: () => void;
-}> = ({ className, title, placeholder, value, onChange, onChangeEnd }) => {
+}> = ({
+  className,
+  title,
+  placeholder,
+  imageURLOptions,
+  value,
+  onChange,
+  onChangeEnd,
+}) => {
   const bgLayer = (() => {
     try {
       return typeof value === "string"
@@ -109,6 +119,7 @@ export const CSSBackgroundImageInput: React.FC<{
             <ColorPickerWrap>
               <CSSBackgroundImagePicker
                 value={bgLayer}
+                imageURLOptions={imageURLOptions}
                 onChange={(value) => {
                   onChange?.(value?.toCSSValue().toString() ?? "none");
                 }}

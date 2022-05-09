@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as CSSValue from "@seanchas116/cssvalue";
 import { Label } from "../Label";
-import { Select } from "../Select";
+import { Select, SelectItem } from "../Select";
 import { ImageInput } from "../ImageInput";
 import { BackgroundLayer, ImageURL } from "../../util/BackgroundLayer";
 import { DimensionInput } from "../DimensionInput";
@@ -77,12 +77,9 @@ const PositionRow = styled.div`
 export const BackgroundImagePicker: React.FC<{
   className?: string;
   value: BackgroundLayer;
-  renderImageInput?: (
-    value: string,
-    onChange: (value: string) => void
-  ) => ReactNode;
+  imageURLOptions?: SelectItem[];
   onChange: (value: BackgroundLayer) => void;
-}> = ({ className, value, renderImageInput, onChange }) => {
+}> = ({ className, value, imageURLOptions, onChange }) => {
   if (!(value.image instanceof ImageURL)) {
     return null;
   }
@@ -95,11 +92,11 @@ export const BackgroundImagePicker: React.FC<{
   return (
     <BackgroundImagePickerWrap className={className}>
       <URLRow>
-        {renderImageInput ? (
-          renderImageInput(value.image.url, onURLChange)
-        ) : (
-          <ImageInput value={value.image.url} onChange={onURLChange} />
-        )}
+        <ImageInput
+          value={value.image.url}
+          options={imageURLOptions}
+          onChange={onURLChange}
+        />
       </URLRow>
       <SizeRow>
         <Label>Size</Label>

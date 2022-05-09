@@ -40,13 +40,13 @@ export const ImageInput: React.FC<{
   value?: string | typeof MIXED;
   onChange: (value: string) => boolean;
   resolveURL?: (url: string) => string;
-  urlOptions?: SelectItem[];
+  options?: SelectItem[];
   onPreviewContextMenu?: (e: React.MouseEvent) => void;
 }> = ({
   value,
   onChange,
   resolveURL = (url) => url,
-  urlOptions = [],
+  options = [],
   onPreviewContextMenu,
 }) => {
   return (
@@ -58,7 +58,7 @@ export const ImageInput: React.FC<{
           }
         />
       </ImagePreviewWrap>
-      <ComboBox value={value} options={urlOptions} onChange={onChange} />
+      <ComboBox value={value} options={options} onChange={onChange} />
     </ImageInputWrap>
   );
 };
