@@ -1,4 +1,6 @@
+import * as bnb from "bread-n-butter";
 import * as CSSValue from "@seanchas116/cssvalue";
+import { Color } from "./Color";
 import { LinearGradient } from "./Gradient";
 
 export class ImageURL {
@@ -61,3 +63,18 @@ export class BackgroundLayer {
     });
   }
 }
+
+export type BackgroundLayerOrColor = BackgroundLayer | Color;
+
+export const BackgroundLayerOrColor = {
+  fromString(str: string): BackgroundLayerOrColor | undefined {
+    const parsed = bnb
+      .choice(CSSValue.cssParser.bgLayer, CSSValue.cssParser.color)
+      .tryParse(str);
+    if (parsed instanceof CSSValue.BackgroundLayer) {
+      return BackgroundLayer.fromCSSValue(parsed);
+    } else {
+      return Color.fromCSSValue(parsed);
+    }
+  },
+};

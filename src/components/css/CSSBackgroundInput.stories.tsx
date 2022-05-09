@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { CSSBackgroundImageInput } from "./CSSBackgroundImageInput";
+import { CSSBackgroundInput } from "./CSSBackgroundInput";
 
 export default {
-  component: CSSBackgroundImageInput,
+  component: CSSBackgroundInput,
 };
 
-const StyledBackgroundImageInput = styled(CSSBackgroundImageInput)`
+const StyledInput = styled(CSSBackgroundInput)`
   width: 224px;
 `;
 
@@ -26,7 +26,7 @@ export const Basic: React.FC = () => {
     <Wrap>
       <p>{bgLayer}</p>
       <BackgroundPreview style={{ background: bgLayer }} />
-      <StyledBackgroundImageInput value={bgLayer} onChange={setBgLayer} />
+      <StyledInput value={bgLayer} onChange={setBgLayer} />
     </Wrap>
   );
 };

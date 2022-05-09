@@ -2,32 +2,55 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import closeIcon from "@iconify-icons/ic/outline-close";
 import Tippy from "@tippyjs/react";
+import solidIcon from "../../icon/SolidRect";
 import linearGradientIcon from "../../icon/LinearGradientRect";
 import imageFillIcon from "../../icon/Image";
-import { BackgroundLayer } from "../../util/BackgroundLayer";
+import {
+  BackgroundLayer,
+  BackgroundLayerOrColor,
+} from "../../util/BackgroundLayer";
 import { LinearGradient } from "../../util/Gradient";
 import { IconButton } from "../IconButton";
 import { LinearGradientPicker } from "../color/LinearGradientPicker";
 import { BackgroundImagePicker } from "../color/BackgroundImagePicker";
 import { SelectItem } from "../Select";
+import { Color } from "../../util/Color";
+import { ColorPicker } from "../color/ColorPicker";
 
 const TabButtons = styled.div`
   display: flex;
   padding: 8px;
 `;
 
-const CSSBackgroundImagePickerWrap = styled.div`
+const CSSBackgroundPickerWrap = styled.div`
   > :nth-child(2) {
     margin-top: -8px;
   }
 `;
 
-export const CSSBackgroundImagePicker: React.FC<{
+type ValueWithType =
+  | {
+      type: "color";
+      value: Color;
+    }
+  | {
+      type: "linearGradient";
+      value: LinearGradient;
+    }
+  | {
+      type: "image";
+      value: BackgroundLayer;
+    }
+  | {
+      type: "none";
+    };
+
+export const CSSBackgroundPicker: React.FC<{
   className?: string;
-  value?: BackgroundLayer;
+  value?: BackgroundLayerOrColor;
   imageURLOptions?: SelectItem[];
   resolveImageURL?: (url: string) => string;
-  onChange?: (value?: BackgroundLayer) => void;
+  onChange?: (value?: BackgroundLayer | Color) => void;
   onChangeEnd?: () => void;
 }> = ({
   className,
@@ -37,25 +60,55 @@ export const CSSBackgroundImagePicker: React.FC<{
   onChange,
   onChangeEnd,
 }) => {
-  const linearGradient =
-    value?.image instanceof LinearGradient ? value?.image : undefined;
+  let valueWithType: ValueWithType;
+
+  if (!value) {
+    valueWithType = { type: "none" };
+  } else if (value instanceof Color) {
+    valueWithType = {
+      type: "color",
+      value,
+    };
+  } else {
+    if (value?.image instanceof LinearGradient) {
+      valueWithType = {
+        type: "linearGradient",
+        value: value.image,
+      };
+    } else {
+      valueWithType = {
+        type: "image",
+        value,
+      };
+    }
+  }
 
   const [index, setIndex] = useState(0);
   useEffect(() => {
-    if (!linearGradient) {
+    if (valueWithType.type !== "linearGradient") {
       setIndex(0);
     }
-  }, [linearGradient, setIndex]);
+  }, [valueWithType, setIndex]);
 
   return (
-    <CSSBackgroundImagePickerWrap className={className}>
+    <CSSBackgroundPickerWrap className={className}>
       <TabButtons>
         <Tippy content="None">
           <IconButton
             icon={closeIcon}
-            pressed={!value}
+            pressed={valueWithType.type === "none"}
             onClick={() => {
               onChange?.(undefined);
+              onChangeEnd?.();
+            }}
+          />
+        </Tippy>
+        <Tippy content="Color">
+          <IconButton
+            icon={solidIcon}
+            pressed={valueWithType.type === "color"}
+            onClick={() => {
+              onChange?.(Color.from("gray"));
               onChangeEnd?.();
             }}
           />
@@ -63,7 +116,7 @@ export const CSSBackgroundImagePicker: React.FC<{
         <Tippy content="Linear Gradient">
           <IconButton
             icon={linearGradientIcon}
-            pressed={!!linearGradient}
+            pressed={valueWithType.type === "linearGradient"}
             onClick={() => {
               onChange?.(
                 BackgroundLayer.fromString("linear-gradient(white, red)")
@@ -74,7 +127,7 @@ export const CSSBackgroundImagePicker: React.FC<{
         </Tippy>
         <Tippy content="Image">
           <IconButton
-            pressed={!linearGradient && !!value}
+            pressed={valueWithType.type === "image"}
             icon={imageFillIcon}
             onClick={() => {
               onChange?.(
@@ -85,9 +138,18 @@ export const CSSBackgroundImagePicker: React.FC<{
           />
         </Tippy>
       </TabButtons>
-      {linearGradient && (
+      {valueWithType.type === "color" && (
+        <ColorPicker
+          color={valueWithType.value}
+          onChange={(value) => {
+            onChange?.(value);
+          }}
+          onChangeEnd={onChangeEnd}
+        />
+      )}
+      {valueWithType.type === "linearGradient" && (
         <LinearGradientPicker
-          value={linearGradient}
+          value={valueWithType.value}
           index={index}
           onChange={(gradient) => {
             onChange?.(new BackgroundLayer({ image: gradient }));
@@ -96,9 +158,9 @@ export const CSSBackgroundImagePicker: React.FC<{
           onIndexChange={setIndex}
         />
       )}
-      {value && !linearGradient && (
+      {valueWithType.type === "image" && (
         <BackgroundImagePicker
-          value={value}
+          value={valueWithType.value}
           imageURLOptions={imageURLOptions}
           resolveImageURL={resolveImageURL}
           onChange={(image) => {
@@ -107,6 +169,6 @@ export const CSSBackgroundImagePicker: React.FC<{
           }}
         />
       )}
-    </CSSBackgroundImagePickerWrap>
+    </CSSBackgroundPickerWrap>
   );
 };

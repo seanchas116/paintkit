@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { assertNonNull } from "../../util/Assert";
-import { BackgroundLayer } from "../../util/BackgroundLayer";
-import { CSSBackgroundImagePicker } from "./CSSBackgroundImagePicker";
+import { BackgroundLayerOrColor } from "../../util/BackgroundLayer";
+import { CSSBackgroundPicker } from "./CSSBackgroundPicker";
 
 export default {
-  component: CSSBackgroundImagePicker,
+  component: CSSBackgroundPicker,
 };
 
-const StyledPicker = styled(CSSBackgroundImagePicker)`
+const StyledPicker = styled(CSSBackgroundPicker)`
   width: 224px;
 `;
 
@@ -20,8 +20,11 @@ const BackgroundPreview = styled.div`
 const Wrap = styled.div``;
 
 export const Basic: React.FC = () => {
-  const [bgLayer, setBgLayer] = useState<BackgroundLayer | undefined>(() =>
-    assertNonNull(BackgroundLayer.fromString("url(https://picsum.photos/100)"))
+  const [bgLayer, setBgLayer] = useState<BackgroundLayerOrColor | undefined>(
+    () =>
+      assertNonNull(
+        BackgroundLayerOrColor.fromString("url(https://picsum.photos/100)")
+      )
   );
 
   return (

@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react/dist/offline";
 // @ts-ignore
 // eslint-disable-next-line import/no-extraneous-dependencies
 import replaceCSSURL from "replace-css-url";
-import { BackgroundLayer } from "../../util/BackgroundLayer";
+import { BackgroundLayerOrColor } from "../../util/BackgroundLayer";
 import { MIXED } from "../../util/Mixed";
 import { popoverStyle } from "../Common";
 import { Input } from "../Input";
@@ -13,7 +13,7 @@ import { colors } from "../Palette";
 import { PopoverCaster } from "../PopoverCaster";
 import imageFillIcon from "../../icon/Image";
 import { SelectItem } from "../Select";
-import { CSSBackgroundImagePicker } from "./CSSBackgroundImagePicker";
+import { CSSBackgroundPicker } from "./CSSBackgroundPicker";
 
 const ColorInputWrap = styled.div`
   position: relative;
@@ -51,7 +51,7 @@ const ColorPickerWrap = styled.div`
   ${popoverStyle}
 `;
 
-export const CSSBackgroundImageInput: React.FC<{
+export const CSSBackgroundInput: React.FC<{
   className?: string;
   defaultPlacement?: "top" | "bottom";
   title?: string;
@@ -75,7 +75,7 @@ export const CSSBackgroundImageInput: React.FC<{
   const bgLayer = (() => {
     try {
       return typeof value === "string"
-        ? BackgroundLayer.fromString(value)
+        ? BackgroundLayerOrColor.fromString(value)
         : undefined;
     } catch (e) {
       return undefined;
@@ -133,7 +133,7 @@ export const CSSBackgroundImageInput: React.FC<{
         popover={() => {
           return (
             <ColorPickerWrap>
-              <CSSBackgroundImagePicker
+              <CSSBackgroundPicker
                 value={bgLayer}
                 imageURLOptions={imageURLOptions}
                 resolveImageURL={resolveImageURL}
