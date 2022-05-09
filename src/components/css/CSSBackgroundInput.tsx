@@ -51,6 +51,7 @@ const ColorPickerWrap = styled.div`
   ${popoverStyle}
 `;
 
+// TODO: support multiple image layers
 export const CSSBackgroundInput: React.FC<{
   className?: string;
   defaultPlacement?: "top" | "bottom";
