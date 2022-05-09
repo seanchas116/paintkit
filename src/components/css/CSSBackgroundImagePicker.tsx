@@ -25,9 +25,17 @@ export const CSSBackgroundImagePicker: React.FC<{
   className?: string;
   value?: BackgroundLayer;
   imageURLOptions?: SelectItem[];
+  resolveImageURL?: (url: string) => string;
   onChange?: (value?: BackgroundLayer) => void;
   onChangeEnd?: () => void;
-}> = ({ className, value, imageURLOptions, onChange, onChangeEnd }) => {
+}> = ({
+  className,
+  value,
+  imageURLOptions,
+  resolveImageURL,
+  onChange,
+  onChangeEnd,
+}) => {
   const linearGradient =
     value?.image instanceof LinearGradient ? value?.image : undefined;
 
@@ -85,6 +93,7 @@ export const CSSBackgroundImagePicker: React.FC<{
         <BackgroundImagePicker
           value={value}
           imageURLOptions={imageURLOptions}
+          resolveImageURL={resolveImageURL}
           onChange={(image) => {
             onChange?.(image);
             onChangeEnd?.();

@@ -78,8 +78,9 @@ export const BackgroundImagePicker: React.FC<{
   className?: string;
   value: BackgroundLayer;
   imageURLOptions?: SelectItem[];
+  resolveImageURL?: (url: string) => string;
   onChange: (value: BackgroundLayer) => void;
-}> = ({ className, value, imageURLOptions, onChange }) => {
+}> = ({ className, value, imageURLOptions, resolveImageURL, onChange }) => {
   if (!(value.image instanceof ImageURL)) {
     return null;
   }
@@ -95,6 +96,7 @@ export const BackgroundImagePicker: React.FC<{
         <ImageInput
           value={value.image.url}
           options={imageURLOptions}
+          resolveURL={resolveImageURL}
           onChange={onURLChange}
         />
       </URLRow>

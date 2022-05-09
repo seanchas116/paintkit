@@ -53,6 +53,7 @@ export const CSSBackgroundImageInput: React.FC<{
   title?: string;
   placeholder?: string;
   imageURLOptions?: SelectItem[];
+  resolveImageURL?: (url: string) => string;
   value?: string | typeof MIXED;
   onChange?: (value?: string) => void;
   onChangeEnd?: () => void;
@@ -61,6 +62,7 @@ export const CSSBackgroundImageInput: React.FC<{
   title,
   placeholder,
   imageURLOptions,
+  resolveImageURL,
   value,
   onChange,
   onChangeEnd,
@@ -120,6 +122,7 @@ export const CSSBackgroundImageInput: React.FC<{
               <CSSBackgroundImagePicker
                 value={bgLayer}
                 imageURLOptions={imageURLOptions}
+                resolveImageURL={resolveImageURL}
                 onChange={(value) => {
                   onChange?.(value?.toCSSValue().toString() ?? "none");
                 }}
