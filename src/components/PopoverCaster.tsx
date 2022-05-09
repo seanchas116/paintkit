@@ -28,9 +28,10 @@ const PopoverArea = styled.div`
 `;
 
 export const PopoverCaster: React.FC<{
+  defaultPlacement?: "top" | "bottom";
   anchor: (open: (anchor: DOMRect) => void) => JSX.Element;
   popover: (close: () => void) => JSX.Element;
-}> = ({ anchor, popover }) => {
+}> = ({ defaultPlacement = "bottom", anchor, popover }) => {
   const onOpen = (anchorRect: DOMRect) => {
     if (!wrapRef.current || !areaRef.current) {
       return;
@@ -41,7 +42,22 @@ export const PopoverCaster: React.FC<{
     const setPosition = () => {
       const width = wrap.clientWidth;
       const height = wrap.clientHeight;
-      if (window.innerHeight - anchorRect.bottom < height) {
+
+      const canPlaceTop = height <= anchorRect.top;
+      const canPlaceBottom = height <= window.innerHeight - anchorRect.bottom;
+
+      let placement: "top" | "bottom";
+      if (canPlaceTop && canPlaceBottom) {
+        placement = defaultPlacement;
+      } else if (canPlaceBottom) {
+        placement = "bottom";
+      } else if (canPlaceTop) {
+        placement = "top";
+      } else {
+        placement = defaultPlacement;
+      }
+
+      if (placement === "top") {
         // show popover on top
         wrap.style.bottom = `${window.innerHeight - anchorRect.top}px`;
         wrap.style.removeProperty("top");

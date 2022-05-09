@@ -50,6 +50,7 @@ const ColorPickerWrap = styled.div`
 
 export const CSSBackgroundImageInput: React.FC<{
   className?: string;
+  defaultPlacement?: "top" | "bottom";
   title?: string;
   placeholder?: string;
   imageURLOptions?: SelectItem[];
@@ -59,6 +60,7 @@ export const CSSBackgroundImageInput: React.FC<{
   onChangeEnd?: () => void;
 }> = ({
   className,
+  defaultPlacement,
   title,
   placeholder,
   imageURLOptions,
@@ -90,6 +92,7 @@ export const CSSBackgroundImageInput: React.FC<{
         }}
       />
       <PopoverCaster
+        defaultPlacement={defaultPlacement}
         anchor={(open) => {
           const button = (
             <ColorButton
