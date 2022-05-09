@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { sameOrMixed } from "../util/Mixed";
+import { MIXED } from "../util/Mixed";
 import { ComboBox } from "./ComboBox";
 import { checkPattern } from "./Common";
 import { colors } from "./Palette";
@@ -36,27 +36,29 @@ const ImageInputWrap = styled.div`
   gap: 4px;
 `;
 
-export const ImageInput: React.VFC<{
-  values: (string | undefined)[];
+export const ImageInput: React.FC<{
+  value?: string | typeof MIXED;
   onChange: (value: string) => boolean;
   resolveURL?: (url: string) => string;
   urlOptions?: SelectItem[];
   onPreviewContextMenu?: (e: React.MouseEvent) => void;
 }> = ({
-  values,
+  value,
   onChange,
   resolveURL = (url) => url,
   urlOptions = [],
   onPreviewContextMenu,
 }) => {
-  const src = sameOrMixed(values);
-
   return (
     <ImageInputWrap>
       <ImagePreviewWrap tabIndex={-1} onContextMenu={onPreviewContextMenu}>
-        <ImagePreview src={src ? resolveURL(src.toString()) : undefined} />
+        <ImagePreview
+          src={
+            typeof value === "string" ? resolveURL(value.toString()) : undefined
+          }
+        />
       </ImagePreviewWrap>
-      <ComboBox value={src} options={urlOptions} onChange={onChange} />
+      <ComboBox value={value} options={urlOptions} onChange={onChange} />
     </ImageInputWrap>
   );
 };

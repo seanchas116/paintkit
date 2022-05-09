@@ -98,7 +98,7 @@ export const BackgroundImagePicker: React.FC<{
         {renderImageInput ? (
           renderImageInput(value.image.url, onURLChange)
         ) : (
-          <ImageInput values={[value.image.url]} onChange={onURLChange} />
+          <ImageInput value={value.image.url} onChange={onURLChange} />
         )}
       </URLRow>
       <SizeRow>
