@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import closeIcon from "@iconify-icons/ic/outline-close";
+import Tippy from "@tippyjs/react";
 import linearGradientIcon from "../../icon/LinearGradientRect";
 import imageFillIcon from "../../icon/Image";
 import { BackgroundLayer } from "../../util/BackgroundLayer";
@@ -9,7 +10,6 @@ import { IconButton } from "../IconButton";
 import { LinearGradientPicker } from "../color/LinearGradientPicker";
 import { BackgroundImagePicker } from "../color/BackgroundImagePicker";
 import { SelectItem } from "../Select";
-import Tippy from "@tippyjs/react";
 
 const TabButtons = styled.div`
   display: flex;
