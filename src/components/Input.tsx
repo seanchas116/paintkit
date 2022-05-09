@@ -105,20 +105,16 @@ const InputIconLetter = styled.div`
 
 export const InputIcon: React.FC<{
   title?: string;
-  icon?: IconifyIcon | string;
+  icon: IconifyIcon | string;
 }> = ({ icon, title }) => {
   const iconBody =
     typeof icon === "string" ? (
       <InputIconLetter>{icon}</InputIconLetter>
-    ) : icon ? (
+    ) : (
       <InputIconIcon icon={icon} />
-    ) : null;
+    );
 
-  return title && iconBody ? (
-    <Tippy content={title}>{iconBody}</Tippy>
-  ) : (
-    iconBody
-  );
+  return title ? <Tippy content={title}>{iconBody}</Tippy> : iconBody;
 };
 
 /**
@@ -160,7 +156,7 @@ export const Input: React.FC<InputProps> = ({
         inputRef.current?.focus();
       }}
     >
-      {iconPosition === "left" && (
+      {props.icon && iconPosition === "left" && (
         <InputIcon icon={props.icon} title={props.title} />
       )}
       <InputInput
@@ -244,7 +240,7 @@ export const Input: React.FC<InputProps> = ({
           setCurrentValue(e.currentTarget.value);
         }}
       />
-      {iconPosition === "right" && (
+      {props.icon && iconPosition === "right" && (
         <InputIcon icon={props.icon} title={props.title} />
       )}
       {!validateResult.value && (

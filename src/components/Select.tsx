@@ -1,6 +1,7 @@
 import React, { createRef, ReactNode, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import scrollIntoView from "scroll-into-view-if-needed";
+import { IconifyIcon } from "@iconify/types";
 import { MIXED } from "../util/Mixed";
 import { colors } from "./Palette";
 import {
@@ -14,6 +15,7 @@ import {
   PopoverBody,
 } from "./Common";
 import { RootPortal } from "./RootPortal";
+import { InputIcon } from "./Input";
 
 export interface SelectOption<T extends string = string> {
   key?: string | number;
@@ -157,6 +159,8 @@ export interface SelectProps<T extends string> {
   tabIndex?: number;
   truncatesOptions?: boolean;
   disabled?: boolean;
+  title?: string;
+  icon?: IconifyIcon | string;
 
   options?: readonly SelectItem<T>[];
   value?: T | typeof MIXED;
@@ -184,6 +188,8 @@ export function Select<T extends string>({
   tabIndex = 0,
   truncatesOptions,
   disabled,
+  icon,
+  title,
   options: optionsWithSeps = [],
   value,
   placeholder,
@@ -385,7 +391,8 @@ export function Select<T extends string>({
             }
           }}
         >
-          {currentOption?.icon}
+          {currentOption?.icon ||
+            (icon && <InputIcon icon={icon} title={title} />)}
           <SelectLabel hidden={!valueText}>{valueText}</SelectLabel>
           <SelectPlaceholder hidden={!!(valueText || !placeholderText)}>
             {placeholderText}

@@ -44,6 +44,32 @@ export const WithIcons: React.FC = () => {
   return <StyledSelect value={value} onChange={setValue} options={options} />;
 };
 
+export const WithDefaultIcon: React.FC = () => {
+  const [value, setValue] = useState("left");
+
+  const options = [
+    {
+      value: "left",
+    },
+    {
+      value: "center",
+    },
+    {
+      value: "right",
+    },
+  ];
+
+  return (
+    <StyledSelect
+      icon={formatAlignLeftIcon}
+      title="text-align"
+      value={value}
+      onChange={setValue}
+      options={options}
+    />
+  );
+};
+
 export const ManyOptions: React.FC = () => {
   const [value, setValue] = useState("div");
 
