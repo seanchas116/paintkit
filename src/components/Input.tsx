@@ -91,7 +91,7 @@ const InputWrap = styled(DropdownWrap)<{ invalid?: boolean }>`
   }
 `;
 
-const InputIcon = styled(Icon).attrs({ width: 12, height: 12 })`
+const InputIconIcon = styled(Icon).attrs({ width: 12, height: 12 })`
   color: ${colors.disabledText};
 `;
 
@@ -102,6 +102,24 @@ const InputIconLetter = styled.div`
   min-width: 12px;
   color: ${colors.disabledText};
 `;
+
+export const InputIcon: React.FC<{
+  title?: string;
+  icon?: IconifyIcon | string;
+}> = ({ icon, title }) => {
+  const iconBody =
+    typeof icon === "string" ? (
+      <InputIconLetter>{icon}</InputIconLetter>
+    ) : icon ? (
+      <InputIconIcon icon={icon} />
+    ) : null;
+
+  return title && iconBody ? (
+    <Tippy content={title}>{iconBody}</Tippy>
+  ) : (
+    iconBody
+  );
+};
 
 /**
  * Same as <input>, but emits onChange only on blur or when enter is pressed
@@ -118,18 +136,6 @@ export const Input: React.FC<InputProps> = ({
   const validateResult = props.validate?.(currentValue) ?? { value: true };
 
   const inputRef = React.createRef<HTMLInputElement>();
-
-  const icon =
-    typeof props.icon === "string" ? (
-      <InputIconLetter>{props.icon}</InputIconLetter>
-    ) : props.icon ? (
-      <InputIcon icon={props.icon} />
-    ) : undefined;
-  const iconWithTip = props.title ? (
-    <Tippy content={props.title}>{icon}</Tippy>
-  ) : (
-    icon
-  );
 
   const [showsSuggestion, setShowsSuggestion] = useState(false);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
@@ -154,7 +160,9 @@ export const Input: React.FC<InputProps> = ({
         inputRef.current?.focus();
       }}
     >
-      {iconPosition === "left" && iconWithTip}
+      {iconPosition === "left" && (
+        <InputIcon icon={props.icon} title={props.title} />
+      )}
       <InputInput
         ref={inputRef}
         value={currentValue}
@@ -236,7 +244,9 @@ export const Input: React.FC<InputProps> = ({
           setCurrentValue(e.currentTarget.value);
         }}
       />
-      {iconPosition === "right" && iconWithTip}
+      {iconPosition === "right" && (
+        <InputIcon icon={props.icon} title={props.title} />
+      )}
       {!validateResult.value && (
         <InputErrorPopup>{validateResult.error}</InputErrorPopup>
       )}
