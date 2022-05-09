@@ -69,7 +69,7 @@ export const ColorInput: React.FC<{
     <ColorInputWrap className={className}>
       <ColorInputInput
         value={text}
-        label=" "
+        icon=" "
         placeholder={placeholder}
         onChange={onChangeText}
       />

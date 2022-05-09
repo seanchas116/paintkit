@@ -20,8 +20,7 @@ import { SelectOption } from "./Select";
 export interface InputCommonProps {
   className?: string;
   title?: string;
-  label?: string;
-  icon?: IconifyIcon;
+  icon?: IconifyIcon | string;
   iconPosition?: "left" | "right";
   disabled?: boolean;
   placeholder?: string;
@@ -120,11 +119,12 @@ export const Input: React.FC<InputProps> = ({
 
   const inputRef = React.createRef<HTMLInputElement>();
 
-  const icon = props.label ? (
-    <InputIconLetter>{props.label}</InputIconLetter>
-  ) : props.icon ? (
-    <InputIcon icon={props.icon} />
-  ) : undefined;
+  const icon =
+    typeof props.icon === "string" ? (
+      <InputIconLetter>{props.icon}</InputIconLetter>
+    ) : props.icon ? (
+      <InputIcon icon={props.icon} />
+    ) : undefined;
   const iconWithTip = props.title ? (
     <Tippy content={props.title}>{icon}</Tippy>
   ) : (

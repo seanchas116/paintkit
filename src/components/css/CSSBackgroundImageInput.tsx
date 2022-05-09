@@ -69,7 +69,7 @@ export const CSSBackgroundImageInput: React.FC<{
     <ColorInputWrap className={className}>
       <ColorInputInput
         value={value}
-        label=" "
+        icon=" "
         placeholder={placeholder}
         onChange={(value) => {
           onChange?.(value);
