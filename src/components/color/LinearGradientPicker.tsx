@@ -5,7 +5,7 @@ import * as CSSValue from "@seanchas116/cssvalue";
 import { Icon } from "@iconify/react/dist/offline";
 import angleIcon from "../../icon/Angle";
 import { colors } from "../Palette";
-import { DimensionInput } from "../DimensionInput";
+import { Dimension, DimensionInput } from "../DimensionInput";
 import { usePointerStroke } from "../hooks/usePointerStroke";
 import { checkPattern } from "../Common";
 import { ColorStops, LinearGradient } from "../../util/Gradient";
@@ -178,12 +178,22 @@ export const LinearGradientPicker: React.FC<{
             units={["deg", "turn"]}
             placeholder={"180deg"}
             keywords={CSSValue.linearGradientDirectionKeywords}
-            onChange={(direction) => {
+            onChange={(str) => {
+              const parsed = str ? Dimension.parse(str) : undefined;
+
+              const direction = parsed
+                ? "keyword" in parsed
+                  ? (parsed.keyword as CSSValue.LinearGradientDirectionKeyword)
+                  : new CSSValue.Dimension<CSSValue.AngleUnit>(
+                      parsed.value,
+                      parsed.unit as CSSValue.AngleUnit
+                    )
+                : undefined;
+
               onChange?.(
                 new LinearGradient({
                   ...value,
-                  direction: (direction ||
-                    undefined) as LinearGradient["direction"],
+                  direction: direction,
                 })
               );
               onChangeEnd?.();

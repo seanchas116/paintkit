@@ -7,7 +7,7 @@ import { Input, InputCommonProps } from "./Input";
 import { Select } from "./Select";
 import { colors } from "./Palette";
 
-type Dimension =
+export type Dimension =
   | {
       keyword: string;
     }
@@ -16,7 +16,7 @@ type Dimension =
       unit: string;
     };
 
-const Dimension = {
+export const Dimension = {
   parse: (value: string): Dimension => {
     const match = value.match(/^(-?[0-9.]+)([A-Za-z%]*)$/);
     if (match) {
