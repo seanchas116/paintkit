@@ -186,7 +186,13 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
         ]}
         renderButton={(open) => (
           <DimensionInputSelectButton onClick={open}>
-            {unit ?? placeholderUnit ?? <Icon icon={keyboardArrowDown} />}
+            {unit ? (
+              unit
+            ) : !value && placeholderUnit ? (
+              placeholderUnit
+            ) : (
+              <Icon icon={keyboardArrowDown} />
+            )}
           </DimensionInputSelectButton>
         )}
         onChange={(newUnit) => {
