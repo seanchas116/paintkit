@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { toJS } from "mobx";
 import { ObservableMultiMap } from "./ObservableMultiMap";
 
@@ -10,7 +11,7 @@ const createMap = () => {
   return multimap;
 };
 
-describe(ObservableMultiMap, () => {
+describe(ObservableMultiMap.name, () => {
   describe("clear", () => {
     it("clears elements", () => {
       const multimap = createMap();

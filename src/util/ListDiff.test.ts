@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { loremIpsum } from "lorem-ipsum";
 import { listDiff, ListDiff } from "./ListDiff";
 
@@ -25,7 +26,7 @@ function applyDiff(xs: { key: string }[], diffs: ListDiff<{ key: string }>[]) {
   return ret;
 }
 
-describe(listDiff, () => {
+describe(listDiff.name, () => {
   it("", () => {
     const a = ["a", "b", "c", "d"].map((key) => ({ key }));
     const b = ["a", "c", "d"].map((key) => ({ key }));
@@ -35,10 +36,10 @@ describe(listDiff, () => {
     expect(b2).toEqual(b);
 
     expect(diffs).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "type": "remove",
-          "value": Object {
+          "value": {
             "key": "b",
           },
         },
@@ -70,52 +71,52 @@ describe(listDiff, () => {
     const b2 = applyDiff(a, diffs);
     expect(b2).toEqual(b);
     expect(diffs).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "before": Object {
+      [
+        {
+          "before": {
             "key": "a",
           },
           "type": "insert",
-          "value": Object {
+          "value": {
             "key": "f",
           },
         },
-        Object {
+        {
           "type": "remove",
-          "value": Object {
+          "value": {
             "key": "a",
           },
         },
-        Object {
+        {
           "type": "remove",
-          "value": Object {
+          "value": {
             "key": "c",
           },
         },
-        Object {
+        {
           "type": "remove",
-          "value": Object {
+          "value": {
             "key": "d",
           },
         },
-        Object {
+        {
           "before": undefined,
           "type": "insert",
-          "value": Object {
+          "value": {
             "key": "a",
           },
         },
-        Object {
+        {
           "before": undefined,
           "type": "insert",
-          "value": Object {
+          "value": {
             "key": "d",
           },
         },
-        Object {
+        {
           "before": undefined,
           "type": "insert",
-          "value": Object {
+          "value": {
             "key": "e",
           },
         },

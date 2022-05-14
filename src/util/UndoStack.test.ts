@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from "vitest";
 import { UndoStack, UndoCommand } from "./UndoStack";
 
 class ExampleCommand implements UndoCommand {
@@ -25,7 +26,7 @@ class ExampleCommand implements UndoCommand {
   }
 }
 
-describe(UndoStack, () => {
+describe(UndoStack.name, () => {
   let undoStack: UndoStack;
   beforeEach(() => {
     undoStack = new UndoStack();

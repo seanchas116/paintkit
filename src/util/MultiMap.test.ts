@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { MultiMap } from "./MultiMap";
 
 const createMap = () => {
@@ -9,7 +10,7 @@ const createMap = () => {
   return multimap;
 };
 
-describe(MultiMap, () => {
+describe(MultiMap.name, () => {
   describe("clear", () => {
     it("clears elements", () => {
       const multimap = createMap();

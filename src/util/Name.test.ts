@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import {
   getIncrementalUniqueName,
   incrementAlphanumeric,
@@ -5,7 +6,7 @@ import {
   toIdentifier,
 } from "./Name";
 
-describe(incrementAlphanumeric, () => {
+describe(incrementAlphanumeric.name, () => {
   it("add 0 if given string does not include number", () => {
     expect(incrementAlphanumeric("foobar")).toEqual("foobar1");
   });
@@ -21,7 +22,7 @@ describe(incrementAlphanumeric, () => {
   });
 });
 
-describe(getIncrementalUniqueName, () => {
+describe(getIncrementalUniqueName.name, () => {
   const existings = new Set(["foo", "bar1", "bar2"]);
 
   it("returns non-conflicting name based on incrementing", () => {
@@ -31,7 +32,7 @@ describe(getIncrementalUniqueName, () => {
   });
 });
 
-describe(isValidJSIdentifier, () => {
+describe(isValidJSIdentifier.name, () => {
   it("", () => {
     expect(isValidJSIdentifier("a123_$foo")).toEqual(true);
     expect(isValidJSIdentifier("foo, bar")).toEqual(false);
@@ -40,7 +41,7 @@ describe(isValidJSIdentifier, () => {
   });
 });
 
-describe(toIdentifier, () => {
+describe(toIdentifier.name, () => {
   it("", () => {
     expect(toIdentifier("")).toEqual("_");
     expect(toIdentifier("foo-bar-baz")).toEqual("foo_bar_baz");

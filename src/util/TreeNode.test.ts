@@ -1,8 +1,9 @@
+import { describe, it, expect } from "vitest";
 import { TreeNode } from "./TreeNode";
 
 class Node extends TreeNode<Node, Node, Node> {}
 
-describe(TreeNode, () => {
+describe(TreeNode.name, () => {
   describe("basic traversing", () => {
     it("is correct", () => {
       const parent = new Node();

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { WeakMultiMap } from "./WeakMultiMap";
 
 const obj1 = {};
@@ -13,7 +14,7 @@ const createMap = () => {
   return multimap;
 };
 
-describe(WeakMultiMap, () => {
+describe(WeakMultiMap.name, () => {
   describe("delete", () => {
     it("delete elements with specified key", () => {
       const multimap = createMap();
