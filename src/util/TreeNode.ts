@@ -167,6 +167,15 @@ export abstract class TreeNode<
     return false;
   }
 
+  /**
+   * If `isUniqueNameRoot` is true, returns a descendant node with the given name.
+   * @param name
+   * @returns
+   */
+  getDescendantByName(name: string): TreeNode<any, any, any> | undefined {
+    return this.nameScope?.get(name);
+  }
+
   //// Parent and children
 
   get parent(): Parent | undefined {
