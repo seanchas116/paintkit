@@ -214,12 +214,19 @@ export abstract class TreeNode<
     return children;
   }
 
+  get canHaveChildren(): ValidationResult {
+    return {
+      value: true,
+    };
+  }
+
   canRemoveChild(child: Child): ValidationResult {
     return { value: true };
   }
   canInsertChild(child: Child): ValidationResult {
-    if (child.parent === this) {
-      return { value: true };
+    const canHaveChildren = this.canHaveChildren;
+    if (!canHaveChildren.value) {
+      return canHaveChildren;
     }
     return { value: true };
   }
