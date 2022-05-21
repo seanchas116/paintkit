@@ -23,7 +23,7 @@ export const CSSColorInput: React.FC<{
   options?: readonly SelectItem[];
   defaultPlacement?: "top" | "bottom";
   onChange?: (value?: string) => void;
-  onChangeEnd?: (value?: string) => void;
+  onChangeEnd?: () => void;
 }> = ({
   className,
   title,
@@ -46,6 +46,7 @@ export const CSSColorInput: React.FC<{
       defaultPlacement={defaultPlacement}
       onChange={(value) => {
         onChange?.(value);
+        onChangeEnd?.();
         return false;
       }}
       renderPopover={() => {
@@ -53,7 +54,7 @@ export const CSSColorInput: React.FC<{
           <ColorPicker
             color={typeof color === "object" ? color : Color.fromName("white")}
             onChange={(color) => onChange?.(color?.toString())}
-            onChangeEnd={(color) => onChangeEnd?.(color?.toString())}
+            onChangeEnd={() => onChangeEnd?.()}
           />
         );
       }}

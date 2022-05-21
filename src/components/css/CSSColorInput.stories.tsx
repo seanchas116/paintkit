@@ -17,11 +17,10 @@ export const Basic: React.FC = () => {
   return (
     <Wrap>
       <CSSColorInput
-        value={color?.toString()}
+        value={color}
         onChange={setColor}
-        onChangeEnd={(color) => {
-          console.log("change end", color);
-          setColor(color);
+        onChangeEnd={() => {
+          console.log("change end");
         }}
       />
     </Wrap>
