@@ -77,7 +77,7 @@ const PositionRow = styled.div`
 export const BackgroundImagePicker: React.FC<{
   className?: string;
   value: BackgroundLayer;
-  imageURLOptions?: SelectItem[];
+  imageURLOptions?: readonly SelectItem[];
   resolveImageURL?: (url: string) => string;
   onChange: (value: BackgroundLayer) => void;
 }> = ({ className, value, imageURLOptions, resolveImageURL, onChange }) => {

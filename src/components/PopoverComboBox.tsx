@@ -2,16 +2,17 @@ import Tippy from "@tippyjs/react";
 import React from "react";
 import styled from "styled-components";
 import { MIXED } from "../util/Mixed";
+import { ComboBox } from "./ComboBox";
 import { popoverStyle } from "./Common";
-import { Input } from "./Input";
 import { PopoverCaster } from "./PopoverCaster";
+import { SelectItem } from "./Select";
 
 const ColorInputWrap = styled.div`
   position: relative;
   height: 24px;
 `;
 
-const ColorInputInput = styled(Input)`
+const ColorInputComboBox = styled(ComboBox)`
   position: absolute;
   top: 0;
   left: 0;
@@ -35,10 +36,11 @@ const ColorPickerWrap = styled.div`
   padding: 8px;
 `;
 
-export const PopoverInput: React.FC<{
+export const PopoverComboBox: React.FC<{
   value?: string | typeof MIXED;
   title?: string;
   placeholder?: string;
+  options?: readonly SelectItem[];
   defaultPlacement?: "top" | "bottom";
   onChange?: (text: string) => boolean;
   renderPopover?: (value?: string | typeof MIXED) => React.ReactNode;
@@ -48,6 +50,7 @@ export const PopoverInput: React.FC<{
   value,
   title,
   placeholder,
+  options,
   defaultPlacement,
   onChange,
   className,
@@ -56,10 +59,11 @@ export const PopoverInput: React.FC<{
 }) => {
   return (
     <ColorInputWrap className={className}>
-      <ColorInputInput
+      <ColorInputComboBox
         value={value}
         icon=" "
         placeholder={placeholder}
+        options={options}
         onChange={onChange}
       />
       <PopoverCaster

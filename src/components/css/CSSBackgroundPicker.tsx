@@ -48,7 +48,7 @@ type ValueWithType =
 export const CSSBackgroundPicker: React.FC<{
   className?: string;
   value?: BackgroundLayerOrColor;
-  imageURLOptions?: SelectItem[];
+  imageURLOptions?: readonly SelectItem[];
   resolveImageURL?: (url: string) => string;
   onChange?: (value?: BackgroundLayer | Color) => void;
   onChangeEnd?: () => void;

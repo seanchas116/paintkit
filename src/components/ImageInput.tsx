@@ -40,7 +40,7 @@ export const ImageInput: React.FC<{
   value?: string | typeof MIXED;
   onChange: (value: string) => boolean;
   resolveURL?: (url: string) => string;
-  options?: SelectItem[];
+  options?: readonly SelectItem[];
   onPreviewContextMenu?: (e: React.MouseEvent) => void;
 }> = ({
   value,

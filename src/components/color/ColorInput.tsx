@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { Color } from "../../util/Color";
 import { MIXED } from "../../util/Mixed";
 import { colors } from "../Palette";
-import { PopoverInput } from "../PopoverInput";
+import { PopoverComboBox } from "../PopoverComboBox";
+import { SelectItem } from "../Select";
 import { ColorPicker } from "./ColorPicker";
 
 const ColorButtonColor = styled.div`
@@ -20,6 +21,7 @@ export const ColorInput: React.FC<{
   text?: string | typeof MIXED;
   title?: string;
   placeholder?: string;
+  options?: readonly SelectItem[];
   defaultPlacement?: "top" | "bottom";
   onChangeColor?: (color?: Color) => void;
   onChangeEndColor?: (color?: Color) => void;
@@ -30,17 +32,19 @@ export const ColorInput: React.FC<{
   text,
   title,
   placeholder,
+  options,
   defaultPlacement,
   onChangeColor,
   onChangeEndColor,
   onChangeText,
 }) => {
   return (
-    <PopoverInput
+    <PopoverComboBox
       className={className}
       value={text}
       title={title}
       placeholder={placeholder}
+      options={options}
       defaultPlacement={defaultPlacement}
       onChange={onChangeText}
       renderPopover={() => {

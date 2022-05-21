@@ -9,7 +9,7 @@ import { MIXED } from "../../util/Mixed";
 import { colors } from "../Palette";
 import imageFillIcon from "../../icon/Image";
 import { SelectItem } from "../Select";
-import { PopoverInput } from "../PopoverInput";
+import { PopoverComboBox } from "../PopoverComboBox";
 import { CSSBackgroundPicker } from "./CSSBackgroundPicker";
 
 const ColorButtonColor = styled.div`
@@ -26,7 +26,8 @@ export const CSSBackgroundInput: React.FC<{
   defaultPlacement?: "top" | "bottom";
   title?: string;
   placeholder?: string;
-  imageURLOptions?: SelectItem[];
+  options?: readonly SelectItem[];
+  imageURLOptions?: readonly SelectItem[];
   resolveImageURL?: (url: string) => string;
   value?: string | typeof MIXED;
   onChange?: (value?: string) => void;
@@ -36,6 +37,7 @@ export const CSSBackgroundInput: React.FC<{
   defaultPlacement,
   title,
   placeholder,
+  options,
   imageURLOptions,
   resolveImageURL,
   value,
@@ -53,11 +55,12 @@ export const CSSBackgroundInput: React.FC<{
   })();
 
   return (
-    <PopoverInput
+    <PopoverComboBox
       className={className}
       value={value}
       title={title}
       placeholder={placeholder}
+      options={options}
       defaultPlacement={defaultPlacement}
       onChange={(value) => {
         onChange?.(value);
