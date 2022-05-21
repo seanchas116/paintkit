@@ -1,3 +1,4 @@
+import { cssParser } from "@seanchas116/cssvalue";
 import shortUUID from "short-uuid";
 
 /**
@@ -41,6 +42,11 @@ export function isValidJSIdentifier(name: string): boolean {
   return (
     !!/^[a-zA-Z_$][0-9a-zA-Z_$]*$/.exec(name) && !reservedWordRegExp.exec(name)
   );
+}
+
+export function isValidCSSIdentifier(name: string): boolean {
+  const result = cssParser.ident.parse(name);
+  return result.type === "ParseOK";
 }
 
 export function toIdentifier(original: string): string {
