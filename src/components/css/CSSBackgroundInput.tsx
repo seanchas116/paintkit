@@ -7,7 +7,7 @@ import { colors } from "../Palette";
 import imageFillIcon from "../../icon/Image";
 import { SelectItem } from "../Select";
 import { PopoverComboBox } from "../PopoverComboBox";
-import { replaceCSSURLs } from "../../util/CSS";
+import { replaceCSSURLs, replaceCSSVariables } from "../../util/CSS";
 import { CSSBackgroundPicker } from "./CSSBackgroundPicker";
 
 const ColorButtonColor = styled.div`
@@ -27,6 +27,7 @@ export const CSSBackgroundInput: React.FC<{
   options?: readonly SelectItem[];
   imageURLOptions?: readonly SelectItem[];
   resolveImageURL?: (url: string) => string;
+  resolveCSSVariable?: (varName: string) => string;
   value?: string | typeof MIXED;
   onChange?: (value?: string) => void;
   onChangeEnd?: () => void;
@@ -38,6 +39,7 @@ export const CSSBackgroundInput: React.FC<{
   options,
   imageURLOptions,
   resolveImageURL,
+  resolveCSSVariable,
   value,
   onChange,
   onChangeEnd,
@@ -66,14 +68,17 @@ export const CSSBackgroundInput: React.FC<{
         return true;
       }}
       renderButton={() =>
-        bgLayer ? (
+        value ? (
           <ColorButtonColor
             style={{
               background:
                 typeof value === "string"
-                  ? replaceCSSURLs(
-                      value,
-                      resolveImageURL ?? ((url: string) => url)
+                  ? replaceCSSVariables(
+                      replaceCSSURLs(
+                        value,
+                        resolveImageURL ?? ((url: string) => url)
+                      ),
+                      resolveCSSVariable ?? ((varName) => varName)
                     )
                   : "none",
             }}
