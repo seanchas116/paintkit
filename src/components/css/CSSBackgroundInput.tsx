@@ -7,7 +7,7 @@ import { colors } from "../Palette";
 import imageFillIcon from "../../icon/Image";
 import { SelectItem } from "../Select";
 import { PopoverComboBox } from "../PopoverComboBox";
-import { replaceURLsInCSS } from "../../util/CSS";
+import { replaceCSSURLs } from "../../util/CSS";
 import { CSSBackgroundPicker } from "./CSSBackgroundPicker";
 
 const ColorButtonColor = styled.div`
@@ -71,7 +71,7 @@ export const CSSBackgroundInput: React.FC<{
             style={{
               background:
                 typeof value === "string"
-                  ? replaceURLsInCSS(
+                  ? replaceCSSURLs(
                       value,
                       resolveImageURL ?? ((url: string) => url)
                     )
