@@ -33,7 +33,6 @@ const ColorButton = styled.button`
 
 const ColorPickerWrap = styled.div`
   ${popoverStyle}
-  padding: 8px;
 `;
 
 export const PopoverComboBox: React.FC<{
