@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Color } from "../../util/Color";
+import { replaceCSSVariables } from "../../util/CSS";
 import { MIXED } from "../../util/Mixed";
 import { ColorPicker } from "../color/ColorPicker";
 import { colors } from "../Palette";
@@ -22,6 +23,7 @@ export const CSSColorInput: React.FC<{
   value?: string | typeof MIXED;
   options?: readonly SelectItem[];
   defaultPlacement?: "top" | "bottom";
+  resolveCSSVariable?: (varName: string) => string;
   onChange?: (value?: string) => void;
   onChangeEnd?: () => void;
 }> = ({
@@ -31,6 +33,7 @@ export const CSSColorInput: React.FC<{
   value,
   options,
   defaultPlacement,
+  resolveCSSVariable,
   onChange,
   onChangeEnd,
 }) => {
@@ -62,7 +65,13 @@ export const CSSColorInput: React.FC<{
         return (
           <ColorButtonColor
             style={{
-              color: typeof color === "object" ? color.toHex() : "transparent",
+              color:
+                typeof value === "string"
+                  ? replaceCSSVariables(
+                      value,
+                      resolveCSSVariable ?? ((varName) => varName)
+                    )
+                  : "none",
             }}
           />
         );
