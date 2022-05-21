@@ -1,4 +1,3 @@
-import Tippy from "@tippyjs/react";
 import React from "react";
 import styled from "styled-components";
 import { Icon } from "@iconify/react/dist/offline";
@@ -7,37 +6,11 @@ import { Icon } from "@iconify/react/dist/offline";
 import replaceCSSURL from "replace-css-url";
 import { BackgroundLayerOrColor } from "../../util/BackgroundLayer";
 import { MIXED } from "../../util/Mixed";
-import { popoverStyle } from "../Common";
-import { Input } from "../Input";
 import { colors } from "../Palette";
-import { PopoverCaster } from "../PopoverCaster";
 import imageFillIcon from "../../icon/Image";
 import { SelectItem } from "../Select";
+import { PopoverInput } from "../PopoverInput";
 import { CSSBackgroundPicker } from "./CSSBackgroundPicker";
-
-const ColorInputWrap = styled.div`
-  position: relative;
-  height: 24px;
-`;
-
-const ColorInputInput = styled(Input)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`;
-
-const ColorButton = styled.button`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const ColorButtonColor = styled.div`
   width: 12px;
@@ -45,10 +18,6 @@ const ColorButtonColor = styled.div`
   background: currentColor;
   border-radius: 2px;
   box-shadow: 0 0 0 1px ${colors.popoverBorder};
-`;
-
-const ColorPickerWrap = styled.div`
-  ${popoverStyle}
 `;
 
 // TODO: support multiple image layers
@@ -84,71 +53,54 @@ export const CSSBackgroundInput: React.FC<{
   })();
 
   return (
-    <ColorInputWrap className={className}>
-      <ColorInputInput
-        value={value}
-        icon=" "
-        placeholder={placeholder}
-        onChange={(value) => {
-          onChange?.(value);
-          onChangeEnd?.();
-          return true;
-        }}
-      />
-      <PopoverCaster
-        defaultPlacement={defaultPlacement}
-        anchor={(open) => {
-          const button = (
-            <ColorButton
-              onClick={(e) => {
-                open(e.currentTarget.getBoundingClientRect());
-              }}
-            >
-              {bgLayer ? (
-                <ColorButtonColor
-                  style={{
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    background:
-                      typeof value === "string"
-                        ? // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-                          replaceCSSURL(
-                            value,
-                            resolveImageURL ?? ((url: string) => url)
-                          )
-                        : "none",
-                  }}
-                />
-              ) : (
-                <Icon
-                  style={{
-                    color: colors.disabledText,
-                  }}
-                  icon={imageFillIcon}
-                />
-              )}
-            </ColorButton>
-          );
-
-          return title ? <Tippy content={title}>{button}</Tippy> : button;
-        }}
-        popover={() => {
-          return (
-            <ColorPickerWrap>
-              <CSSBackgroundPicker
-                value={bgLayer}
-                imageURLOptions={imageURLOptions}
-                resolveImageURL={resolveImageURL}
-                onChange={(value) => {
-                  onChange?.(value?.toCSSValue().toString() ?? "none");
-                }}
-                onChangeEnd={() => {
-                  onChangeEnd?.();
-                }}
-              />
-            </ColorPickerWrap>
-          );
-        }}
-      />
-    </ColorInputWrap>
+    <PopoverInput
+      className={className}
+      value={value}
+      title={title}
+      placeholder={placeholder}
+      defaultPlacement={defaultPlacement}
+      onChange={(value) => {
+        onChange?.(value);
+        onChangeEnd?.();
+        return true;
+      }}
+      renderButton={() =>
+        bgLayer ? (
+          <ColorButtonColor
+            style={{
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              background:
+                typeof value === "string"
+                  ? // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+                    replaceCSSURL(
+                      value,
+                      resolveImageURL ?? ((url: string) => url)
+                    )
+                  : "none",
+            }}
+          />
+        ) : (
+          <Icon
+            style={{
+              color: colors.disabledText,
+            }}
+            icon={imageFillIcon}
+          />
+        )
+      }
+      renderPopover={() => (
+        <CSSBackgroundPicker
+          value={bgLayer}
+          imageURLOptions={imageURLOptions}
+          resolveImageURL={resolveImageURL}
+          onChange={(value) => {
+            onChange?.(value?.toCSSValue().toString() ?? "none");
+          }}
+          onChangeEnd={() => {
+            onChangeEnd?.();
+          }}
+        />
+      )}
+    />
   );
 };
