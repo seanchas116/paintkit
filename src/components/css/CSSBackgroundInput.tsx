@@ -1,15 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Icon } from "@iconify/react/dist/offline";
-// @ts-ignore
-// eslint-disable-next-line import/no-extraneous-dependencies
-import replaceCSSURL from "replace-css-url";
 import { BackgroundLayerOrColor } from "../../util/BackgroundLayer";
 import { MIXED } from "../../util/Mixed";
 import { colors } from "../Palette";
 import imageFillIcon from "../../icon/Image";
 import { SelectItem } from "../Select";
 import { PopoverComboBox } from "../PopoverComboBox";
+import { replaceURLsInCSS } from "../../util/CSS";
 import { CSSBackgroundPicker } from "./CSSBackgroundPicker";
 
 const ColorButtonColor = styled.div`
@@ -71,11 +69,9 @@ export const CSSBackgroundInput: React.FC<{
         bgLayer ? (
           <ColorButtonColor
             style={{
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               background:
                 typeof value === "string"
-                  ? // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-                    replaceCSSURL(
+                  ? replaceURLsInCSS(
                       value,
                       resolveImageURL ?? ((url: string) => url)
                     )
