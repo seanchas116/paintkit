@@ -33,11 +33,16 @@ export const CSSColorInput: React.FC<{
   value,
   options,
   defaultPlacement,
-  resolveCSSVariable,
+  resolveCSSVariable = () => "black",
   onChange,
   onChangeEnd,
 }) => {
-  const color = typeof value === "string" ? Color.fromCSS(value) : undefined;
+  const color =
+    typeof value === "string"
+      ? Color.fromCSS(replaceCSSVariables(value, resolveCSSVariable))
+      : typeof placeholder === "string"
+      ? Color.fromCSS(replaceCSSVariables(placeholder, resolveCSSVariable))
+      : undefined;
 
   return (
     <PopoverComboBox
@@ -65,13 +70,7 @@ export const CSSColorInput: React.FC<{
         return (
           <ColorButtonColor
             style={{
-              color:
-                typeof value === "string"
-                  ? replaceCSSVariables(
-                      value,
-                      resolveCSSVariable ?? ((varName) => varName)
-                    )
-                  : "none",
+              color: color?.toString() ?? "none",
             }}
           />
         );

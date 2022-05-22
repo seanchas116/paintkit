@@ -39,7 +39,7 @@ export const CSSBackgroundInput: React.FC<{
   options,
   imageURLOptions,
   resolveImageURL,
-  resolveCSSVariable,
+  resolveCSSVariable = () => "black",
   value,
   onChange,
   onChangeEnd,
@@ -47,7 +47,13 @@ export const CSSBackgroundInput: React.FC<{
   const bgLayer = (() => {
     try {
       return typeof value === "string"
-        ? BackgroundLayerOrColor.fromString(value)
+        ? BackgroundLayerOrColor.fromString(
+            replaceCSSVariables(value, resolveCSSVariable)
+          )
+        : typeof placeholder === "string"
+        ? BackgroundLayerOrColor.fromString(
+            replaceCSSVariables(placeholder, resolveCSSVariable)
+          )
         : undefined;
     } catch (e) {
       return undefined;
@@ -78,7 +84,7 @@ export const CSSBackgroundInput: React.FC<{
                         value,
                         resolveImageURL ?? ((url: string) => url)
                       ),
-                      resolveCSSVariable ?? ((varName) => varName)
+                      resolveCSSVariable
                     )
                   : "none",
             }}
