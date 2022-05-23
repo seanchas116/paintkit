@@ -82,6 +82,7 @@ const DimensionInputSelectButton = styled.div`
 
 export const DimensionInput: React.FC<DimensionInputProps> = ({
   className,
+  style,
   value: valueString,
   placeholder: placeholderString,
   units = ["px"],
@@ -116,7 +117,7 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
     placeholder && "unit" in placeholder ? placeholder.unit : undefined;
 
   return (
-    <DimensionInputWrap className={className}>
+    <DimensionInputWrap className={className} style={style}>
       <DimensionInputInput
         {...commonProps}
         iconPosition="left"

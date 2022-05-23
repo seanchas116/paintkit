@@ -73,6 +73,7 @@ export interface ClickToEditInputProps extends InputProps {
 
 export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
   className,
+  style,
   value: originalValue = "",
   disabled = false,
   placeholder: origialPlaceholder,
@@ -196,6 +197,7 @@ export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
   return (
     <Wrap
       className={className}
+      style={style}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >

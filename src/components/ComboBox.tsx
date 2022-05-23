@@ -31,6 +31,7 @@ const TitleInput = styled(Input)`
 
 export const ComboBox: React.FC<ComboBoxProps> = ({
   className,
+  style,
   truncatesOptions,
   options = [],
   ...inputProps
@@ -38,6 +39,7 @@ export const ComboBox: React.FC<ComboBoxProps> = ({
   return (
     <Select
       className={className}
+      style={style}
       truncatesOptions={truncatesOptions}
       options={options}
       value={inputProps.value}

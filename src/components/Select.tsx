@@ -155,6 +155,7 @@ class Filter {
 
 export interface SelectProps<T extends string> {
   className?: string;
+  style?: React.CSSProperties;
   hidden?: boolean;
   tabIndex?: number;
   truncatesOptions?: boolean;
@@ -184,6 +185,7 @@ const selectItemWrapClassName = "macaron-select-item-wrap";
 
 export function Select<T extends string>({
   className,
+  style,
   hidden,
   tabIndex = 0,
   truncatesOptions,
@@ -379,6 +381,7 @@ export function Select<T extends string>({
     <SelectWrap
       ref={wrapRef}
       className={className}
+      style={style}
       hidden={hidden}
       tabIndex={tabIndex}
       disabled={disabled}

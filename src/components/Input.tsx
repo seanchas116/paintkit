@@ -19,6 +19,7 @@ import { SelectOption } from "./Select";
 
 export interface InputCommonProps {
   className?: string;
+  style?: React.CSSProperties;
   title?: string;
   icon?: IconifyIcon | string;
   iconPosition?: "left" | "right";
@@ -151,6 +152,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <InputWrap
       className={props.className}
+      style={props.style}
       invalid={!validateResult.value}
       onClick={() => {
         inputRef.current?.focus();
