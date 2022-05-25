@@ -64,6 +64,7 @@ const Input = styled.input<{ isValid: boolean }>`
 const editStartDelay = 500;
 
 export interface ClickToEditInputProps extends InputProps {
+  nonDimmedPlaceholder?: boolean;
   trigger?: "click" | "doubleClick";
   ignoreDoubleClick?: boolean;
   getSelectionRange?: (text: string) => readonly [number, number];
@@ -77,6 +78,7 @@ export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
   value: originalValue = "",
   disabled = false,
   placeholder: origialPlaceholder,
+  nonDimmedPlaceholder = false,
   trigger = "click",
   ignoreDoubleClick,
   onChange,
@@ -217,7 +219,15 @@ export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
           isValid={validateResult.value}
         />
       ) : (
-        <Text>{value ? value : <Placeholder>{placeholder}</Placeholder>}</Text>
+        <Text>
+          {value ? (
+            value
+          ) : nonDimmedPlaceholder ? (
+            placeholder
+          ) : (
+            <Placeholder>{placeholder}</Placeholder>
+          )}
+        </Text>
       )}
       {editing && !validateResult.value && (
         <ErrorPopup>{validateResult.error}</ErrorPopup>
