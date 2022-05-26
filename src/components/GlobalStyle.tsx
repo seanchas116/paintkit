@@ -9,6 +9,10 @@ export const GlobalStyle = createGlobalStyle`
   ${simpleBarCSS}
   ${tippyCSS}
 
+  .paintkit-root {
+    font-family: ${fontFamily};
+  }
+
   :where(.paintkit-root) {
     ${miniresetCSS}
 
@@ -21,7 +25,7 @@ export const GlobalStyle = createGlobalStyle`
       outline: none;
       appearance: none;
       box-sizing: border-box;
-      font-family: ${fontFamily};
+      font-family: inherit;
     }
 
     .simplebar-content {
