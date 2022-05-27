@@ -128,9 +128,9 @@ export const Input: React.FC<InputProps> = ({
   const [currentValue, setCurrentValue, onEditingFinish] = useBufferedValue(
     typeof props.value === "string" ? props.value : "",
     props.onChange,
-    (x) => props.validate?.(x).value ?? true
+    (x) => props.validate?.(x).isValid ?? true
   );
-  const validateResult = props.validate?.(currentValue) ?? { value: true };
+  const validateResult = props.validate?.(currentValue) ?? { isValid: true };
 
   const inputRef = React.createRef<HTMLInputElement>();
 
@@ -153,7 +153,7 @@ export const Input: React.FC<InputProps> = ({
     <InputWrap
       className={props.className}
       style={props.style}
-      invalid={!validateResult.value}
+      invalid={!validateResult.isValid}
       onClick={() => {
         inputRef.current?.focus();
       }}
@@ -245,8 +245,8 @@ export const Input: React.FC<InputProps> = ({
       {props.icon && iconPosition === "right" && (
         <InputIcon icon={props.icon} title={props.title} />
       )}
-      {!validateResult.value && (
-        <InputErrorPopup>{validateResult.error}</InputErrorPopup>
+      {!validateResult.isValid && (
+        <InputErrorPopup>{validateResult.message}</InputErrorPopup>
       )}
       {suggestionVisible && (
         <DropdownBody>

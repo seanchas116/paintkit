@@ -125,17 +125,17 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
         placeholder={inputPlaceholder}
         validate={(text) => {
           if (!text) {
-            return { value: true };
+            return { isValid: true };
           }
 
           const dimension = Dimension.parse(text);
           if (dimension) {
-            return { value: true };
+            return { isValid: true };
           }
 
           return {
-            value: false,
-            error: "Input text must be a valid number or keyword.",
+            isValid: false,
+            message: "Input text must be a valid number or keyword.",
           };
         }}
         onChange={(newInputValue) => {

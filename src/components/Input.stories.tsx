@@ -89,9 +89,9 @@ export const Basic: React.FC = () => {
           value={value2}
           validate={(value) => {
             if (value.length > 4) {
-              return { value: true };
+              return { isValid: true };
             } else {
-              return { value: false, error: "Input more than 4 characters" };
+              return { isValid: false, ermessage"Input more than 4 characters" };
             }
           }}
           onChange={(value) => {

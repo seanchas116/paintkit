@@ -1,3 +1,3 @@
 export type ValidationResult =
-  | { value: true }
-  | { value: false; error: string };
+  | { isValid: true }
+  | { isValid: false; message: string };

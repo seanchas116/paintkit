@@ -129,9 +129,9 @@ const Validated: React.FC = () => {
       placeholder="Email Address"
       validate={(value) => {
         if (!validateEmail(value)) {
-          return { value: false, error: "Input a valid email address." };
+          return { isValid: false, ermessage"Input a valid email address." };
         }
-        return { value: true };
+        return { isValid: true };
       }}
       editing={editing}
       onEditingChange={setEditing}

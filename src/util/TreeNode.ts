@@ -216,24 +216,24 @@ export abstract class TreeNode<
 
   get canHaveChildren(): ValidationResult {
     return {
-      value: true,
+      isValid: true,
     };
   }
 
   canRemoveChild(child: Child): ValidationResult {
-    return { value: true };
+    return { isValid: true };
   }
   canInsertChild(child: Child): ValidationResult {
     const canHaveChildren = this.canHaveChildren;
-    if (!canHaveChildren.value) {
+    if (!canHaveChildren.isValid) {
       return canHaveChildren;
     }
-    return { value: true };
+    return { isValid: true };
   }
 
   canRemove(): ValidationResult {
     if (!this.parent) {
-      return { value: true };
+      return { isValid: true };
     }
     return this.parent.canRemoveChild(this);
   }
@@ -248,8 +248,8 @@ export abstract class TreeNode<
     }
     if (!force) {
       const canRemove = parent.canRemoveChild(this);
-      if (!canRemove.value) {
-        throw new Error(`Cannot remove: ${canRemove.error}`);
+      if (!canRemove.isValid) {
+        throw new Error(`Cannot remove: ${canRemove.message}`);
       }
     }
 
@@ -296,8 +296,8 @@ export abstract class TreeNode<
 
     if (!force) {
       const canInsert = this.canInsertChild(child);
-      if (!canInsert.value) {
-        throw new Error(`Cannot insert child: ${canInsert.error}`);
+      if (!canInsert.isValid) {
+        throw new Error(`Cannot insert child: ${canInsert.message}`);
       }
     }
 

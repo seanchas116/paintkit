@@ -83,7 +83,7 @@ export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
   ignoreDoubleClick,
   onChange,
   getSelectionRange,
-  validate = () => ({ value: true }),
+  validate = () => ({ isValid: true }),
   editing: editingExternal,
   onEditingChange: onEditingChangeExternal,
 }) => {
@@ -159,7 +159,7 @@ export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
   const handleEditFinish = (text: string) => {
     setEditing(false);
     setCurrentValue(value);
-    if (!validate(text).value) {
+    if (!validate(text).isValid) {
       return;
     }
     onChange?.(text);
@@ -216,7 +216,7 @@ export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
           // TODO: Do not do stopPropagation inside component
           onDoubleClick={(e) => e.stopPropagation()}
           draggable={false}
-          isValid={validateResult.value}
+          isValid={validateResult.isValid}
         />
       ) : (
         <Text>
@@ -229,8 +229,8 @@ export const ClickToEditInput: React.FC<ClickToEditInputProps> = ({
           )}
         </Text>
       )}
-      {editing && !validateResult.value && (
-        <ErrorPopup>{validateResult.error}</ErrorPopup>
+      {editing && !validateResult.isValid && (
+        <ErrorPopup>{validateResult.message}</ErrorPopup>
       )}
     </Wrap>
   );

@@ -35,17 +35,17 @@ export const NumberInput: React.VFC<NumberInputProps> = (props) => {
       }}
       validate={(text) => {
         if (!text) {
-          return props.validate?.(undefined) ?? { value: true };
+          return props.validate?.(undefined) ?? { isValid: true };
         }
 
         const value = Number.parseFloat(text);
         if (text && Number.isNaN(value)) {
           return {
-            value: false,
-            error: "Input text must be a number.",
+            isValid: false,
+            message: "Input text must be a number.",
           };
         }
-        return props.validate?.(value) ?? { value: true };
+        return props.validate?.(value) ?? { isValid: true };
       }}
     />
   );
