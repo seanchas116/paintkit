@@ -44,6 +44,7 @@ export const ComboBox: React.FC<ComboBoxProps> = ({
       options={options}
       value={inputProps.value}
       onChange={inputProps.onChange}
+      tabIndex={-1}
       renderButton={(open) => {
         return (
           <Title>
@@ -58,7 +59,10 @@ export const ComboBox: React.FC<ComboBoxProps> = ({
                 }
               )}
             />
-            <DownButton onClick={open} />
+            <DownButton
+              tabIndex={-1} // TODO: open by enter?
+              onClick={open}
+            />
           </Title>
         );
       }}

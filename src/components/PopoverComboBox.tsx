@@ -70,6 +70,7 @@ export const PopoverComboBox: React.FC<{
         anchor={(open) => {
           const button = (
             <ColorButton
+              tabIndex={-1} // TODO: open by enter?
               onClick={(e) => {
                 open(e.currentTarget.getBoundingClientRect());
               }}

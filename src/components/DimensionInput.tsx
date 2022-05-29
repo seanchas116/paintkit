@@ -167,6 +167,7 @@ export const DimensionInput: React.FC<DimensionInputProps> = ({
       />
       <DimensionInputSelect
         value={value && "keyword" in value ? value.keyword : value?.unit}
+        tabIndex={-1}
         placeholder={
           placeholder && "keyword" in placeholder
             ? placeholder.keyword

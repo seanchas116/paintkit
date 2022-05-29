@@ -110,9 +110,9 @@ export const InputIcon: React.FC<{
 }> = ({ icon, title }) => {
   const iconBody =
     typeof icon === "string" ? (
-      <InputIconLetter>{icon}</InputIconLetter>
+      <InputIconLetter tabIndex={-1}>{icon}</InputIconLetter>
     ) : (
-      <InputIconIcon icon={icon} />
+      <InputIconIcon icon={icon} tabIndex={-1} />
     );
 
   return title ? <Tippy content={title}>{iconBody}</Tippy> : iconBody;
