@@ -10,6 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   ${tippyCSS}
 
   .paintkit-root {
+    display: contents;
     font-family: ${fontFamily};
   }
 
@@ -55,6 +56,7 @@ export type ColorScheme = "auto" | "light" | "dark";
 export const ColorSchemeProvider = styled.div<{
   colorScheme: ColorScheme;
 }>`
+  display: contents;
   ${(p) =>
     p.colorScheme === "auto"
       ? css`
