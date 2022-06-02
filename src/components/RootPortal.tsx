@@ -2,11 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { assertNonNull } from "../util/Assert";
 
+const RootPortalHostContext =
+  React.createContext<DocumentOrShadowRoot>(document);
+
+export const RootPortalHostProvider = RootPortalHostContext.Provider;
+
 interface RootPortalProps {
   children: React.ReactNode;
 }
 
 export class RootPortal extends React.Component<RootPortalProps> {
+  static contextType = RootPortalHostContext;
+
   private el = document.createElement("div");
 
   constructor(props: RootPortalProps) {
@@ -14,7 +21,8 @@ export class RootPortal extends React.Component<RootPortalProps> {
   }
 
   componentDidMount(): void {
-    const root = assertNonNull(document.querySelector(".paintkit-root"));
+    const host = this.context as Document;
+    const root = assertNonNull(host.querySelector(".paintkit-root"));
     root.appendChild(this.el);
   }
 
