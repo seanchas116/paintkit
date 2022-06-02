@@ -32,6 +32,9 @@ export const GlobalStyle = createGlobalStyle`
     .simplebar-content {
       height: 100%;
     }
+    .simplebar-offset {
+      width: 100%;
+    }
 
     .tippy-box {
       font-size: 12px;
