@@ -4,17 +4,12 @@ import { miniresetCSS, simpleBarCSS, tippyCSS } from "./LibraryCSS";
 import { darkColorCSSVariables, lightColorCSSVariables } from "./Palette";
 import { fontFamily } from "./Common";
 
-export const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
   // styles for libraries
-  ${simpleBarCSS}
   ${tippyCSS}
 
-  .paintkit-root {
-    display: contents;
-    font-family: ${fontFamily};
-  }
-
   :where(.paintkit-root) {
+    ${simpleBarCSS}
     ${miniresetCSS}
 
     * {
@@ -56,10 +51,14 @@ export const GlobalStyle = createGlobalStyle`
 
 export type ColorScheme = "auto" | "light" | "dark";
 
-export const ColorSchemeProvider = styled.div<{
+const PaintkitRootWrap = styled.div<{
   colorScheme: ColorScheme;
+  lightSelector?: string;
+  darkSelector?: string;
 }>`
   display: contents;
+  font-family: ${fontFamily};
+
   ${(p) =>
     p.colorScheme === "auto"
       ? css`
@@ -67,19 +66,41 @@ export const ColorSchemeProvider = styled.div<{
           @media (prefers-color-scheme: dark) {
             ${darkColorCSSVariables}
           }
+          ${p.lightSelector &&
+          css`
+            ${p.lightSelector} {
+              ${lightColorCSSVariables}
+            }
+          `}
+          ${p.darkSelector &&
+          css`
+            ${p.darkSelector} {
+              ${darkColorCSSVariables}
+            }
+          `}
         `
       : p.colorScheme === "light"
       ? lightColorCSSVariables
       : darkColorCSSVariables}
 `;
 
-export const PaintkitProvider: React.FC<{
+export const PaintkitRoot: React.FC<{
   children: React.ReactNode;
-}> = ({ children }) => {
+  colorScheme: ColorScheme;
+  lightSelector?: string;
+  darkSelector?: string;
+}> = ({ children, colorScheme, lightSelector, darkSelector }) => {
   return (
-    <div className="paintkit-root">
+    <>
       <GlobalStyle />
-      {children}
-    </div>
+      <PaintkitRootWrap
+        className="paintkit-root"
+        colorScheme={colorScheme}
+        lightSelector={lightSelector}
+        darkSelector={darkSelector}
+      >
+        {children}
+      </PaintkitRootWrap>
+    </>
   );
 };
