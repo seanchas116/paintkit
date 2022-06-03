@@ -3,10 +3,10 @@ import styled from "styled-components";
 import Tippy from "@tippyjs/react";
 import { Icon } from "@iconify/react/dist/offline";
 import { IconifyIcon } from "@iconify/types";
+import { isEqual } from "lodash-es";
 import { isNumeric } from "../util/Math";
 import { ValidationResult } from "../util/ValidationResult";
 import { MIXED, sameOrMixed } from "../util/Mixed";
-import { useBufferedValue } from "./hooks/useBufferedValue";
 import {
   DropdownBody,
   DropdownItem,
@@ -125,11 +125,38 @@ export const Input: React.FC<InputProps> = ({
   iconPosition = "left",
   ...props
 }) => {
-  const [currentValue, setCurrentValue, onEditingFinish] = useBufferedValue(
-    typeof props.value === "string" ? props.value : "",
-    props.onChange,
-    (x) => props.validate?.(x).isValid ?? true
-  );
+  const value = typeof props.value === "string" ? props.value : "";
+  const [currentValue, setCurrentValue] = useState(value);
+  const [dirty, setDirty] = useState(false);
+  useEffect(() => {
+    setDirty(false);
+    setCurrentValue(value);
+  }, [value]);
+  const validate = (x: string) => props.validate?.(x).isValid ?? true;
+
+  const onEditingFinish = (newValue: string) => {
+    if (!dirty) {
+      return;
+    }
+
+    setCurrentValue(newValue);
+    if (!isEqual(newValue, value)) {
+      try {
+        if (validate && !validate(newValue)) {
+          setCurrentValue(value);
+          return;
+        }
+
+        if (!props.onChange?.(newValue)) {
+          setCurrentValue(value);
+        }
+      } catch (e) {
+        console.error(e);
+        setCurrentValue(value);
+      }
+    }
+  };
+
   const validateResult = props.validate?.(currentValue) ?? { isValid: true };
 
   const inputRef = React.createRef<HTMLInputElement>();
@@ -239,6 +266,7 @@ export const Input: React.FC<InputProps> = ({
           props.onBlur?.();
         }}
         onChange={(e) => {
+          setDirty(true);
           setCurrentValue(e.currentTarget.value);
         }}
       />
