@@ -125,13 +125,13 @@ export const Input: React.FC<InputProps> = ({
   iconPosition = "left",
   ...props
 }) => {
-  const value = typeof props.value === "string" ? props.value : "";
-  const [currentValue, setCurrentValue] = useState(value);
+  const originalValue = typeof props.value === "string" ? props.value : "";
+  const [currentValue, setCurrentValue] = useState(originalValue);
   const [dirty, setDirty] = useState(false);
   useEffect(() => {
     setDirty(false);
-    setCurrentValue(value);
-  }, [value]);
+    setCurrentValue(originalValue);
+  }, [originalValue]);
   const validate = (x: string) => props.validate?.(x).isValid ?? true;
 
   const onEditingFinish = (newValue: string) => {
@@ -140,19 +140,19 @@ export const Input: React.FC<InputProps> = ({
     }
 
     setCurrentValue(newValue);
-    if (!isEqual(newValue, value)) {
+    if (!isEqual(newValue, originalValue)) {
       try {
         if (validate && !validate(newValue)) {
-          setCurrentValue(value);
+          setCurrentValue(originalValue);
           return;
         }
 
         if (!props.onChange?.(newValue)) {
-          setCurrentValue(value);
+          setCurrentValue(originalValue);
         }
       } catch (e) {
         console.error(e);
-        setCurrentValue(value);
+        setCurrentValue(originalValue);
       }
     }
   };
