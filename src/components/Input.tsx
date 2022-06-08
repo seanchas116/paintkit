@@ -220,7 +220,7 @@ export const Input: React.FC<InputProps> = ({
                 break;
               }
               if (currentValue && isNumeric(currentValue)) {
-                onEditingFinish((parseFloat(currentValue) + 1).toString());
+                props.onChange?.((parseFloat(currentValue) + 1).toString());
               }
               break;
             }
@@ -238,7 +238,7 @@ export const Input: React.FC<InputProps> = ({
               }
 
               if (currentValue && isNumeric(currentValue)) {
-                onEditingFinish((parseFloat(currentValue) - 1).toString());
+                props.onChange?.((parseFloat(currentValue) - 1).toString());
               }
               break;
             }
