@@ -81,7 +81,7 @@ export class JSONUndoHistory<
     this.savePoint = this.undoStack.commandToUndo;
   }
 
-  revert(snapshot: Snapshot): void {
+  revert(snapshot: Snapshot = this.target.toJSON()): void {
     this._snapshot = snapshot;
     this.emit("change", snapshot);
     this.target.loadJSON(snapshot);
