@@ -80,9 +80,6 @@ export abstract class TreeNode<
       if (value.currentNameScope !== this) {
         return;
       }
-      if (!value.name) {
-        return;
-      }
 
       this.deleteSelf(value);
       for (const child of value.children) {
