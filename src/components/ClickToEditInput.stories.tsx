@@ -129,7 +129,7 @@ const Validated: React.FC = () => {
       placeholder="Email Address"
       validate={(value) => {
         if (!validateEmail(value)) {
-          return { isValid: false, ermessage"Input a valid email address." };
+          return { isValid: false, message: "Input a valid email address." };
         }
         return { isValid: true };
       }}

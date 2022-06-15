@@ -44,7 +44,7 @@ export const Basic: React.FC = () => {
         />
         <div>{value0}</div>
         <Input
-          label="W"
+          icon="W"
           title="Width"
           value={value0}
           onChange={(value) => {
@@ -65,7 +65,7 @@ export const Basic: React.FC = () => {
         />
         <div>{value0}</div>
         <Input
-          label="W"
+          icon="W"
           iconPosition="left"
           title="Width"
           value={value0}
@@ -91,7 +91,10 @@ export const Basic: React.FC = () => {
             if (value.length > 4) {
               return { isValid: true };
             } else {
-              return { isValid: false, ermessage"Input more than 4 characters" };
+              return {
+                isValid: false,
+                message: "Input more than 4 characters",
+              };
             }
           }}
           onChange={(value) => {
