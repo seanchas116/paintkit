@@ -9,7 +9,7 @@ describe(setupMessageRPC.name, () => {
       },
     };
     const methodsB = {
-      async methodB(value: number) {
+      methodB(value: number) {
         return `B: ${value}`;
       },
     };

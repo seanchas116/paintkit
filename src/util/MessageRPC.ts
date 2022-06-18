@@ -22,6 +22,18 @@ interface AcknowledgeMessage {
 
 type Message = CallMessage | ResultMessage | ReadyMessage | AcknowledgeMessage;
 
+type Promisify<T> = T extends Promise<unknown> ? T : Promise<T>;
+
+type PromisifyReturnValue<T> = T extends (...args: infer Args) => infer TReturn
+  ? (...args: Args) => Promisify<TReturn>
+  : never;
+
+type PromisifyMethods<T> = {
+  [K in keyof T]: T[K] extends (...args: any) => any
+    ? PromisifyReturnValue<T[K]>
+    : T[K];
+};
+
 export interface Endpoint {
   addEventListener(listener: (data: any) => void): () => void;
   postMessage(data: any): void;
@@ -127,7 +139,7 @@ class MessageRPCPort {
     this.endpoint.postMessage(message);
   }
 
-  getRemoteProxy<TRemoteMethods>(): TRemoteMethods {
+  getRemoteProxy<TRemoteMethods>(): PromisifyMethods<TRemoteMethods> {
     return new Proxy(this, {
       get(target: MessageRPCPort, property: string): any {
         return async (...args: any[]) => {
@@ -146,13 +158,13 @@ class MessageRPCPort {
           });
         };
       },
-    }) as any as TRemoteMethods;
+    }) as any as PromisifyMethods<TRemoteMethods>;
   }
 }
 
 export function setupMessageRPC<TRemoteMethods>(
   methods: object,
   endpoint: Endpoint
-): TRemoteMethods {
+): PromisifyMethods<TRemoteMethods> {
   return new MessageRPCPort(methods, endpoint).getRemoteProxy<TRemoteMethods>();
 }
