@@ -5,13 +5,22 @@ interface CallMessage {
   args: readonly unknown[];
 }
 
-type ResultMessage = {
+interface ResultMessage {
   type: "messageProxy:result";
   mode: "success" | "error";
   method: string;
   callID: number;
   value: unknown;
-};
+}
+
+interface ReadyMessage {
+  type: "messageProxy:ready";
+}
+interface AcknowledgeMessage {
+  type: "messageProxy:acknowledge";
+}
+
+type Message = CallMessage | ResultMessage | ReadyMessage | AcknowledgeMessage;
 
 export interface Endpoint {
   addEventListener(listener: (data: any) => void): () => void;
@@ -25,22 +34,41 @@ class IPCPort<THandler> {
 
     endpoint.addEventListener((data) => {
       if (typeof data === "object" && data) {
-        const message = data as CallMessage | ResultMessage;
+        const message = data as Message;
 
-        if (message.type === "messageProxy:call") {
-          void this.handleCallMessage(message);
-        }
-        if (message.type === "messageProxy:result") {
-          const resolver = this.resolvers.get(message.callID);
-          if (resolver) {
-            if (message.mode === "success") {
-              resolver[0](message.value);
-            } else {
-              resolver[1](message.value);
+        switch (message.type) {
+          case "messageProxy:ready": {
+            this.endpoint.postMessage({
+              type: "messageProxy:acknowledge",
+            });
+            this.onConnected();
+            break;
+          }
+          case "messageProxy:acknowledge": {
+            this.onConnected();
+            break;
+          }
+          case "messageProxy:call": {
+            void this.handleCallMessage(message);
+            break;
+          }
+          case "messageProxy:result": {
+            const resolver = this.resolvers.get(message.callID);
+            if (resolver) {
+              if (message.mode === "success") {
+                resolver[0](message.value);
+              } else {
+                resolver[1](message.value);
+              }
             }
+            break;
           }
         }
       }
+    });
+
+    this.sendMessage({
+      type: "messageProxy:ready",
     });
   }
 
@@ -52,6 +80,24 @@ class IPCPort<THandler> {
     [(value: unknown) => void, (error: unknown) => void]
   >();
 
+  private connected = false;
+  private connectedCallbacks: (() => void)[] = [];
+
+  private onConnected(): void {
+    this.connected = true;
+    this.connectedCallbacks.forEach((callback) => callback());
+    this.connectedCallbacks = [];
+  }
+
+  private waitForConnected(): Promise<void> {
+    if (this.connected) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      this.connectedCallbacks.push(resolve);
+    });
+  }
+
   private async handleCallMessage(callMessage: CallMessage): Promise<void> {
     try {
       // eslint-disable-next-line
@@ -59,7 +105,7 @@ class IPCPort<THandler> {
         ...callMessage.args
       );
 
-      this.sendResultMessage({
+      this.sendMessage({
         type: "messageProxy:result",
         mode: "success",
         method: callMessage.method,
@@ -67,7 +113,7 @@ class IPCPort<THandler> {
         value,
       });
     } catch (error) {
-      this.sendResultMessage({
+      this.sendMessage({
         type: "messageProxy:result",
         mode: "error",
         method: callMessage.method,
@@ -77,22 +123,21 @@ class IPCPort<THandler> {
     }
   }
 
-  private sendResultMessage(resultMessage: ResultMessage): void {
-    this.endpoint.postMessage(resultMessage);
-  }
-
-  private sendCallMessage(callMessage: CallMessage): void {
-    this.endpoint.postMessage(callMessage);
+  private sendMessage(message: Message): void {
+    this.endpoint.postMessage(message);
   }
 
   getProxy<TRemoteMethods>(): TRemoteMethods {
     return new Proxy(this, {
       get(target: IPCPort<THandler>, property: string): any {
-        return (...args: any[]) => {
+        return async (...args: any[]) => {
+          await target.waitForConnected();
           const callID = target.callID++;
+
           return new Promise((resolve, reject) => {
             target.resolvers.set(callID, [resolve, reject]);
-            target.sendCallMessage({
+
+            target.sendMessage({
               type: "messageProxy:call",
               method: property,
               callID,
