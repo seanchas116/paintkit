@@ -150,9 +150,9 @@ class IPCPort<THandler> {
   }
 }
 
-export function establishIPC<TRemoteMethods>(
+export function setupIPC<TRemoteHandler>(
   handler: object,
   endpoint: Endpoint
-): TRemoteMethods {
-  return new IPCPort(handler, endpoint).getProxy<TRemoteMethods>();
+): TRemoteHandler {
+  return new IPCPort(handler, endpoint).getProxy<TRemoteHandler>();
 }

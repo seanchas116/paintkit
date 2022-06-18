@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { establishIPC, Endpoint } from "./MessageProxy";
+import { setupIPC, Endpoint } from "./MessageProxy";
 
-describe(establishIPC.name, () => {
+describe(setupIPC.name, () => {
   it("should call method on handler", async () => {
     const methodsA = {
       async increment(value: number) {
@@ -30,14 +30,14 @@ describe(establishIPC.name, () => {
       postMessage(data: any) {},
     };
 
-    const a = establishIPC<typeof methodsA>(methodsB, endpointB);
+    const a = setupIPC<typeof methodsA>(methodsB, endpointB);
 
     let aReturn = -1;
     void a.increment(2).then((value) => (aReturn = value));
 
     await new Promise((resolve) => setTimeout(resolve, 10));
 
-    const b = establishIPC<typeof methodsB>(methodsA, endpointA);
+    const b = setupIPC<typeof methodsB>(methodsA, endpointA);
     let bReturn = -1;
     void b.decrement(2).then((value) => (bReturn = value));
 
