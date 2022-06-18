@@ -4,13 +4,13 @@ import { setupIPC, Endpoint } from "./MessageProxy";
 describe(setupIPC.name, () => {
   it("should call method on handler", async () => {
     const methodsA = {
-      async increment(value: number) {
-        return value + 1;
+      async methodA(value: number) {
+        return `A: ${value}`;
       },
     };
     const methodsB = {
-      async decrement(value: number) {
-        return value - 1;
+      async methodB(value: number) {
+        return `B: ${value}`;
       },
     };
 
@@ -32,18 +32,18 @@ describe(setupIPC.name, () => {
 
     const a = setupIPC<typeof methodsA>(methodsB, endpointB);
 
-    let aReturn = -1;
-    void a.increment(2).then((value) => (aReturn = value));
+    let aReturn = "";
+    void a.methodA(100).then((value) => (aReturn = value));
 
     await new Promise((resolve) => setTimeout(resolve, 10));
 
     const b = setupIPC<typeof methodsB>(methodsA, endpointA);
-    let bReturn = -1;
-    void b.decrement(2).then((value) => (bReturn = value));
+    let bReturn = "";
+    void b.methodB(100).then((value) => (bReturn = value));
 
     await new Promise((resolve) => setTimeout(resolve, 10));
 
-    expect(aReturn).toBe(3);
-    expect(bReturn).toBe(1);
+    expect(aReturn).toBe("A: 100");
+    expect(bReturn).toBe("B: 100");
   });
 });
