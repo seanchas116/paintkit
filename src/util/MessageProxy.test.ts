@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createIPC, Endpoint } from "./MessageProxy";
+import { establishIPC, Endpoint } from "./MessageProxy";
 
 const methodsA = {
   async increment(value: number) {
@@ -12,7 +12,7 @@ const methodsB = {
   },
 };
 
-describe(createIPC.name, () => {
+describe(establishIPC.name, () => {
   it("should call method on handler", async () => {
     const endpointA: Endpoint = {
       addEventListener(handler: (data: any) => void): () => void {
@@ -21,6 +21,7 @@ describe(createIPC.name, () => {
       },
       postMessage(data: any) {},
     };
+
     const endpointB: Endpoint = {
       addEventListener(handler: (data: any) => void): () => void {
         endpointA.postMessage = handler;
@@ -29,7 +30,9 @@ describe(createIPC.name, () => {
       postMessage(data: any) {},
     };
 
-    const b = createIPC<typeof methodsB>(methodsA, endpointA);
+    const a = establishIPC<typeof methodsA>(methodsB, endpointB);
+    const b = establishIPC<typeof methodsB>(methodsA, endpointA);
+
     const ret = await b.decrement(2);
     expect(ret).toBe(1);
   });

@@ -1,20 +1,17 @@
 interface CallMessage {
   type: "messageProxy:call";
   method: string;
+  callID: number;
   args: readonly unknown[];
 }
 
-type ResultMessage =
-  | {
-      type: "messageProxy:success";
-      method: string;
-      value: unknown;
-    }
-  | {
-      type: "messageProxy:error";
-      method: string;
-      value: string;
-    };
+type ResultMessage = {
+  type: "messageProxy:result";
+  mode: "success" | "error";
+  method: string;
+  callID: number;
+  value: unknown;
+};
 
 export interface Endpoint {
   addEventListener(listener: (data: any) => void): () => void;
@@ -27,32 +24,57 @@ class IPCPort<THandler> {
     this.endpoint = endpoint;
 
     endpoint.addEventListener((data) => {
-      if (
-        typeof data === "object" &&
-        data &&
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        data.type === "messageProxy:call"
-      ) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        void this.handleCallMessage(data);
+      if (typeof data === "object" && data) {
+        const message = data as CallMessage | ResultMessage;
+
+        if (message.type === "messageProxy:call") {
+          void this.handleCallMessage(message);
+        }
+        if (message.type === "messageProxy:result") {
+          const resolver = this.resolvers.get(message.callID);
+          if (resolver) {
+            if (message.mode === "success") {
+              resolver[0](message.value);
+            } else {
+              resolver[1](message.value);
+            }
+          }
+        }
       }
     });
   }
 
   private handler: object;
   private endpoint: Endpoint;
+  private callID = 0;
+  private resolvers = new Map<
+    number,
+    [(value: unknown) => void, (error: unknown) => void]
+  >();
 
   private async handleCallMessage(callMessage: CallMessage): Promise<void> {
-    // eslint-disable-next-line
-    const value: unknown = await (this.handler as any)[callMessage.method](
-      ...callMessage.args
-    );
+    try {
+      // eslint-disable-next-line
+      const value: unknown = await (this.handler as any)[callMessage.method](
+        ...callMessage.args
+      );
 
-    this.sendResultMessage({
-      type: "messageProxy:success",
-      method: callMessage.method,
-      value,
-    });
+      this.sendResultMessage({
+        type: "messageProxy:result",
+        mode: "success",
+        method: callMessage.method,
+        callID: callMessage.callID,
+        value,
+      });
+    } catch (error) {
+      this.sendResultMessage({
+        type: "messageProxy:result",
+        mode: "error",
+        method: callMessage.method,
+        callID: callMessage.callID,
+        value: String(error),
+      });
+    }
   }
 
   private sendResultMessage(resultMessage: ResultMessage): void {
@@ -67,14 +89,15 @@ class IPCPort<THandler> {
     return new Proxy(this, {
       get(target: IPCPort<THandler>, property: string): any {
         return (...args: any[]) => {
+          const callID = target.callID++;
           return new Promise((resolve, reject) => {
+            target.resolvers.set(callID, [resolve, reject]);
             target.sendCallMessage({
               type: "messageProxy:call",
               method: property,
-              args: [],
+              callID,
+              args,
             });
-
-            // TODO: resolve
           });
         };
       },
@@ -82,7 +105,7 @@ class IPCPort<THandler> {
   }
 }
 
-export function createIPC<TRemoteMethods>(
+export function establishIPC<TRemoteMethods>(
   handler: object,
   endpoint: Endpoint
 ): TRemoteMethods {
