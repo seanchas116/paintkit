@@ -28,7 +28,7 @@ type PromisifyReturnValue<T> = T extends (...args: infer Args) => infer TReturn
   ? (...args: Args) => Promisify<TReturn>
   : never;
 
-type PromisifyMethods<T> = {
+export type PromisifyMethods<T> = {
   [K in keyof T]: T[K] extends (...args: any) => any
     ? PromisifyReturnValue<T[K]>
     : T[K];
