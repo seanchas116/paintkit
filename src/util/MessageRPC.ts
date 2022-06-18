@@ -28,7 +28,7 @@ type PromisifyReturnValue<T> = T extends (...args: infer Args) => infer TReturn
   ? (...args: Args) => Promisify<TReturn>
   : never;
 
-export type PromisifyMethods<T> = {
+export type Remote<T> = {
   [K in keyof T]: T[K] extends (...args: any) => any
     ? PromisifyReturnValue<T[K]>
     : T[K];
@@ -139,7 +139,7 @@ class MessageRPCPort {
     this.endpoint.postMessage(message);
   }
 
-  getRemoteProxy<TRemoteMethods>(): PromisifyMethods<TRemoteMethods> {
+  getRemoteProxy<TRemoteMethods>(): Remote<TRemoteMethods> {
     return new Proxy(this, {
       get(target: MessageRPCPort, property: string): any {
         return async (...args: any[]) => {
@@ -158,13 +158,13 @@ class MessageRPCPort {
           });
         };
       },
-    }) as any as PromisifyMethods<TRemoteMethods>;
+    }) as any as Remote<TRemoteMethods>;
   }
 }
 
 export function setupMessageRPC<TRemoteMethods>(
   methods: object,
   endpoint: Endpoint
-): PromisifyMethods<TRemoteMethods> {
+): Remote<TRemoteMethods> {
   return new MessageRPCPort(methods, endpoint).getRemoteProxy<TRemoteMethods>();
 }
