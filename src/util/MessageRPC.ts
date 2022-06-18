@@ -27,9 +27,9 @@ export interface Endpoint {
   postMessage(data: any): void;
 }
 
-class MessageRPCPort<THandler> {
-  constructor(handler: object, endpoint: Endpoint) {
-    this.handler = handler;
+class MessageRPCPort {
+  constructor(methods: object, endpoint: Endpoint) {
+    this.methods = methods;
     this.endpoint = endpoint;
 
     endpoint.addEventListener((data) => {
@@ -72,7 +72,7 @@ class MessageRPCPort<THandler> {
     });
   }
 
-  private handler: object;
+  private methods: object;
   private endpoint: Endpoint;
   private callID = 0;
   private resolvers = new Map<
@@ -101,7 +101,7 @@ class MessageRPCPort<THandler> {
   private async handleCallMessage(callMessage: CallMessage): Promise<void> {
     try {
       // eslint-disable-next-line
-      const value: unknown = await (this.handler as any)[callMessage.method](
+      const value: unknown = await (this.methods as any)[callMessage.method](
         ...callMessage.args
       );
 
@@ -129,7 +129,7 @@ class MessageRPCPort<THandler> {
 
   getRemoteProxy<TRemoteMethods>(): TRemoteMethods {
     return new Proxy(this, {
-      get(target: MessageRPCPort<THandler>, property: string): any {
+      get(target: MessageRPCPort, property: string): any {
         return async (...args: any[]) => {
           await target.waitForConnected();
           const callID = target.callID++;
@@ -150,9 +150,9 @@ class MessageRPCPort<THandler> {
   }
 }
 
-export function setupMessageRPC<TRemoteHandler>(
-  handler: object,
+export function setupMessageRPC<TRemoteMethods>(
+  methods: object,
   endpoint: Endpoint
-): TRemoteHandler {
-  return new MessageRPCPort(handler, endpoint).getRemoteProxy<TRemoteHandler>();
+): TRemoteMethods {
+  return new MessageRPCPort(methods, endpoint).getRemoteProxy<TRemoteMethods>();
 }
