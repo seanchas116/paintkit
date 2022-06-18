@@ -21,8 +21,8 @@ export interface Endpoint {
   postMessage(data: any): void;
 }
 
-class MessageProxy<THandler> {
-  constructor(handler: THandler, endpoint: Endpoint) {
+class IPCPort<THandler> {
+  constructor(handler: object, endpoint: Endpoint) {
     this.handler = handler;
     this.endpoint = endpoint;
 
@@ -39,7 +39,7 @@ class MessageProxy<THandler> {
     });
   }
 
-  private handler: THandler;
+  private handler: object;
   private endpoint: Endpoint;
 
   private async handleCallMessage(callMessage: CallMessage): Promise<void> {
@@ -63,9 +63,9 @@ class MessageProxy<THandler> {
     this.endpoint.postMessage(callMessage);
   }
 
-  getProxy<T>(): T {
+  getProxy<TRemoteMethods>(): TRemoteMethods {
     return new Proxy(this, {
-      get(target: MessageProxy<THandler>, property: string): any {
+      get(target: IPCPort<THandler>, property: string): any {
         return (...args: any[]) => {
           return new Promise((resolve, reject) => {
             target.sendCallMessage({
@@ -78,13 +78,13 @@ class MessageProxy<THandler> {
           });
         };
       },
-    }) as any as T;
+    }) as any as TRemoteMethods;
   }
 }
 
-export function createMessageProxy<TAPI, THandler>(
-  handler: THandler,
+export function createIPC<TRemoteMethods>(
+  handler: object,
   endpoint: Endpoint
-): TAPI {
-  return new MessageProxy(handler, endpoint).getProxy<TAPI>();
+): TRemoteMethods {
+  return new IPCPort(handler, endpoint).getProxy<TRemoteMethods>();
 }
