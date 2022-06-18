@@ -127,7 +127,7 @@ class IPCPort<THandler> {
     this.endpoint.postMessage(message);
   }
 
-  getProxy<TRemoteMethods>(): TRemoteMethods {
+  getRemoteProxy<TRemoteMethods>(): TRemoteMethods {
     return new Proxy(this, {
       get(target: IPCPort<THandler>, property: string): any {
         return async (...args: any[]) => {
@@ -154,5 +154,5 @@ export function setupIPC<TRemoteHandler>(
   handler: object,
   endpoint: Endpoint
 ): TRemoteHandler {
-  return new IPCPort(handler, endpoint).getProxy<TRemoteHandler>();
+  return new IPCPort(handler, endpoint).getRemoteProxy<TRemoteHandler>();
 }
