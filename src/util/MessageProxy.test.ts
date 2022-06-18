@@ -31,9 +31,19 @@ describe(establishIPC.name, () => {
     };
 
     const a = establishIPC<typeof methodsA>(methodsB, endpointB);
-    const b = establishIPC<typeof methodsB>(methodsA, endpointA);
 
-    expect(await a.increment(2)).toBe(3);
-    expect(await b.decrement(2)).toBe(1);
+    let aReturn = -1;
+    void a.increment(2).then((value) => (aReturn = value));
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    const b = establishIPC<typeof methodsB>(methodsA, endpointA);
+    let bReturn = -1;
+    void b.decrement(2).then((value) => (bReturn = value));
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(aReturn).toBe(3);
+    expect(bReturn).toBe(1);
   });
 });
