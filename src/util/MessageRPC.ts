@@ -27,7 +27,7 @@ export interface Endpoint {
   postMessage(data: any): void;
 }
 
-class IPCPort<THandler> {
+class MessageRPCPort<THandler> {
   constructor(handler: object, endpoint: Endpoint) {
     this.handler = handler;
     this.endpoint = endpoint;
@@ -129,7 +129,7 @@ class IPCPort<THandler> {
 
   getRemoteProxy<TRemoteMethods>(): TRemoteMethods {
     return new Proxy(this, {
-      get(target: IPCPort<THandler>, property: string): any {
+      get(target: MessageRPCPort<THandler>, property: string): any {
         return async (...args: any[]) => {
           await target.waitForConnected();
           const callID = target.callID++;
@@ -150,9 +150,9 @@ class IPCPort<THandler> {
   }
 }
 
-export function setupIPC<TRemoteHandler>(
+export function setupMessageRPC<TRemoteHandler>(
   handler: object,
   endpoint: Endpoint
 ): TRemoteHandler {
-  return new IPCPort(handler, endpoint).getRemoteProxy<TRemoteHandler>();
+  return new MessageRPCPort(handler, endpoint).getRemoteProxy<TRemoteHandler>();
 }
