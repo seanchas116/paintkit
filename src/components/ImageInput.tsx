@@ -220,7 +220,7 @@ export const ImageInput: React.VFC<{
           <Tippy content="Copy">
             <IconButton icon={copyIcon} onClick={copyImage} />
           </Tippy>
-          <Tippy content="Paste (Raster Image or SVG Text)">
+          <Tippy content="Paste">
             <IconButton icon={pasteIcon} onClick={pasteImage} />
           </Tippy>
         </Buttons>
