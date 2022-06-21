@@ -257,8 +257,19 @@ export const ImageInput: React.VFC<{
             ? "embedded"
             : "file"
         }
-        onChange={(value) => {
-          if (value === "embedded") {
+        onChange={async (newType) => {
+          if (newType === "embedded") {
+            try {
+              if (typeof value === "string") {
+                const response = await fetch(resolveURL(value));
+                const blob = await response.blob();
+                const content = await blobToDataURL(blob);
+                onChange(content);
+                return;
+              }
+            } catch {
+              console.warn("failed to load image as data URL", value);
+            }
             onChange(emptyPNGDataURL);
           } else {
             onChange("");
