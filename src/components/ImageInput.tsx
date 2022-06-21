@@ -48,7 +48,10 @@ const ImageInputWrap = styled.div`
   gap: 4px;
 `;
 
-let showSaveDialog = async (data: Buffer, extension: string) => {
+let showSaveDialog: (
+  data: Buffer,
+  extension: string
+) => Promise<string | undefined> = async (data: Buffer, extension: string) => {
   const mimetype = mime.lookup(extension);
   if (!mimetype) {
     throw new Error(`Unsupported extension: ${extension}`);
@@ -67,10 +70,12 @@ let showSaveDialog = async (data: Buffer, extension: string) => {
   const writable = await fileHandle.createWritable();
   await writable.write(data);
   await writable.close();
+
+  return undefined;
 };
 
 export function setShowSaveDialog(
-  fn: (data: Buffer, extension: string) => Promise<void>
+  fn: (data: Buffer, extension: string) => Promise<string | undefined>
 ): void {
   showSaveDialog = fn;
 }
@@ -198,7 +203,10 @@ export const ImageInput: React.VFC<{
                   return;
                 }
 
-                await showSaveDialog(buffer, ext);
+                const newURL = await showSaveDialog(buffer, ext);
+                if (newURL) {
+                  onChange(newURL);
+                }
 
                 // const fileHandle = await showSaveFilePicker({
                 //   types: [
