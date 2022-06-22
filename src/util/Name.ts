@@ -50,17 +50,25 @@ export function isValidCSSIdentifier(name: string): boolean {
   );
 }
 
-export function toIdentifier(original: string): string {
+export function toValidCSSIdentifier(original: string): string {
   if (original.length === 0) {
     return "_";
   }
+  const result = [...original]
+    .map((c) => {
+      if (/[a-z0-9-_]/.test(c)) {
+        return c;
+      }
+      // eslint-disable-next-line no-control-regex
+      if (/[^\u0000-\u00A0]/.test(c)) {
+        return c;
+      }
+      return "_";
+    })
+    .join("");
 
-  const result = original.replace(/[^a-zA-Z_$0-9]/g, "_");
   if (/^[0-9]/.exec(result)) {
     return "_" + result;
-  }
-  if (reservedWordRegExp.exec(result)) {
-    return result + "_";
   }
   return result;
 }

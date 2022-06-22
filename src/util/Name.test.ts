@@ -3,7 +3,7 @@ import {
   getIncrementalUniqueName,
   incrementAlphanumeric,
   isValidJSIdentifier,
-  toIdentifier,
+  toValidCSSIdentifier,
 } from "./Name";
 
 describe(incrementAlphanumeric.name, () => {
@@ -41,11 +41,11 @@ describe(isValidJSIdentifier.name, () => {
   });
 });
 
-describe(toIdentifier.name, () => {
+describe(toValidCSSIdentifier.name, () => {
   it("", () => {
-    expect(toIdentifier("")).toEqual("_");
-    expect(toIdentifier("foo-bar-baz")).toEqual("foo_bar_baz");
-    expect(toIdentifier("123foo-bar")).toEqual("_123foo_bar");
-    expect(toIdentifier("switch")).toEqual("switch_");
+    expect(toValidCSSIdentifier("")).toEqual("_");
+    expect(toValidCSSIdentifier("foo bar baz")).toEqual("foo_bar_baz");
+    expect(toValidCSSIdentifier("123foo bar")).toEqual("_123foo_bar");
+    expect(toValidCSSIdentifier("日本語でok")).toEqual("日本語でok");
   });
 });
