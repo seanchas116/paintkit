@@ -45,6 +45,7 @@ describe(toValidCSSIdentifier.name, () => {
   it("", () => {
     expect(toValidCSSIdentifier("")).toEqual("_");
     expect(toValidCSSIdentifier("foo bar baz")).toEqual("foo_bar_baz");
+    expect(toValidCSSIdentifier("Foo Bar Baz")).toEqual("Foo_Bar_Baz");
     expect(toValidCSSIdentifier("123foo bar")).toEqual("_123foo_bar");
     expect(toValidCSSIdentifier("日本語でok")).toEqual("日本語でok");
   });

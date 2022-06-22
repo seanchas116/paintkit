@@ -56,7 +56,7 @@ export function toValidCSSIdentifier(original: string): string {
   }
   const result = [...original]
     .map((c) => {
-      if (/[a-z0-9-_]/.test(c)) {
+      if (/[a-z0-9-_]/i.test(c)) {
         return c;
       }
       // eslint-disable-next-line no-control-regex
