@@ -29,7 +29,7 @@
     "test": "vitest --run"
   },
   "dependencies": {
-    "@iconify-icons/ic": "^1.2.5",
+    "@iconify-icons/ic": "^1.2.6",
     "@iconify/react": "^3.2.2",
     "@iconify/types": "^1.1.0",
     "@iconify/utils": "^1.0.33",
@@ -86,8 +86,8 @@
     "@types/styled-components": "^5.1.25",
     "@types/svg-parser": "^2.0.3",
     "@types/ua-parser-js": "^0.7.36",
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
-    "@typescript-eslint/parser": "^5.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
     "babel-loader": "^8.2.5",
     "cross-env": "^7.0.3",
     "eslint": "^8.18.0",
@@ -100,9 +100,9 @@
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
-    "ts-loader": "9.3.0",
+    "ts-loader": "9.3.1",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.4",
-    "vitest": "^0.15.1"
+    "vitest": "^0.16.0"
   }
 }
