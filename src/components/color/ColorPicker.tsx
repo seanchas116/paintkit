@@ -10,6 +10,18 @@ import { checkPattern } from "../Common";
 import { ColorSlider } from "./ColorSlider";
 import { SVPicker } from "./SVPicker";
 
+declare global {
+  interface EyeDropper {
+    open(): Promise<{ sRGBHex: string }>;
+  }
+
+  // eslint-disable-next-line no-var
+  var EyeDropper: {
+    prototype: EyeDropper;
+    new (): EyeDropper;
+  };
+}
+
 const InputsRowWrap = styled.div`
   display: grid;
   grid-template-columns: 64px 1fr 1fr 1fr 1fr;
@@ -203,6 +215,21 @@ export const ColorPicker: React.FC<{
 }> = ({ color, onChange, onChangeEnd, className }) => {
   const opaqueColor = new Color({ ...color, a: 1 });
 
+  const onEyeDropper = async () => {
+    if (!window.EyeDropper) {
+      return;
+    }
+
+    const eyeDropper = new EyeDropper();
+
+    const result = await eyeDropper.open();
+    const color = Color.from(result.sRGBHex);
+    if (!color) {
+      return;
+    }
+    onChange?.(color);
+  };
+
   return (
     <ColorPickerWrap className={className}>
       <SVPicker
@@ -261,7 +288,7 @@ export const ColorPicker: React.FC<{
             }}
           />
         </Sliders>
-        <IconButton icon={colorizeIcon} />
+        <IconButton icon={colorizeIcon} onClick={onEyeDropper} />
         <ColorBox style={{ color: color.toHex() }} />
       </SliderRow>
       <InputsRow color={color} onChange={onChange} onChangeEnd={onChangeEnd} />
