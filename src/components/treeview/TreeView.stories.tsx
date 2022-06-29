@@ -3,6 +3,7 @@ import { computed, observable, makeObservable } from "mobx";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { TreeNode } from "../../util/TreeNode";
+import { ValidationResult } from "../../util/ValidationResult";
 import { TreeRow, TreeRowLabel } from "./TreeRow";
 import { TreeView } from "./TreeView";
 import { TreeViewItem } from "./TreeViewItem";
@@ -13,12 +14,25 @@ class ExampleNode extends TreeNode<ExampleNode, ExampleNode, ExampleNode> {
   constructor(name: string, children: ExampleNode[], canHaveChildren: boolean) {
     super();
     this.rename(name);
-    this.canHaveChildren = canHaveChildren;
+    this._canHaveChildren = canHaveChildren;
     makeObservable(this);
     this.append(...children);
   }
 
-  readonly canHaveChildren: boolean;
+  readonly _canHaveChildren: boolean;
+
+  get canHaveChildren(): ValidationResult {
+    if (this._canHaveChildren) {
+      return {
+        isValid: true,
+      };
+    } else {
+      return {
+        isValid: false,
+        message: "This node cannot have children.",
+      };
+    }
+  }
 
   @observable collapsed = false;
 
@@ -62,7 +76,7 @@ class ExampleNode extends TreeNode<ExampleNode, ExampleNode, ExampleNode> {
     throw new Error("Method not implemented.");
   }
   cloneSelf(): ExampleNode {
-    return new ExampleNode(this.name, [], this.canHaveChildren);
+    return new ExampleNode(this.name, [], this.canHaveChildren.isValid);
   }
 
   static generate(
@@ -141,7 +155,10 @@ class ExampleTreeViewItem extends TreeViewItem {
   }
 
   canDropData(dataTransfer: DataTransfer) {
-    return this.node.canHaveChildren && dataTransfer.types.includes(DRAG_MIME);
+    return (
+      this.node.canHaveChildren.isValid &&
+      dataTransfer.types.includes(DRAG_MIME)
+    );
   }
 
   handleDrop(event: React.DragEvent, before: TreeViewItem | undefined) {
